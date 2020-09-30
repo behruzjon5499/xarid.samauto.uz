@@ -1,0 +1,63 @@
+{
+  "name": "yiisoft/yii2-app-advanced",
+  "description": "Xarid | Samauto.uz",
+  "keywords": [
+    "yii2",
+    "framework",
+    "advanced",
+    "project template"
+  ],
+  "homepage": "http://www.yiiframework.com/",
+  "type": "project",
+  "license": "BSD-3-Clause",
+  "support": {
+    "issues": "https://github.com/yiisoft/yii2/issues?state=open",
+    "forum": "http://www.yiiframework.com/forum/",
+    "wiki": "http://www.yiiframework.com/wiki/",
+    "irc": "irc://irc.freenode.net/yii",
+    "source": "https://github.com/yiisoft/yii2"
+  },
+  "minimum-stability": "dev",
+  "prefer-stable": true,
+  "require": {
+    "php": ">=7.2.0",
+    "yiisoft/yii2": "~2.0.14",
+    "yiisoft/yii2-bootstrap": "~2.0.0",
+    "yiisoft/yii2-swiftmailer": "~2.0.0 || ~2.1.0",
+    "dmstr/yii2-adminlte-asset": "^2.1",
+    "yii-dream-team/yii2-upload-behavior": "^1.1",
+    "mihaildev/yii2-elfinder": "1.2.2",
+    "mihaildev/yii2-ckeditor": "1.0.1",
+    "kartik-v/yii2-widget-datetimepicker": "v1.4.8",
+    "codemix/yii2-localeurls": "^1.7.1",
+    "abdualiym/yii2-cms": "^2.0",
+    "abdualiym/yii2-slider": "^2.0",
+    "abdualiym/yii2-language": "^1.0",
+    "abdualiym/yii2-block": "1.0.*",
+    "masterexploder/phpthumb": "dev-master",
+    "kartik-v/yii2-widget-fileinput": "v1.0.8",
+    "fishvision/yii2-migrate": "^1.0",
+    "ext-mbstring": "*",
+    "himiklab/yii2-recaptcha-widget": "2.*",
+    "ext-pdo": "*"
+  },
+  "require-dev": {
+    "yiisoft/yii2-debug": "~2.1.0",
+    "yiisoft/yii2-gii": "~2.1.0",
+    "yiisoft/yii2-faker": "~2.0.0",
+    "codeception/base": "^2.4.0",
+    "symfony/browser-kit": ">=2.7 <=4.2.4"
+  },
+  "config": {
+    "process-timeout": 1800,
+    "fxp-asset": {
+      "enabled": false
+    }
+  },
+  "repositories": [
+    {
+      "type": "composer",
+      "url": "https://asset-packagist.org"
+    }
+  ]
+}
