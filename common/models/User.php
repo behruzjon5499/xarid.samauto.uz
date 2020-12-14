@@ -16,18 +16,39 @@ use yii\web\IdentityInterface;
  * @property string $password_reset_token
  * @property string $verification_token
  * @property string $email
+ *  @property integer $role
+ *  * @property string $phone
+ *  * @property string $title_company
+ * @property string $email_company
+ *  @property integer $address_company
+ * @property string $sertifacation
+ * @property string $litsenziya
  * @property string $auth_key
+ * @property string $again_password
  * @property integer $status
+ *  * @property integer $phone_company
+ *  * @property integer $inn
+ *  *  * @property integer $check
  * @property integer $created_at
  * @property integer $updated_at
  * @property string $password write-only password
  */
 class User extends ActiveRecord implements IdentityInterface
 {
+    const ADMIN = 1;
+    const MANAGER = 2;
+    const USER = 3;
+    const GUEST = 0;
     const STATUS_DELETED = 0;
-    const STATUS_INACTIVE = 9;
+    const STATUS_INACTIVE = 3;
     const STATUS_ACTIVE = 10;
-
+    public $password = '';
+    public $file;
+//    public $username;
+//    public $phone;
+//    public $email;
+//    public $company_id;
+    public $file1;
 
     /**
      * {@inheritdoc}
@@ -53,14 +74,22 @@ class User extends ActiveRecord implements IdentityInterface
     public function rules()
     {
         return [
+            [['username', 'email', 'password', 'phone', 'inn', 'title_company', 'email_company', 'phone_company', 'address_company'], 'required'],
+            [['username', 'email', 'phone', 'inn', 'title_company', 'email_company', 'phone_company'], 'string', 'max' => 255],
             ['status', 'default', 'value' => self::STATUS_INACTIVE],
             ['status', 'in', 'range' => [self::STATUS_ACTIVE, self::STATUS_INACTIVE, self::STATUS_DELETED]],
+            [['check'], 'required'],
+            [['check'], 'compare', 'compareValue' => 1, 'message'=>'Please check this'],
+            [['file'], 'file', 'skipOnEmpty' => false, 'extensions' => 'doc, docx, xls, xlsx, pdf','maxSize'=>1024 * 1024 * 5, 'message'=>'Not more than 10MB'],
+            [['file1'], 'file', 'skipOnEmpty' => false, 'extensions' => 'doc, docx, xls, xlsx, pdf', 'maxSize'=>1024 * 1024 * 5, 'message'=>'Not more than 10MB']
         ];
     }
 
     /**
      * {@inheritdoc}
      */
+
+
     public static function findIdentity($id)
     {
         return static::findOne(['id' => $id, 'status' => self::STATUS_ACTIVE]);
@@ -77,14 +106,17 @@ class User extends ActiveRecord implements IdentityInterface
     /**
      * Finds user by username
      *
-     * @param string $username
+     * @param string $email
      * @return static|null
      */
+    public static function findByEmail($email)
+    {
+        return static::findOne(['email' => $email, 'status' => self::STATUS_ACTIVE]);
+    }
     public static function findByUsername($username)
     {
         return static::findOne(['username' => $username, 'status' => self::STATUS_ACTIVE]);
     }
-
     /**
      * Finds user by password reset token
      *
@@ -209,4 +241,60 @@ class User extends ActiveRecord implements IdentityInterface
     {
         $this->password_reset_token = null;
     }
+
+    public function signup($model)
+    {
+        if (!$this->validate()) {
+            return null;
+        }
+
+        $user = new User();
+
+        $user->setPassword($this->password);
+        $user->generateAuthKey();
+        $user->generateEmailVerificationToken();
+        return $user->save();
+    }
+
+
+    public function upload()
+    {
+        if ($this->validate()) {
+            $name = $this->file->baseName . '_' . Yii::$app->security->generateRandomString(5) . '.' . $this->file->extension;
+            $name1 = $this->file1->baseName . '_' . Yii::$app->security->generateRandomString(5) . '.' . $this->file1->extension;
+
+            if ($this->sertifacation !== null && !empty($this->sertifacation)) {
+                unlink(Yii::getAlias('@frontend').'/web/uploads/sertification/' . $this->sertifacation);
+            }
+            if ($this->litsenziya !== null && !empty($this->litsenziya)) {
+                unlink(Yii::getAlias('@frontend').'/web/uploads/litsenziya/' . $this->litsenziya);
+            }
+            $this->sertifacation = $name;
+            $this->file->saveAs(Yii::getAlias('@frontend').'/web/uploads/sertification/' . $name);
+
+            $this->litsenziya = $name1;
+            $this->file1->saveAs(Yii::getAlias('@frontend').'/web/uploads/litsenziya/' . $name1);
+
+            return true;
+        } else {
+            return false;
+        }
+    }
+    public function getRole()
+    {
+        return User::find()->where(['id'=> \Yii::$app->user->getId()])->one();
+    }
+    public function isAdmin()
+    {
+        return $this->role === self::ADMIN;
+    }
+    public function isManager()
+    {
+        return $this->role === self::MANAGER;
+    }
+    public function isUser()
+    {
+        return $this->role === self::USER;
+    }
+
 }

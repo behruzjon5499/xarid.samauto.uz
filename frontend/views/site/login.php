@@ -4,38 +4,45 @@
 /* @var $form yii\bootstrap\ActiveForm */
 /* @var $model \common\models\LoginForm */
 
+use common\helpers\LangHelper;
 use yii\helpers\Html;
 use yii\bootstrap\ActiveForm;
 
 $this->title = 'Login';
 $this->params['breadcrumbs'][] = $this->title;
 ?>
-<div class="site-login">
-    <h1><?= Html::encode($this->title) ?></h1>
 
-    <p>Please fill out the following fields to login:</p>
 
-    <div class="row">
-        <div class="col-lg-5">
-            <?php $form = ActiveForm::begin(['id' => 'login-form']); ?>
+<div class="sp-wrapper">
 
-                <?= $form->field($model, 'username')->textInput(['autofocus' => true]) ?>
+    <div class="login-page" style="max-width: 540px">
+        <header>
+            <?= LangHelper::t("Вход", "Вход", "Вход"); ?>
+        </header>
+        <?php
+        $form = ActiveForm::begin([
+            'id' => 'feedback-form',
+            'options' => ['class' => 'content'],
+        ]); ?>
+            <label>
+                <p><?= LangHelper::t("Электронная почта", "Электронная почта", "Электронная почта"); ?></p>
+                <?= $form->field($model, 'email')->textInput(['rows' => 6, 'class' => 'form-control', 'placeholder' => Yii::t('app', 'Введите ваше email')])->label(false); ?>
 
-                <?= $form->field($model, 'password')->passwordInput() ?>
+            </label>
+            <label>
+                <p><?= LangHelper::t("Пароль", "Пароль", "Пароль"); ?></p>
+                <?= $form->field($model, 'password')->passwordInput(['rows' => 6,  'class' => 'form-control', 'placeholder' => Yii::t('app', 'Введите ваше password')])->label(false); ?>
 
-                <?= $form->field($model, 'rememberMe')->checkbox() ?>
+            </label>
+        <?= Html::submitButton(Yii::t('app', 'Вход'), ['class' => 'btn']) ?>
 
-                <div style="color:#999;margin:1em 0">
-                    If you forgot your password you can <?= Html::a('reset it', ['site/request-password-reset']) ?>.
-                    <br>
-                    Need new verification email? <?= Html::a('Resend', ['site/resend-verification-email']) ?>
-                </div>
-
-                <div class="form-group">
-                    <?= Html::submitButton('Login', ['class' => 'btn btn-primary', 'name' => 'login-button']) ?>
-                </div>
-
-            <?php ActiveForm::end(); ?>
+        <?php ActiveForm::end(); ?>
+        <div class="forget-pass">
+            <a href="<?= yii\helpers\Url::to(['site/request-password-reset']) ?>" data-toggle="modal" data-target="#forget-pass"> <?= LangHelper::t("Забыл пароль?", "Забыл пароль?", "Забыл пароль?"); ?> </a> <span>|</span>
+            <a href="<?= yii\helpers\Url::to(['site/signup']) ?>"> <?= LangHelper::t("Регистрация", "Регистрация", "Регистрация"); ?></a>
         </div>
     </div>
+
 </div>
+
+

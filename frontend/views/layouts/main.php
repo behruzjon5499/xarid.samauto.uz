@@ -1,30 +1,21 @@
 <?php
 
 /* @var $this \yii\web\View */
-/* @var $content string */
 
+/* @var $content string */
+/* @var $contacts SiteContacts */
 use common\helpers\LangHelper;
-use frontend\widgets\MenuWidget;
-use yii\helpers\Html;
-use yii\bootstrap\Nav;
-use yii\bootstrap\NavBar;
-use yii\widgets\Breadcrumbs;
-use frontend\assets\AppAsset;
+use common\models\SiteContacts;
 use common\widgets\Alert;
+use frontend\assets\AppAsset;
+use yii\helpers\Html;
+use yii\widgets\Breadcrumbs;
+
+$contacts = SiteContacts::find()->where(['id'=> 1])->one();
 
 $lang = Yii::$app->session->get('lang');
 if ($lang == '') $lang = 'ru';
 
-//$lang = Yii::$app->session->get('lang');
-//if($lang=='') $lang = 'ru';
-//$_lang = ['ru' => 'RU', 'uz' => 'UZ', 'en' => 'EN'];
-//
-//// мультиязычность
-//$lang = Yii::$app->session->get('lang');
-//if ($lang == '') {
-//    $lang = 'ru';
-//    Yii::$app->session->set('lang', $lang);
-//}
 $link = 'link_' . $lang;
 $title = 'title_' . $lang;
 $text = 'text_' . $lang;
@@ -33,6 +24,7 @@ $descr = 'descr_' . $lang;
 $link = 'link_' . $lang;
 $material = 'material_' . $lang;
 AppAsset::register($this);
+
 ?>
 <?php $this->beginPage() ?>
 <!DOCTYPE html>
@@ -42,30 +34,45 @@ AppAsset::register($this);
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1">
 
-    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" integrity="sha384-JcKb8q3iqJ61gNV9KGb8thSsNjpSL0n8PARn9HuZOnIxN0hoP+VmmDGMN5t9UJ0Z" crossorigin="anonymous">
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css"
+          integrity="sha384-JcKb8q3iqJ61gNV9KGb8thSsNjpSL0n8PARn9HuZOnIxN0hoP+VmmDGMN5t9UJ0Z" crossorigin="anonymous">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
 
-    <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js" integrity="sha384-DfXdz2htPH0lsSSs5nCTpuj/zy4C+OGpamoFVy38MVBnE+IbbVYUew+OrCXaRkfj" crossorigin="anonymous"></script>
-    <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.1/dist/umd/popper.min.js" integrity="sha384-9/reFTGAW83EW2RDu2S0VKaIzap3H66lZH81PoYlFhbGU+6BZp6G7niu735Sk7lN" crossorigin="anonymous"></script>
-    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js" integrity="sha384-B4gt1jrGC7Jh4AgTPSdUtOBvfO8shuf57BaghqFfPlYxofvL8/KUEfYiJOMMV+rV" crossorigin="anonymous"></script>
+    <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"
+            integrity="sha384-DfXdz2htPH0lsSSs5nCTpuj/zy4C+OGpamoFVy38MVBnE+IbbVYUew+OrCXaRkfj"
+            crossorigin="anonymous"></script>
+    <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.1/dist/umd/popper.min.js"
+            integrity="sha384-9/reFTGAW83EW2RDu2S0VKaIzap3H66lZH81PoYlFhbGU+6BZp6G7niu735Sk7lN"
+            crossorigin="anonymous"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"
+            integrity="sha384-B4gt1jrGC7Jh4AgTPSdUtOBvfO8shuf57BaghqFfPlYxofvL8/KUEfYiJOMMV+rV"
+            crossorigin="anonymous"></script>
     <script src="https://code.jquery.com/jquery-3.5.0.js"></script>
+    <script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jquery/1.10.2/jquery.min.js"></script>
     <?php $this->registerCsrfMetaTags() ?>
     <title><?= Html::encode($this->title) ?></title>
     <?php $this->head() ?>
 </head>
 <body>
-<?php $this->beginBody() ?>
+<?php $this->beginBody()
+?>
+<?php
+$user  = \common\models\User::find()->where(['id'=>Yii::$app->user->id])->one();
+?>
 
 <div class="fullpage_header flex_row_beet_cen page_header bgWhite" style="flex-direction: column;">
     <div class="nav__2">
         <div class="top-navbar h-60">
             <div class="d-flex" style="align-items: center;">
-                <a href="index.html" class="logo preload">
+                <a href="<?= yii\helpers\Url::to(['site/index']) ?>" class="logo preload">
                     <h4 style="color: #C62829;padding-left: 10px;font-weight: 600">Xarid.SamAuto.uz</h4>
                 </a>
                 <div class="d-flex">
-                    <a href="tel:+998900000000" class="phone-item under-hover preload lang-mob-hide"><i class="fa fa-phone"></i><span>+99890-777-77-77</span> </a>
-                    <a href="treatments.html" class="phone-item under-hover preload lang-mob-hide"><i class="fa fa-comments-o"></i><span><?= LangHelper::t("Задавать вопросы?", "Задавать вопросы?", "Задавать вопросы?"); ?></span> </a>
+                    <a href="tel:+998900000000" class="phone-item under-hover preload lang-mob-hide"><i
+                                class="fa fa-phone"></i><span><?=  $contacts->phone?></span> </a>
+                    <a href="<?= yii\helpers\Url::to(['feedback/create']) ?>" class="phone-item under-hover preload lang-mob-hide"><i
+                                class="fa fa-comments-o"></i><span><?= LangHelper::t("Задавать вопросы?", "Задавать вопросы?", "Задавать вопросы?"); ?></span>
+                    </a>
                 </div>
             </div>
             <div class="d-flex" style="flex: 1;justify-content: flex-end;">
@@ -89,29 +96,33 @@ AppAsset::register($this);
                 </div>
             </div>
             <div style="position: relative;width: 240px;top: -20px">
-                <div class="sing-in" style="display: none;">
-                    <a href="login.html">
+                <?php if (Yii::$app->user->isGuest) {
+                    echo '<div class="sing-in">
+                    <a href="'. yii\helpers\Url::to(['site/login']) .'">
                         <img src="/img/login-1.png">
                     </a>
-                </div>
-                <div class="sing-out">
+                </div>';
+                } else {
+                    echo '    <div class="sing-out">
                     <img src="/img/user-alt-512.png">
                     <div>
-                        <p>abdulloh98</p>
+                        <p>'.  \Yii::$app->user->identity->username.'</p>
                         <a>AO "UzAuto Motors"</a>
                     </div>
                     <ul class="nav-cog">
                         <li>
-                            <a href="#" data-toggle="modal" data-target="#exampleModal"><i class="fa fa-user" aria-hidden="true"></i><?= LangHelper::t("Профиль", "Профиль", "Профиль"); ?> </a>
+                            <a href="#" data-toggle="modal" data-target="#exampleModal"><i class="fa fa-user" aria-hidden="true"></i>' . LangHelper::t("Профиль", "Профиль", "Профиль") .'  </a>
                         </li>
                         <li>
-                            <a href="#" data-toggle="modal" data-target="#exampleModal2"><i class="fa fa-cog" aria-hidden="true"></i><?= LangHelper::t("Изменить пароль", "Изменить пароль", "Изменить пароль"); ?> </a>
+                            <a href="#" data-toggle="modal" data-target="#exampleModal2"><i class="fa fa-cog" aria-hidden="true"></i>'.  LangHelper::t("Изменить пароль", "Изменить пароль", "Изменить пароль") . '</a>
                         </li>
-                        <li>
-                            <a href="index-without-login.html"><i class="fa fa-sign-out" aria-hidden="true"></i><?= LangHelper::t("Выйти", "Выйти", "Выйти"); ?> </a>
-                        </li>
+                        <li> ' . Html::a(   'Sign out',['/site/logout'],['data-method' => 'post', 'class' => 'btn btn-default btn-flat'])  . '</li>
+                               
                     </ul>
-                </div>
+                </div>';
+                } ?>
+
+
             </div>
         </div>
     </div>
@@ -123,11 +134,12 @@ AppAsset::register($this);
                     <span class="sp2"></span>
                     <span class="sp3"></span>
                 </div>
-                <a href="<?=yii\helpers\Url::to(['site/index'])?>" class="logo preload">
-                    <svg xmlns="http://www.w3.org/2000/svg" xml:space="preserve" width="10.3607mm" height="2.0628mm" version="1.1"
+                <a href="<?= yii\helpers\Url::to(['site/index']) ?>" class="logo preload">
+                    <svg xmlns="http://www.w3.org/2000/svg" xml:space="preserve" width="10.3607mm" height="2.0628mm"
+                         version="1.1"
                          style="shape-rendering:geometricPrecision; text-rendering:geometricPrecision; image-rendering:optimizeQuality; fill-rule:evenodd; clip-rule:evenodd"
                          viewBox="0 0 859.19 171.06"
-                         xmlns:xlink="http://www.w3.org/1999/xlink">
+                    >
                 <g>
                     <metadata/>
                     <path d="M99.27 118.81c0,-16.93 -4.54,-34.54 -36.77,-49.05 -14.03,-6.29 -22.45,-12.29 -22.45,-24.38 0,-11.8 6.97,-19.06 20.03,-19.06 10.16,0 19.06,3.58 24.87,7.26l8.23 -23.9c-7.94,-5.32 -21,-9.68 -38.89,-9.68 -32.42,0 -52.63,23.22 -52.63,51.28 0,16.15 7.26,34.35 33.09,45.86 16.93,7.45 23.22,14.03 23.22,24.67 0,11.8 -8.42,19.84 -22.26,19.84 -11.61,0 -21.48,-4.06 -26.8,-7.74l-8.9 27.28c9.39,6.29 22.93,9.87 43.54,9.87 32.9,0 55.83,-22.26 55.83,-52.24l-0.09 -0.01zm113.21 42.58l0 -77.79c0,-35.32 -21.77,-47.6 -51.28,-47.6 -22.93,0 -39.86,6 -49.05,9.87l8.23 21.48c8.42,-3.87 21.29,-7.94 33.87,-7.94 13.74,0 22.93,3.87 22.93,17.41l0 6c-39.18,3.58 -72.76,13.54 -72.76,47.12 0,27.09 19.35,41.12 56.99,41.12 22.45,0 40.15,-3.87 50.99,-9.68l0.09 0.01zm-35.32 -13.74c-3.38,1.64 -8.23,2.61 -13.74,2.61 -14.99,0 -23.71,-6.48 -23.71,-21.77 0,-20.8 14.7,-26.12 37.44,-28.25l0 47.41 0.01 0zm225.73 23.42l0 -91.34c0,-22.93 -15.96,-41.31 -46.93,-41.31 -21.48,0 -34.83,6 -43.06,13.06 -7.45,-7.26 -19.84,-13.06 -41.31,-13.06 -22.74,0 -38.22,3.09 -52.63,9.68l0 122.97 37.73 0 0 -106.53c4.54,-1.74 8.52,-2.42 15.19,-2.42 13.06,0 20.32,6.78 20.32,17.12l0 91.82 37.73 0 0 -102.66c4.35,-4.35 9.87,-6.29 16.44,-6.29 13.06,0 18.87,7.74 18.87,17.61l0 91.34 37.73 0 -0.08 0.01zm151.62 0l-53.89 -166.23 -38.22 0 -54.09 166.23 35.03 0 10.64 -35.51 50.02 0 10.16 35.51 40.34 0 0.01 0zm-55.83 -57.96l-38.89 0 15.48 -54.19c3.38,-11.8 4.35,-20.03 4.35,-20.03l0.48 0c0,0 0.68,8.42 3.87,20.03l14.7 54.19zm165.36 47.89l0 -122.49 -37.73 0 0 104.11c-4.06,2.13 -8.9,3.09 -15.67,3.09 -12.77,0 -17.9,-7.74 -17.9,-17.12l0 -90.18 -37.73 0 0 87.46c0,31.45 17.9,45.19 54.57,45.19 24.38,0 42.29,-4.16 54.38,-10.16l0.09 0.1zm79.34 6l0 -23.22c-3.09,0.97 -4.83,1.45 -7.94,1.45 -8.42,0 -12.09,-5.32 -12.09,-15.19l0 -67.15 20.03 0 0 -24.38 -20.03 0 0 -37.44 -37.73 9.68 0 27.77 -14.22 0 0 24.38 14.22 0 0 70.05c0,20.03 11.8,37.73 39.18,37.73 8.71,0 15.48,-2.13 18.58,-3.58l0 -0.1zm115.82 -63.57c0,-38.89 -19.84,-67.44 -57.76,-67.44 -37.44,0 -57.28,28.54 -57.28,67.44 0,38.89 19.84,67.64 57.47,67.64 37.73,0 57.47,-28.73 57.47,-67.64l0.1 0zm-37.44 -0.48c0,23.42 -3.38,42.58 -20.03,42.58 -16.44,0 -20.03,-19.06 -20.03,-42.58 0,-23.22 3.38,-43.54 20.03,-43.54 16.64,0 20.03,20.32 20.03,43.54z"/>
@@ -136,36 +148,43 @@ AppAsset::register($this);
                 </a>
             </div>
             <div class="downloads">
-                <div class="nav-dropdown" >
-                    <a class="v-mid">
-                        <?= LangHelper::t("ГЛАВНАЯ", "BOSH SAHIFA", "ГЛАВНАЯ"); ?>
-                    </a>
-                    <ul class="nav-dropdown-content">
-                        <li><a href="order.html">   <?= LangHelper::t("Закупки", "Закупки", "Закупки"); ?></a></li>
-                        <li><a href="auction.html"> <?= LangHelper::t("Конкурсы на продажи", "Конкурсы на продажи", "Конкурсы на продажи"); ?></a></li>
-                    </ul>
-                </div>
-                <a href="statistics.html"  class="under-hover"><?= LangHelper::t("СТАТИСТИКА", "СТАТИСТИКА", "СТАТИСТИКА"); ?></a>
+                <a href="<?= yii\helpers\Url::to(['site/index']) ?>" class="under-hover">
+                    <?= LangHelper::t("ГЛАВНАЯ", "BOSH SAHIFA", "ГЛАВНАЯ"); ?>
+                </a>
+                <a href="<?= yii\helpers\Url::to(['auctions/index']) ?>"
+                   class="under-hover"><?= LangHelper::t("Конкурсы на продажи", "Конкурсы на продажи", "Конкурсы на продажи"); ?></a>
+
+                <a href="<?= yii\helpers\Url::to(['statistics/index']) ?>"
+                   class="under-hover"><?= LangHelper::t("СТАТИСТИКА", "СТАТИСТИКА", "СТАТИСТИКА"); ?></a>
                 <!-- <a href="company.html"  class="under-hover">КОМПАНИИ</a> -->
-                <a href="<?=yii\helpers\Url::to(['question/index'])?>"  class="under-hover">   <?= LangHelper::t("ЧАВО", "ЧАВО", "ЧАВО"); ?></a>
-                <div class="nav-dropdown" >
+                <a href="<?= yii\helpers\Url::to(['question/index']) ?>"
+                   class="under-hover">   <?= LangHelper::t("ЧАВО", "ЧАВО", "ЧАВО"); ?></a>
+                <div class="nav-dropdown">
                     <a class="v-mid">
                         <?= LangHelper::t("ДОКУМЕНТАЦИЯ", "ДОКУМЕНТАЦИЯ", "ДОКУМЕНТАЦИЯ"); ?>
                     </a>
                     <ul class="nav-dropdown-content">
-                        <li><a href="instructions.html"> <?= LangHelper::t("Инструкция", "Инструкция", "Инструкция"); ?>  </a></li>
-                        <li><a href="posture.html"><?= LangHelper::t("Положение", "Положение", "Положение"); ?> </a></li>
-                        <li><a href="#" target="_blank"><?= LangHelper::t("Пром отход", "Пром отход", "Пром отход"); ?> </a></li>
+                        <li>
+                            <a href="<?= yii\helpers\Url::to(['document/index']) ?>"> <?= LangHelper::t("Инструкция", "Инструкция", "Инструкция"); ?>  </a>
+                        </li>
+                        <li>
+                            <a href="<?= yii\helpers\Url::to(['document/index']) ?>"><?= LangHelper::t("Положение", "Положение", "Положение"); ?> </a>
+                        </li>
+                        <li><a href="<?= yii\helpers\Url::to(['document/index']) ?>"
+                               target="_blank"><?= LangHelper::t("Пром отход", "Пром отход", "Пром отход"); ?> </a></li>
                     </ul>
                 </div>
-                <a href="<?=yii\helpers\Url::to(['site/contact'])?>" class="under-hover"><?= LangHelper::t("КОНТАКТЫ", "BOG'LANISHLAR", "CONTACS"); ?> </a>
-                <div class="nav-dropdown" >
-                    <a class="v-mid" >
+                <a href="<?= yii\helpers\Url::to(['site/contact']) ?>"
+                   class="under-hover"><?= LangHelper::t("КОНТАКТЫ", "BOG'LANISHLAR", "CONTACS"); ?> </a>
+                <div class="nav-dropdown">
+                    <a class="v-mid">
                         <?= LangHelper::t("ТЕЛЕГРАМ", "TELEGRAM", "ТЕЛЕГРАМ"); ?>
                     </a>
                     <ul class="nav-dropdown-content">
                         <li><a href="#" target="_blank"><?= LangHelper::t("Закупки", "Закупки", "Закупки"); ?></a></li>
-                        <li><a href="#" target="_blank"><?= LangHelper::t("Конкурсы на продажи", "Конкурсы на продажи", "Конкурсы на продажи"); ?></a></li>
+                        <li><a href="#"
+                               target="_blank"><?= LangHelper::t("Конкурсы на продажи", "Конкурсы на продажи", "Конкурсы на продажи"); ?></a>
+                        </li>
                     </ul>
                 </div>
             </div>
@@ -174,11 +193,12 @@ AppAsset::register($this);
             <div class="search sp-search">
                 <!-- style="margin-right: 0px;" если один-->
                 <form action="">
-                    <input type="text" placeholder="Поиск..." style="width: 120px" />
-                    <svg xmlns="http://www.w3.org/2000/svg" xml:space="preserve" width="2.3098mm" height="2.28mm" version="1.1"
+                    <input type="text" placeholder="Поиск..." style="width: 120px"/>
+                    <svg xmlns="http://www.w3.org/2000/svg" xml:space="preserve" width="2.3098mm" height="2.28mm"
+                         version="1.1"
                          style="shape-rendering:geometricPrecision; text-rendering:geometricPrecision; image-rendering:optimizeQuality; fill-rule:evenodd; clip-rule:evenodd"
                          viewBox="0 0 17.24 17.02"
-                         xmlns:xlink="http://www.w3.org/1999/xlink">
+                    >
                 <!-- margin-right:0px !important; если один-->
                         <g>
                             <metadata/>
@@ -196,27 +216,41 @@ AppAsset::register($this);
 <div class="fullpage_menu">
     <ul>
         <li class="overlayClose"></li>
-        <li style="transition-delay: 0s;"><a href="<?=yii\helpers\Url::to(['site/index'])?>" class="preload">    <?= LangHelper::t("ГЛАВНАЯ", "BOSH SAHIFA", "ГЛАВНАЯ"); ?></a></li>
-        <li style="transition-delay: 0s;"><a href="<?=yii\helpers\Url::to(['order/index'])?>"> <?= LangHelper::t("Закупки", "Закупки", "Закупки"); ?></a></li>
-        <li style="transition-delay: 0s;"><a href="<?=yii\helpers\Url::to(['auction/index'])?>"> <?= LangHelper::t("Конкурсы на продажи", "Конкурсы на продажи", "Конкурсы на продажи"); ?></a></li>
+        <li style="transition-delay: 0s;"><a href="<?= yii\helpers\Url::to(['site/index']) ?>"
+                                             class="preload">    <?= LangHelper::t("ГЛАВНАЯ", "BOSH SAHIFA", "ГЛАВНАЯ"); ?></a>
+        </li>
+        <li style="transition-delay: 0s;"><a
+                    href="<?= yii\helpers\Url::to(['auction/index']) ?>"> <?= LangHelper::t("Конкурсы на продажи", "Конкурсы на продажи", "Конкурсы на продажи"); ?></a>
+        </li>
         <!-- <li style="transition-delay: 0.1s;"><a href="company.html" class="preload">КОМПАНИИ</a></li> -->
-        <li style="transition-delay: 0.2s;"><a href="faq.html" class="preload"> <?= LangHelper::t("ЧАВО", "ЧАВО", "ЧАВО"); ?></a></li>
-        <li style="transition-delay: 0.2s;"><a href="instructions.html"><?= LangHelper::t("Инструкция", "Инструкция", "Инструкция"); ?></a></li>
-        <li style="transition-delay: 0.2s;"><a href="posture.html"><?= LangHelper::t("Положение", "Положение", "Положение"); ?></a></li>
-        <li style="transition-delay: 0.2s;"><a href="#" target="_blank"><?= LangHelper::t("Пром отход", "Пром отход", "Пром отход"); ?></a></li>
-        <li style="transition-delay: 0.3s;"><a href="<?=yii\helpers\Url::to(['site/contact'])?>" class="preload"><?= LangHelper::t("КОНТАКТЫ", "BOG'LANISHLAR", "CONTACTS"); ?></a></li>
-        <li style="transition-delay: 0.3s;"><a href="#" target="_blank"><i class="fa fa-telegram" style="margin-right: 20px;"></i><?= LangHelper::t("Закупки", "Закупки", "Закупки"); ?></a></li>
-        <li style="transition-delay: 0.3s;"><a href="#" target="_blank"><i class="fa fa-telegram" style="margin-right: 20px;"></i><?= LangHelper::t("Конкурсы на продажи", "Конкурсы на продажи", "Конкурсы на продажи"); ?></a></li>
+        <li style="transition-delay: 0.2s;"><a href="faq.html"
+                                               class="preload"> <?= LangHelper::t("ЧАВО", "ЧАВО", "ЧАВО"); ?></a></li>
+        <li style="transition-delay: 0.2s;"><a
+                    href="<?= yii\helpers\Url::to(['document/index']) ?>"><?= LangHelper::t("Инструкция", "Инструкция", "Инструкция"); ?></a></li>
+        <li style="transition-delay: 0.2s;"><a
+                    href="posture.html"><?= LangHelper::t("Положение", "Положение", "Положение"); ?></a></li>
+        <li style="transition-delay: 0.2s;"><a href="#"
+                                               target="_blank"><?= LangHelper::t("Пром отход", "Пром отход", "Пром отход"); ?></a>
+        </li>
+        <li style="transition-delay: 0.3s;"><a href="<?= yii\helpers\Url::to(['site/contact']) ?>"
+                                               class="preload"><?= LangHelper::t("КОНТАКТЫ", "BOG'LANISHLAR", "CONTACTS"); ?></a>
+        </li>
+        <li style="transition-delay: 0.3s;"><a href="#" target="_blank"><i class="fa fa-telegram"
+                                                                           style="margin-right: 20px;"></i><?= LangHelper::t("Закупки", "Закупки", "Закупки"); ?>
+            </a></li>
+        <li style="transition-delay: 0.3s;"><a href="#" target="_blank"><i class="fa fa-telegram"
+                                                                           style="margin-right: 20px;"></i><?= LangHelper::t("Конкурсы на продажи", "Конкурсы на продажи", "Конкурсы на продажи"); ?>
+            </a></li>
     </ul>
 </div>
 
 <div class="wrap">
 
-        <?= Breadcrumbs::widget([
-            'links' => isset($this->params['breadcrumbs']) ? $this->params['breadcrumbs'] : [],
-        ]) ?>
-        <?= Alert::widget() ?>
-        <?= $content ?>
+    <?= Breadcrumbs::widget([
+        'links' => isset($this->params['breadcrumbs']) ? $this->params['breadcrumbs'] : [],
+    ]) ?>
+    <?= Alert::widget() ?>
+    <?= $content ?>
 
 </div>
 
@@ -224,18 +258,21 @@ AppAsset::register($this);
     <div class="medium_container">
         <div class="contactPage">
             <ul>
-                <li class="ul_title"><a href="index.html"><?= LangHelper::t("Главная", "Bosh Sahifa", "Главная"); ?></a></li>
+                <li class="ul_title"><a href="index.html"><?= LangHelper::t("Главная", "Bosh Sahifa", "Главная"); ?></a>
+                </li>
                 <li><a href="#company.html"><?= LangHelper::t("Компании", "Kompaniya", "Company"); ?></a></li>
             </ul>
             <ul>
                 <li class="ul_title"><a href="faq.html"><?= LangHelper::t("FAQ", "FAQ", "FAQ"); ?></a></li>
-                <li><a href="instructions.html"><?= LangHelper::t("ДОКУМЕНТАЦИЯ", "ДОКУМЕНТАЦИЯ", "ДОКУМЕНТАЦИЯ"); ?></a></li>
+                <li>
+                    <a href="instructions.html"><?= LangHelper::t("ДОКУМЕНТАЦИЯ", "ДОКУМЕНТАЦИЯ", "ДОКУМЕНТАЦИЯ"); ?></a>
+                </li>
             </ul>
             <ul>
                 <li class="ul_title"><a><?= LangHelper::t("Cоц. сети", "Cоц. сети", "Cоц. сети"); ?></a></li>
                 <div class="social-footer">
-                    <a href="#" target="_blank">
-                        <svg version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px"
+                    <a href="<?= $contacts->telegram ?>" target="_blank">
+                        <svg version="1.1" xmlns="http://www.w3.org/2000/svg" x="0px" y="0px"
                              viewBox="0 0 300 300" style="enable-background:new 0 0 300 300;" xml:space="preserve">
                   <g>
                       <path d="M5.299,144.645l69.126,25.8l26.756,86.047c1.712,5.511,8.451,7.548,12.924,3.891l38.532-31.412
@@ -246,15 +283,16 @@ AppAsset::register($this);
                   </g>
                 </svg>
                     </a>
-                    <a href="#" target="_blank">
+                    <a href="<?= $contacts->instagram ?>" target="_blank">
                         <svg viewBox="-21 -21 682.66669 682.66669" xmlns="http://www.w3.org/2000/svg">
-                            <path d="m0 132.976562v374.046876c0 73.441406 59.535156 132.976562 132.976562 132.976562h374.046876c73.441406 0 132.976562-59.535156 132.976562-132.976562v-374.046876c0-73.441406-59.535156-132.976562-132.976562-132.976562h-374.046876c-73.441406 0-132.976562 59.535156-132.976562 132.976562zm387.792969 368.359376c-157.855469 54.464843-303.59375-91.273438-249.128907-249.128907 18.351563-53.203125 60.335938-95.191406 113.539063-113.542969 157.859375-54.464843 303.597656 91.273438 249.132813 249.132813-18.351563 53.203125-60.335938 95.1875-113.542969 113.539063zm154.28125-374.859376c-2.511719 13.152344-13.394531 20.804688-24.652344 20.804688-6.851563 0-13.835937-2.828125-19.183594-8.964844-.472656-.542968-.914062-1.125-1.304687-1.730468-5.519532-8.4375-5.691406-18.460938-1-26.589844 3.320312-5.753906 8.679687-9.863282 15.097656-11.582032 6.410156-1.726562 13.113281-.839843 18.859375 2.484376 8.132813 4.6875 12.992187 13.457031 12.4375 23.511718-.039063.6875-.121094 1.386719-.253906 2.066406zm0 0" />
-                            <path d="m320 164.523438c-85.734375 0-155.476562 69.742187-155.476562 155.476562s69.742187 155.476562 155.476562 155.476562 155.476562-69.742187 155.476562-155.476562-69.742187-155.476562-155.476562-155.476562zm0 0" />
+                            <path d="m0 132.976562v374.046876c0 73.441406 59.535156 132.976562 132.976562 132.976562h374.046876c73.441406 0 132.976562-59.535156 132.976562-132.976562v-374.046876c0-73.441406-59.535156-132.976562-132.976562-132.976562h-374.046876c-73.441406 0-132.976562 59.535156-132.976562 132.976562zm387.792969 368.359376c-157.855469 54.464843-303.59375-91.273438-249.128907-249.128907 18.351563-53.203125 60.335938-95.191406 113.539063-113.542969 157.859375-54.464843 303.597656 91.273438 249.132813 249.132813-18.351563 53.203125-60.335938 95.1875-113.542969 113.539063zm154.28125-374.859376c-2.511719 13.152344-13.394531 20.804688-24.652344 20.804688-6.851563 0-13.835937-2.828125-19.183594-8.964844-.472656-.542968-.914062-1.125-1.304687-1.730468-5.519532-8.4375-5.691406-18.460938-1-26.589844 3.320312-5.753906 8.679687-9.863282 15.097656-11.582032 6.410156-1.726562 13.113281-.839843 18.859375 2.484376 8.132813 4.6875 12.992187 13.457031 12.4375 23.511718-.039063.6875-.121094 1.386719-.253906 2.066406zm0 0"/>
+                            <path d="m320 164.523438c-85.734375 0-155.476562 69.742187-155.476562 155.476562s69.742187 155.476562 155.476562 155.476562 155.476562-69.742187 155.476562-155.476562-69.742187-155.476562-155.476562-155.476562zm0 0"/>
                         </svg>
                     </a>
-                    <a href="#" target="_blank">
-                        <svg version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px"
-                             width="96.124px" height="96.123px" viewBox="0 0 96.124 96.123" style="enable-background:new 0 0 96.124 96.123;"
+                    <a href="<?= $contacts->facebook ?>" target="_blank">
+                        <svg version="1.1" xmlns="http://www.w3.org/2000/svg" x="0px" y="0px"
+                             width="96.124px" height="96.123px" viewBox="0 0 96.124 96.123"
+                             style="enable-background:new 0 0 96.124 96.123;"
                              xml:space="preserve">
                   <g>
                       <path d="M72.089,0.02L59.624,0C45.62,0,36.57,9.285,36.57,23.656v10.907H24.037c-1.083,0-1.96,0.878-1.96,1.961v15.803
@@ -264,9 +302,10 @@ AppAsset::register($this);
                   </g>
                 </svg>
                     </a>
-                    <a href="#" target="_blank">
-                        <svg version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px"
-                             width="90px" height="90px" viewBox="0 0 90 90" style="enable-background:new 0 0 90 90;" xml:space="preserve">
+                    <a href="<?= $contacts->youtube?>" target="_blank">
+                        <svg version="1.1" xmlns="http://www.w3.org/2000/svg" x="0px" y="0px"
+                             width="90px" height="90px" viewBox="0 0 90 90" style="enable-background:new 0 0 90 90;"
+                             xml:space="preserve">
                   <g>
                       <path d="M70.939,65.832H66l0.023-2.869c0-1.275,1.047-2.318,2.326-2.318h0.315c1.282,0,2.332,1.043,2.332,2.318
                       L70.939,65.832z M52.413,59.684c-1.253,0-2.278,0.842-2.278,1.873V75.51c0,1.029,1.025,1.869,2.278,1.869
@@ -295,8 +334,8 @@ AppAsset::register($this);
                   </g>
                 </svg>
                     </a>
-                    <a href="https://rss.app/feeds/6QFlHbZupDoXiNCJ.xml">
-                        <svg version="1.1" id="Layer_1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px"
+                    <a href="<?php if (!empty($contacts->rss)){$contacts->rss;}?>">
+                        <svg version="1.1" id="Layer_1" xmlns="http://www.w3.org/2000/svg" x="0px" y="0px"
                              viewBox="0 0 485 485" style="enable-background:new 0 0 485 485;" xml:space="preserve">
                   <g>
                       <path d="M339.708,400H400c-0.035-86.835-35.341-165.515-92.369-222.578C250.567,120.359,171.953,85.035,85.136,85v60.121
@@ -314,10 +353,14 @@ AppAsset::register($this);
                 </div>
             </ul>
             <div class="box">
-                <div class="title"><?=LangHelper::t("САМАРКАНД", "SAMARQAND", "SAMARKAND"); ?></div>
-                <a onclick="mapPanTo(39.648095,66.910189); return false;" class="address"><?=$page['sam_address_'.$lang]?></a>
+                <div class="title"><?= LangHelper::t("САМАРКАНД", "SAMARQAND", "SAMARKAND"); ?></div>
+                <a onclick="mapPanTo(39.648095,66.910189); return false;"
+                   class="address"></a>
                 <div class="icon-text">
-                    <svg xmlns="http://www.w3.org/2000/svg" xml:space="preserve" width="1.944mm" height="1.9439mm" version="1.1" style="shape-rendering:geometricPrecision; text-rendering:geometricPrecision; image-rendering:optimizeQuality; fill-rule:evenodd; clip-rule:evenodd" viewBox="0 0 3.23 3.23" xmlns:xlink="http://www.w3.org/1999/xlink">
+                    <svg xmlns="http://www.w3.org/2000/svg" xml:space="preserve" width="1.944mm" height="1.9439mm"
+                         version="1.1"
+                         style="shape-rendering:geometricPrecision; text-rendering:geometricPrecision; image-rendering:optimizeQuality; fill-rule:evenodd; clip-rule:evenodd"
+                         viewBox="0 0 3.23 3.23">
                 <g>
                     <metadata></metadata>
                     <g>
@@ -332,7 +375,10 @@ AppAsset::register($this);
                     <p>+998 98 999 99 99</p>
                 </div>
                 <div class="icon-text">
-                    <svg xmlns="http://www.w3.org/2000/svg" xml:space="preserve" width="1.966mm" height="1.9662mm" version="1.1" style="shape-rendering:geometricPrecision; text-rendering:geometricPrecision; image-rendering:optimizeQuality; fill-rule:evenodd; clip-rule:evenodd" viewBox="0 0 5.12 5.12" xmlns:xlink="http://www.w3.org/1999/xlink">
+                    <svg xmlns="http://www.w3.org/2000/svg" xml:space="preserve" width="1.966mm" height="1.9662mm"
+                         version="1.1"
+                         style="shape-rendering:geometricPrecision; text-rendering:geometricPrecision; image-rendering:optimizeQuality; fill-rule:evenodd; clip-rule:evenodd"
+                         viewBox="0 0 5.12 5.12">
                 <g>
                     <metadata></metadata>
                     <path d="M2.94 2.5l-0 -0 0.75 -0.65 0 1.4 -0.74 -0.74zm-0.64 0.11l0.01 -0.01 0.2 0.18 0 0 0.01 0 0.01 0 0.01 0 0.01 0 0 0 0.02 0 0.01 -0 0 -0 0.01 -0 0 -0 0.01 -0 0.01 -0 0 -0 0.2 -0.18 0.01 0.01 0.74 0.74 -2.02 0 0.74 -0.74zm0.26 -0l-0.98 -0.85 1.95 0 -0.98 0.85zm-1.12 -0.77l0.75 0.65 -0 0 -0.74 0.74 0 -1.4zm2.4 -0.41l-2.56 0c-0.09,0 -0.16,0.07 -0.16,0.16l0 1.92c0,0.09 0.07,0.16 0.16,0.16l2.56 0c0.09,0 0.16,-0.07 0.16,-0.16l0 -1.92c0,-0.09 -0.07,-0.16 -0.16,-0.16zm0.42 2.82c-0.45,0.45 -1.06,0.7 -1.7,0.7 -0.64,0 -1.24,-0.25 -1.7,-0.7 -0.45,-0.45 -0.7,-1.06 -0.7,-1.7 0,-0.64 0.25,-1.24 0.7,-1.7 0.45,-0.45 1.06,-0.7 1.7,-0.7 0.64,0 1.24,0.25 1.7,0.7 0.45,0.45 0.7,1.06 0.7,1.7 0,0.64 -0.25,1.24 -0.7,1.7zm-1.7 -4.26c-1.42,0 -2.56,1.15 -2.56,2.56 0,1.41 1.15,2.56 2.56,2.56 1.41,0 2.56,-1.15 2.56,-2.56 0,-1.41 -1.15,-2.56 -2.56,-2.56z"></path>
@@ -344,7 +390,10 @@ AppAsset::register($this);
             <div class="box">
                 <div class="title">ТАШКЕНТ</div>
                 <div class="icon-text">
-                    <svg xmlns="http://www.w3.org/2000/svg" xml:space="preserve" width="1.944mm" height="1.9439mm" version="1.1" style="shape-rendering:geometricPrecision; text-rendering:geometricPrecision; image-rendering:optimizeQuality; fill-rule:evenodd; clip-rule:evenodd" viewBox="0 0 3.23 3.23" xmlns:xlink="http://www.w3.org/1999/xlink">
+                    <svg xmlns="http://www.w3.org/2000/svg" xml:space="preserve" width="1.944mm" height="1.9439mm"
+                         version="1.1"
+                         style="shape-rendering:geometricPrecision; text-rendering:geometricPrecision; image-rendering:optimizeQuality; fill-rule:evenodd; clip-rule:evenodd"
+                         viewBox="0 0 3.23 3.23">
                 <g>
                     <metadata></metadata>
                     <g>
@@ -360,13 +409,16 @@ AppAsset::register($this);
                     </a>
                 </div>
                 <div class="icon-text">
-                    <svg xmlns="http://www.w3.org/2000/svg" xml:space="preserve" width="1.966mm" height="1.9662mm" version="1.1" style="shape-rendering:geometricPrecision; text-rendering:geometricPrecision; image-rendering:optimizeQuality; fill-rule:evenodd; clip-rule:evenodd" viewBox="0 0 5.12 5.12" xmlns:xlink="http://www.w3.org/1999/xlink">
+                    <svg xmlns="http://www.w3.org/2000/svg" xml:space="preserve" width="1.966mm" height="1.9662mm"
+                         version="1.1"
+                         style="shape-rendering:geometricPrecision; text-rendering:geometricPrecision; image-rendering:optimizeQuality; fill-rule:evenodd; clip-rule:evenodd"
+                         viewBox="0 0 5.12 5.12">
                 <g>
                     <metadata></metadata>
                     <path d="M2.94 2.5l-0 -0 0.75 -0.65 0 1.4 -0.74 -0.74zm-0.64 0.11l0.01 -0.01 0.2 0.18 0 0 0.01 0 0.01 0 0.01 0 0.01 0 0 0 0.02 0 0.01 -0 0 -0 0.01 -0 0 -0 0.01 -0 0.01 -0 0 -0 0.2 -0.18 0.01 0.01 0.74 0.74 -2.02 0 0.74 -0.74zm0.26 -0l-0.98 -0.85 1.95 0 -0.98 0.85zm-1.12 -0.77l0.75 0.65 -0 0 -0.74 0.74 0 -1.4zm2.4 -0.41l-2.56 0c-0.09,0 -0.16,0.07 -0.16,0.16l0 1.92c0,0.09 0.07,0.16 0.16,0.16l2.56 0c0.09,0 0.16,-0.07 0.16,-0.16l0 -1.92c0,-0.09 -0.07,-0.16 -0.16,-0.16zm0.42 2.82c-0.45,0.45 -1.06,0.7 -1.7,0.7 -0.64,0 -1.24,-0.25 -1.7,-0.7 -0.45,-0.45 -0.7,-1.06 -0.7,-1.7 0,-0.64 0.25,-1.24 0.7,-1.7 0.45,-0.45 1.06,-0.7 1.7,-0.7 0.64,0 1.24,0.25 1.7,0.7 0.45,0.45 0.7,1.06 0.7,1.7 0,0.64 -0.25,1.24 -0.7,1.7zm-1.7 -4.26c-1.42,0 -2.56,1.15 -2.56,2.56 0,1.41 1.15,2.56 2.56,2.56 1.41,0 2.56,-1.15 2.56,-2.56 0,-1.41 -1.15,-2.56 -2.56,-2.56z"></path>
                 </g>
               </svg>
-                    <p><?=LangHelper::t("Email", "Email", "Email"); ?></p>
+                    <p><?= LangHelper::t("Email", "Email", "Email"); ?></p>
                 </div>
             </div>
         </div>
@@ -375,17 +427,23 @@ AppAsset::register($this);
 <div class="footer">
     <div class="flex_row_beet_cen medium_container">
         <div class="copyright">
-            <a href="https://goldenminds.uz" target="_blank"><span>Разработка сайта</span><img src="/img/logo-golden-minds.png" alt=""></a>
+            <a href="https://goldenminds.uz" target="_blank"><span>Разработка сайта</span><img
+                        src="/img/logo-golden-minds.png" alt=""></a>
             <div>Copyright @ Все права защищены</div>
         </div>
         <div class="external_links">
-            <a href="https://www.gov.uz" target='_blank' class="preload"><?=LangHelper::t("ПОРТАЛ", "ПОРТАЛ", "ПОРТАЛ"); ?> </a>
-            <a href="https://pm.gov.uz" target='_blank' class="preload"><?=LangHelper::t("ВИРТУАЛЬНАЯ", "ВИРТУАЛЬНАЯ", "ВИРТУАЛЬНАЯ"); ?></a>
+            <a href="https://www.gov.uz" target='_blank'
+               class="preload"><?= LangHelper::t("ПОРТАЛ", "ПОРТАЛ", "ПОРТАЛ"); ?> </a>
+            <a href="https://pm.gov.uz" target='_blank'
+               class="preload"><?= LangHelper::t("ВИРТУАЛЬНАЯ", "ВИРТУАЛЬНАЯ", "ВИРТУАЛЬНАЯ"); ?></a>
         </div>
         <div class="uzb flex_row">
-            <a href="/symbols?v=2" class="preload"><span class="icon"><img src="/img/gerb.png" alt=""></span><span><?=LangHelper::t("Герб", "Герб", "Герб"); ?></span></a>
-            <a href="/symbols?v=2" class="preload"><span class="icon"><img src="/img/flag.png" alt=""></span><span><?=LangHelper::t("Bayroq", "Bayroq", "Bayroq"); ?></span></a>
-            <a href="/symbols?v=2" class="preload"><span class="icon"><img src="/img/gimn.png" alt=""></span><span><?=LangHelper::t("Madhiya", "Madhiya", "Madhiya"); ?></span></a>
+            <a href="/symbols?v=2" class="preload"><span class="icon"><img src="/img/gerb.png"
+                                                                           alt=""></span><span><?= LangHelper::t("Герб", "Герб", "Герб"); ?></span></a>
+            <a href="/symbols?v=2" class="preload"><span class="icon"><img src="/img/flag.png"
+                                                                           alt=""></span><span><?= LangHelper::t("Bayroq", "Bayroq", "Bayroq"); ?></span></a>
+            <a href="/symbols?v=2" class="preload"><span class="icon"><img src="/img/gimn.png"
+                                                                           alt=""></span><span><?= LangHelper::t("Madhiya", "Madhiya", "Madhiya"); ?></span></a>
         </div>
     </div>
 </div>

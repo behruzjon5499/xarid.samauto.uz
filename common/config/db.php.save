@@ -2,7 +2,7 @@
 if($_SERVER['SERVER_NAME']=='samauto.loc'){
         return [
                 'class' => 'yii\db\Connection',
-                'dsn' => 'mysql:host=localhost;dbname=samauto',
+                'dsn' => 'mysql:host=localhost;dbname=xarid.samauto',
                 'username' => 'root',
                 'password' => '',
                 'charset' => 'utf8',
@@ -11,7 +11,7 @@ if($_SERVER['SERVER_NAME']=='samauto.loc'){
 }else{
         return [
                 'class' => 'yii\db\Connection',
-                'dsn' => 'mysql:host=127.0.0.1;port=3306;dbname=samauto',
+                'dsn' => 'mysql:host=127.0.0.1;port=3306;dbname=xarid.samauto',
                 'username' => 'root',
                 'password' => '=Cbd#2auT32t[R~P',
                 'charset' => 'utf8',
@@ -21,7 +21,7 @@ if($_SERVER['SERVER_NAME']=='samauto.loc'){
 if($_SERVER['SERVER_NAME']=='samauto.loc'){
 	return [
 		'class' => 'yii\db\Connection',
-		'dsn' => 'mysql:host=localhost;dbname=samauto',
+		'dsn' => 'mysql:host=localhost;dbname=xarid.samauto',
 		'username' => 'root',
 		'password' => '',
 		'charset' => 'utf8',
@@ -30,7 +30,7 @@ if($_SERVER['SERVER_NAME']=='samauto.loc'){
 }else{
 	return [
 		'class' => 'yii\db\Connection',
-		'dsn' => 'mysql:host=127.0.0.1;port=3306;dbname=samauto',
+		'dsn' => 'mysql:host=127.0.0.1;port=3306;dbname=xarid.samauto',
 		'username' => 'root',
 		'password' => '=Cbd#2auT32t[R~P',
 		'charset' => 'utf8',

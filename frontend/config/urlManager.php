@@ -19,7 +19,7 @@ return [
         'signup/<_a:[\w-]+>' => 'auth/signup/<_a>',
         'reset' => 'auth/reset/request',
         'reset/<_a:[\w-]+>' => 'auth/reset/<_a>',
-        '<_a:login|logout>' => 'auth/auth/<_a>',
+        '<_a:login|logout>' => 'site/site/<_a>',
 
         'lang/<lang>' => 'site/lang',
 

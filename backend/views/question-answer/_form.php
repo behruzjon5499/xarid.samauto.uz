@@ -14,42 +14,31 @@ use yii\widgets\ActiveForm;
 <div class="question-answer-form">
 
     <?php $form = ActiveForm::begin(); ?>
+    <div class="nav-tabs-custom">
+        <ul class="nav nav-tabs">
+            <li class="active"><a href="#tabLang_14" data-toggle="tab" aria-expanded="true">RU</a></li>
+            <li class=""><a href="#tabLang_24" data-toggle="tab" aria-expanded="true">UZ</a></li>
+            <li class=""><a href="#tabLang_34" data-toggle="tab" aria-expanded="true">EN</a></li>
+        </ul>
+        <div class="tab-content">
+            <div class="tab-pane active" id="tabLang_14">
 
-    <div class="row">
-        <div class="col-md-12">
-            <ul class="nav nav-tabs" role="tablist">
-                <li role="presentation" class="active"><a href="#ru" aria-controls="ru" role="tab" data-toggle="tab">Русский</a>
-                </li>
-                <li role="presentation" class=""><a href="#uz" aria-controls="uz" role="tab" data-toggle="tab">Узбекский</a>
-                </li>
-                <li role="presentation" class=""><a href="#en" aria-controls="en" role="tab" data-toggle="tab">Английский</a>
-                </li>
-            </ul>
+                <?= $form->field($model, 'question_ru')->textInput(['rows' => 14]) ?>
+                <?= $form->field($model, 'answer_ru')->textarea(['rows' => 14]) ?>
 
-            <div class="tab-content">
-                <br>
-                <div role="tabpanel" class="tab-pane active" id="ru">
-                    <?= $form->field($model, 'question_ru')->textInput(['maxlength' => true])->label('question ru') ?>
-                    <?= $form->field($model, 'answer_ru')->widget(CKEditor::class, [
-                        'editorOptions' => ElFinder::ckeditorOptions('elfinder', [
-                            'language' => 'ru',
-                        ])
-                    ])->label('Answer') ?>
-                </div>
-                <div role="tabpanel" class="tab-pane" id="uz">
-                    <?= $form->field($model, 'question_uz')->textInput(['maxlength' => true])->label('question uz') ?>
-                    <?= $form->field($model, 'answer_uz')->widget(CKEditor::class, [
-                        'editorOptions' => ElFinder::ckeditorOptions('elfinder', [
-                            'language' => 'uz'])
-                    ])->label('Answer') ?>
-                </div>
-                <div role="tabpanel" class="tab-pane" id="en">
-                    <?= $form->field($model, 'question_en')->textInput(['maxlength' => true])->label('question en') ?>
-                    <?= $form->field($model, 'answer_en')->widget(CKEditor::class, [
-                        'editorOptions' => ElFinder::ckeditorOptions('elfinder', [
-                            'language' => 'en'])
-                    ])->label('Answer') ?>
-                </div>
+            </div>
+            <div class="tab-pane " id="tabLang_24">
+
+                <?= $form->field($model, 'question_uz')->textInput(['rows' => 14]) ?>
+                <?= $form->field($model, 'answer_uz')->textarea(['rows' => 14]) ?>
+
+
+            </div>
+
+            <div class="tab-pane " id="tabLang_34">
+                <?= $form->field($model, 'question_en')->textInput(['rows' => 14]) ?>
+                <?= $form->field($model, 'answer_en')->textarea(['rows' => 14]) ?>
+
             </div>
         </div>
     </div>

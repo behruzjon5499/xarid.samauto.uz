@@ -39,7 +39,8 @@
     "fishvision/yii2-migrate": "^1.0",
     "ext-mbstring": "*",
     "himiklab/yii2-recaptcha-widget": "2.*",
-    "ext-pdo": "*"
+    "ext-pdo": "*",
+    "ext-json": "*"
   },
   "require-dev": {
     "yiisoft/yii2-debug": "~2.1.0",

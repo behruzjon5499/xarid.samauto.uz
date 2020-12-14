@@ -1,8 +1,11 @@
 <?php
 
 /* @var $this yii\web\View */
+
+use common\models\Contacts;
+
 /* @var $form yii\bootstrap\ActiveForm */
-/* @var $contacts \common\models\Contacts */
+/* @var $contacts Contacts */
 
 $this->title = 'Xarid | Samauto.uz';
 
@@ -18,8 +21,6 @@ $link = 'link_' . $lang;
 $material = 'material_' . $lang;
 
 ?>
-
-
 <div class="contactPage">
     <div class="abs">
         <div class="map1">
@@ -78,7 +79,7 @@ $material = 'material_' . $lang;
                             <p> <?= $contact->email ?> </p>
                         </div>
                     </div>
-                <? endforeach; ?>
+                <?php endforeach; ?>
             </div>
         </div>
     </div>

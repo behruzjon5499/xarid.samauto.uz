@@ -8,21 +8,22 @@ $params = array_merge(
 
 return [
     'id' => 'app-frontend',
+    'homeUrl' => '/',
     'basePath' => dirname(__DIR__),
     'bootstrap' => [
         'log',
-        'common\bootstrap\SetUp',
+//        'common\bootstrap\SetUp',
 //        'frontend\bootstrap\SetUp',
     ],
     'language' => 'ru',
     'controllerNamespace' => 'frontend\controllers',
     'components' => [
-//        'request' => [
-//            'csrfParam' => '_csrf-frontend',
-//        ],
-
+        'request' => [
+            'baseUrl' => '',
+            'csrfParam' => '_csrf-coopered',
+        ],
         'user' => [
-            'identityClass' => 'common\auth\Identity',
+            'identityClass' => 'common\models\User',
             'enableAutoLogin' => true,
             'identityCookie' => ['name' => '_identity-frontend', 'httpOnly' => true],
             'loginUrl' => ['login'],
@@ -43,8 +44,7 @@ return [
         'errorHandler' => [
             'errorAction' => 'site/error',
         ],
-//        'backendUrlManager' => require __DIR__ . '/../../backend/config/urlManager.php',
-
+        'backendUrlManager' => require __DIR__ . '/../../backend/config/urlManager.php',
         'urlManager' => [
             'enablePrettyUrl' => true,
             'showScriptName' => false,
@@ -53,17 +53,17 @@ return [
                 '' => 'site/index',
 
                 'lang/<lang>' => 'site/lang',
-
+//                '<_a:login|logout>' => 'site/site/<_a>',
                 'get-history' => 'site/get-history',
                 'get-partners' => 'site/get-partners',
 
                 'get-user' => 'site/get-user',
                 'search' => 'site/search',
-
+//                'logout' => 'site/logout',
                 '<action:(about|contacts|localization)>' => 'site/<action>',
 
-                'about/<action>' => 'site/<action>',
-                'about/<action>/<id>' => 'site/<action>',
+//                'about/<action>' => 'site/<action>',
+//                'about/<action>/<id>' => 'site/<action>',
 
                 'get-workers' => 'site/get-workers',
                 'get-vacancy' => 'site/get-vacancy',
@@ -118,5 +118,6 @@ return [
             ],
         ],
     ],
+
     'params' => $params,
 ];

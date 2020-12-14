@@ -421,7 +421,7 @@ body {
 	margin-bottom: 7px;
 }
 .login-page .content label {
-	margin-bottom: 15px;
+	/*margin-bottom: 15px;*/
 }
 .login-page button {
 	background-color: rgba(0,0,0,0.2);

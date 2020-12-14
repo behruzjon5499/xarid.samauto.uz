@@ -28,18 +28,34 @@ $material = 'material_' . $lang;
         <div class="questions aos-init aos-animate" data-aos="fade-right">
 
             <?php foreach ($questions as $q): ?>
+            <?php if($q->id == 1) {?>
                 <div class="item">
                     <div class="head">
                         <?= $q->$question ?>
                         <div class="arrow">
-                            <img src="https://samauto.uz/images/svg/down-chevron.svg">
+                            <img src="/img/down-chevron.svg">
                         </div>
                     </div>
                     <div class="body shoow" style="display: block;">
                         <div><p>    <?= $q->$answer ?>  </p></div>
                     </div>
                 </div>
-            <?php endforeach; ?>
+            <?php } else { ?>
+
+                 <div class="item">
+                    <div class="head">
+                        <?= $q->$question ?>
+            <div class="arrow">
+                <img src="/img/down-chevron.svg">
+            </div>
+        </div>
+        <div class="body" style="display: none;">
+            <div><p>    <?= $q->$answer ?>  </p></div>
+        </div>
+    </div>
+
+
+                <?php } endforeach; ?>
 
         </div>
     </div>
@@ -47,8 +63,8 @@ $material = 'material_' . $lang;
 
 <div class="site_bread">
     <div class="centerBox">
-        <a href="index.html">ГЛАВНАЯ</a>
-        <span>О КОМПАНИИ</span>
+        <a href="index.html"> <?= LangHelper::t("ГЛАВНАЯ", "ГЛАВНАЯ", "ГЛАВНАЯ"); ?></a>
+        <span><?= LangHelper::t("О КОМПАНИИ", "О КОМПАНИИ", "О КОМПАНИИ"); ?></span>
     </div>
 </div>
 

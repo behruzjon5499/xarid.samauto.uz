@@ -2,8 +2,6 @@
 
 namespace common\auth;
 
-use jalyuzilar\entities\User\User;
-use jalyuzilar\readModels\UserReadRepository;
 use yii\web\IdentityInterface;
 
 class Identity implements IdentityInterface
@@ -44,8 +42,8 @@ class Identity implements IdentityInterface
         return $this->getAuthKey() === $authKey;
     }
 
-    private static function getRepository()
-    {
-        return \Yii::$container->get(UserReadRepository::class);
-    }
+//    private static function getRepository()
+//    {
+//        return \Yii::$container->get(UserReadRepository::class);
+//    }
 }

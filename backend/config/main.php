@@ -8,22 +8,25 @@ $params = array_merge(
     require __DIR__ . '/params.php',
     require __DIR__ . '/params-local.php'
 );
-
-
 return [
     'id' => 'app-backend',
+    'homeUrl' => '/admin',
     'basePath' => dirname(__DIR__),
     'controllerNamespace' => 'backend\controllers',
-    'bootstrap' => [
-
-        'log',
-        'common\bootstrap\SetUp',
-    ],
+    'bootstrap' => ['log'],
     'language' => 'ru-RU',
     'modules' => [],
     'components' => [
         'request' => [
+            'baseUrl' => '/admin',
             'csrfParam' => '_csrf-backend',
+        ],
+        'view' => [
+            'theme' => [
+                'pathMap' => [
+                    '@app/views' => '@app/views/lte'
+                ],
+            ],
         ],
         'user' => [
             'identityClass' => 'common\models\User',
@@ -54,18 +57,18 @@ return [
             return Yii::$app->get('backendUrlManager');
         },
     ],
-    'controllerMap' => [
-        'elfinder' => [
-            'class' => 'mihaildev\elfinder\PathController',
-            'access' => ['@'],
-            'root' => [
-                'baseUrl' => $params['storageHostInfo'],
-                'basePath' => '@storage',
-                'path' => 'elfinder-files',
-                'name' => 'Files',
-            ],
-        ],
-    ],
+//    'controllerMap' => [
+//        'elfinder' => [
+//            'class' => 'mihaildev\elfinder\PathController',
+//            'access' => ['@'],
+//            'root' => [
+//                'baseUrl' => '',
+//                'basePath' => '@frontend/web',
+//                'path' => 'elfinder-files',
+//                'name' => 'Files',
+//            ],
+//        ],
+//    ],
 
     'as access' => [
         'class' => AccessControl::class,

@@ -1,35 +1,129 @@
 <?php
 
 /* @var $this yii\web\View */
+
 /* @var $form yii\bootstrap\ActiveForm */
-/* @var $model \frontend\models\SignupForm */
 
-use yii\helpers\Html;
 use yii\bootstrap\ActiveForm;
+use yii\helpers\Html;
 
-$this->title = 'Signup';
-$this->params['breadcrumbs'][] = $this->title;
 ?>
-<div class="site-signup">
-    <h1><?= Html::encode($this->title) ?></h1>
+<style>
+    label {
+        display: block;
+        /*margin-bottom: .5rem;*/
+    }
 
-    <p>Please fill out the following fields to signup:</p>
+    label.div {
+        /*margin-bottom: .5rem;*/
 
-    <div class="row">
-        <div class="col-lg-5">
-            <?php $form = ActiveForm::begin(['id' => 'form-signup']); ?>
+    }
+    .field-user-file{
+        display: none !important;
+    }
+    .field-user-file1{
+        display: none !important;
+    }
+    .form-group {
+        /*display: none;*/
+        margin-bottom: 0 !important;
+    }
+</style>
+<div class="sp-wrapper">
 
-                <?= $form->field($model, 'username')->textInput(['autofocus' => true]) ?>
+    <div class="container">
+        <div class="row registration">
+            <div class="col-md-6">
+                <div class="login-page">
+                    <header>
+                        Информация о пользователе
+                    </header>
+                    <?php $form = ActiveForm::begin([
+                        'id' => 'signup-form',
+                        'options' => [
+                            'class' => 'content'
+                        ]
+                    ]); ?>
 
-                <?= $form->field($model, 'email') ?>
-
-                <?= $form->field($model, 'password')->passwordInput() ?>
-
-                <div class="form-group">
-                    <?= Html::submitButton('Signup', ['class' => 'btn btn-primary', 'name' => 'signup-button']) ?>
+                    <label>
+                        <?= $form->field($model, 'username')->textInput(['maxlength' => 255, 'class' => 'form-control', 'style' => 'margin-bottom: 0;', 'placeholder' => Yii::t('app', 'Username')])->label(false); ?>
+                    </label>
+                    <label>
+                        <?= $form->field($model, 'email')->textInput(['maxlength' => 255, 'class' => 'form-control', 'placeholder' => Yii::t('app', 'Введите адрес электронной почты')])->label(false); ?>
+                    </label>
+                    <label>
+                        <?= $form->field($model, 'phone')->textInput(['maxlength' => 255, 'class' => 'form-control', 'data-mask' => '+998(00)-000-00-00', 'placeholder' => Yii::t('app', '+998(XX)-XXX-XX-XX')])->label(false); ?>
+                    </label>
+                    <label>
+                        <?= $form->field($model, 'password')->passwordInput(['maxlength' => 255, 'class' => 'form-control', 'placeholder' => Yii::t('app', 'password')])->label(false); ?>
+                    </label>
+                    <label>
+                        <?= $form->field($model, 'again_password')->passwordInput(['maxlength' => 255, 'class' => 'form-control', 'placeholder' => Yii::t('app', ' again password')])->label(false); ?>
+                    </label>
+                    <div class="oferta">
+                        <?= $form->field($model, 'check')->radio(['onclick' =>
+                            'showInternDetails()'])->label(false); ?>
+                        <a href="#" data-toggle="modal" data-target="#oferta">Соглашение о сотрудничестве</a>
+                    </div>
+                    <div class="form-group">
+                        <?= Html::submitButton(Yii::t('app', 'Создать аккаунт'), ['class' => 'btn']) ?>
+                    </div>
                 </div>
+            </div>
+            <div class="col-md-6">
+                <div class="login-page">
+                    <header>
+                        Информация о компании
+                    </header>
+                    <div class="box" style="padding: 15px 25px;">
+                        <label>
+                            <?= $form->field($model, 'title_company')->textInput(['maxlength' => 255, 'class' => 'form-control', 'placeholder' => Yii::t('app', 'Название компании')])->label(false); ?>
+                        </label>
+                        <label>
+                            <?= $form->field($model, 'email_company')->textInput(['maxlength' => 255, 'class' => 'form-control', 'placeholder' => Yii::t('app', 'Электронный адрес компании')])->label(false); ?>
+                        </label>
+                        <label>
+                            <?= $form->field($model, 'phone_company')->textInput(['maxlength' => 255, 'class' => 'form-control', 'data-mask' => '+998(00)-000-00-00', 'placeholder' => Yii::t('app', '+998(XX)-XXX-XX-XX')])->label(false); ?>
+                        </label>
+                        <label>
+                            <?= $form->field($model, 'inn')->textInput(['maxlength' => 255, 'class' => 'form-control', 'placeholder' => Yii::t('app', 'ИНН')])->label(false); ?>
+                        </label>
+                        <label>
+                            <?= $form->field($model, 'address_company')->textInput(['maxlength' => 255, 'class' => 'form-control', 'placeholder' => Yii::t('app', 'Адрес компании')])->label(false); ?>
+                        </label>
+                        <label class="input-file">
+                            <div>Сертификат (максимальный размер 5Мб) <i class="fa fa-upload" aria-hidden="true"></i>
+                            </div>
+                            <?= $form->field($model, 'file')->fileInput(['maxlength' => 255, 'class' => 'form-control'])->label(false); ?>
+                        </label>
+                        <label class="input-file">
+                            <div>Лицензия (максимальный размер 5Мб) <i class="fa fa-upload" aria-hidden="true"></i>
+                            </div>
+                            <?= $form->field($model, 'file1')->fileInput(['maxlength' => 255, 'class' => 'form-control'])->label(false); ?>
+                        </label>
+                        <label>
+                            <?= $form->field($model, 'zametka')->textInput(['rows' => 8, 'class' => 'form-control', 'placeholder' => Yii::t('app', 'Message')])->label(false); ?>
 
-            <?php ActiveForm::end(); ?>
+                        </label>
+                        <?php ActiveForm::end() ?>
+                    </div>
+                </div>
+            </div>
         </div>
     </div>
+
+
 </div>
+<script>
+    function showInternDetails() {
+        $model => check = 1;
+    }
+</script>
+
+<?php
+if ($model->check == true) {
+    $form->field($model, 'check')->checkbox();
+}
+?>
+
+

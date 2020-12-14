@@ -36,7 +36,7 @@ class Contacts extends \yii\db\ActiveRecord
     {
         return [
             [['title_ru', 'title_uz', 'title_en', 'phone1', 'phone2', 'address_ru', 'address_uz', 'address_en', 'email'], 'required'],
-            [['title_ru', 'title_uz', 'title_en', 'phone1', 'phone2', 'address_ru', 'address_uz', 'address_en', 'email', 'home_phone'], 'string', 'max' => 255],
+            [['title_ru', 'title_uz', 'title_en', 'phone1', 'phone2', 'email', 'home_phone'], 'string', 'max' => 255],
         ];
     }
 
