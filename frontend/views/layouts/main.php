@@ -37,7 +37,8 @@ AppAsset::register($this);
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css"
           integrity="sha384-JcKb8q3iqJ61gNV9KGb8thSsNjpSL0n8PARn9HuZOnIxN0hoP+VmmDGMN5t9UJ0Z" crossorigin="anonymous">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
-
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" integrity="sha384-JcKb8q3iqJ61gNV9KGb8thSsNjpSL0n8PARn9HuZOnIxN0hoP+VmmDGMN5t9UJ0Z" crossorigin="anonymous">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
     <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"
             integrity="sha384-DfXdz2htPH0lsSSs5nCTpuj/zy4C+OGpamoFVy38MVBnE+IbbVYUew+OrCXaRkfj"
             crossorigin="anonymous"></script>
@@ -49,6 +50,11 @@ AppAsset::register($this);
             crossorigin="anonymous"></script>
     <script src="https://code.jquery.com/jquery-3.5.0.js"></script>
     <script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jquery/1.10.2/jquery.min.js"></script>
+
+    <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js" integrity="sha384-DfXdz2htPH0lsSSs5nCTpuj/zy4C+OGpamoFVy38MVBnE+IbbVYUew+OrCXaRkfj" crossorigin="anonymous"></script>
+    <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.1/dist/umd/popper.min.js" integrity="sha384-9/reFTGAW83EW2RDu2S0VKaIzap3H66lZH81PoYlFhbGU+6BZp6G7niu735Sk7lN" crossorigin="anonymous"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js" integrity="sha384-B4gt1jrGC7Jh4AgTPSdUtOBvfO8shuf57BaghqFfPlYxofvL8/KUEfYiJOMMV+rV" crossorigin="anonymous"></script>
+    <script src="https://code.jquery.com/jquery-3.5.0.js"></script>
     <?php $this->registerCsrfMetaTags() ?>
     <title><?= Html::encode($this->title) ?></title>
     <?php $this->head() ?>
@@ -148,12 +154,15 @@ $user  = \common\models\User::find()->where(['id'=>Yii::$app->user->id])->one();
                 </a>
             </div>
             <div class="downloads">
-                <a href="<?= yii\helpers\Url::to(['site/index']) ?>" class="under-hover">
-                    <?= LangHelper::t("ГЛАВНАЯ", "BOSH SAHIFA", "ГЛАВНАЯ"); ?>
-                </a>
-                <a href="<?= yii\helpers\Url::to(['auctions/index']) ?>"
-                   class="under-hover"><?= LangHelper::t("Конкурсы на продажи", "Конкурсы на продажи", "Конкурсы на продажи"); ?></a>
-
+                <div class="nav-dropdown" >
+                    <a class="v-mid">
+                        ГЛАВНАЯ
+                    </a>
+                <ul class="nav-dropdown-content">
+                    <li><a href="<?= yii\helpers\Url::to(['order/index']) ?>"><?= LangHelper::t("Закупки", "Закупки", "Закупки"); ?></a></li>
+                    <li><a href="<?= yii\helpers\Url::to(['auctions/index']) ?>"> <?= LangHelper::t("Конкурсы на продажи", "Конкурсы на продажи", "Конкурсы на продажи"); ?></a></li>
+                </ul>
+                </div>
                 <a href="<?= yii\helpers\Url::to(['statistics/index']) ?>"
                    class="under-hover"><?= LangHelper::t("СТАТИСТИКА", "СТАТИСТИКА", "СТАТИСТИКА"); ?></a>
                 <!-- <a href="company.html"  class="under-hover">КОМПАНИИ</a> -->
@@ -220,15 +229,18 @@ $user  = \common\models\User::find()->where(['id'=>Yii::$app->user->id])->one();
                                              class="preload">    <?= LangHelper::t("ГЛАВНАЯ", "BOSH SAHIFA", "ГЛАВНАЯ"); ?></a>
         </li>
         <li style="transition-delay: 0s;"><a
+                    href="<?= yii\helpers\Url::to(['order/index']) ?>"> <?= LangHelper::t("Закупки", "Закупки", "Закупки"); ?></a>
+        </li>
+        <li style="transition-delay: 0s;"><a
                     href="<?= yii\helpers\Url::to(['auction/index']) ?>"> <?= LangHelper::t("Конкурсы на продажи", "Конкурсы на продажи", "Конкурсы на продажи"); ?></a>
         </li>
         <!-- <li style="transition-delay: 0.1s;"><a href="company.html" class="preload">КОМПАНИИ</a></li> -->
-        <li style="transition-delay: 0.2s;"><a href="faq.html"
+        <li style="transition-delay: 0.2s;"><a href="<?= yii\helpers\Url::to(['document/index']) ?>"
                                                class="preload"> <?= LangHelper::t("ЧАВО", "ЧАВО", "ЧАВО"); ?></a></li>
         <li style="transition-delay: 0.2s;"><a
                     href="<?= yii\helpers\Url::to(['document/index']) ?>"><?= LangHelper::t("Инструкция", "Инструкция", "Инструкция"); ?></a></li>
         <li style="transition-delay: 0.2s;"><a
-                    href="posture.html"><?= LangHelper::t("Положение", "Положение", "Положение"); ?></a></li>
+                    href="<?= yii\helpers\Url::to(['document/index']) ?>"><?= LangHelper::t("Положение", "Положение", "Положение"); ?></a></li>
         <li style="transition-delay: 0.2s;"><a href="#"
                                                target="_blank"><?= LangHelper::t("Пром отход", "Пром отход", "Пром отход"); ?></a>
         </li>

@@ -1,9 +1,7 @@
 <?php
 
-use common\helpers\AuctionsHelper;
-use common\models\Auctions;
-use yii\helpers\Html;
 use yii\grid\GridView;
+use yii\helpers\Html;
 
 /* @var $this yii\web\View */
 /* @var $searchModel common\models\AuctionsSearch */
@@ -22,69 +20,39 @@ $this->params['breadcrumbs'][] = $this->title;
     <?php // echo $this->render('_search', ['model' => $searchModel]); ?>
     <div class="box">
         <div class="body-box">
-    <?= GridView::widget([
-        'dataProvider' => $dataProvider,
-        'filterModel' => $searchModel,
-        'columns' => [
+            <?= GridView::widget([
+                'dataProvider' => $dataProvider,
+                'filterModel' => $searchModel,
+                'columns' => [
+                    ['class' => 'yii\grid\SerialColumn'],
 
-            'id',
-            'title_ru:ntext',
-//            'title_uz:ntext',
-//            'title_en:ntext',
-//            'file:ntext',
-            //'obyom',
-            [
-                'attribute' => 'user_id',
-                'value' => 'user.username',
-                'format' => 'raw',
-            ],
-            //'address_ru',
-            //'address_uz',
-            //'address_en',
-            'start_price',
-            'next_price',
-            'start_date',
-            'end_date',
-            //'description_ru:ntext',
-            //'description_uz:ntext',
-            //'description_en:ntext',
-            //'contacts_auction_ru:ntext',
-            //'contacts_auction_uz:ntext',
-            //'contacts_auction_en:ntext',
-            //'price_auction_ru:ntext',
-            //'price_auction_uz:ntext',
-            //'price_auction_en:ntext',
-            //'predmet_auction_ru:ntext',
-            //'predmet_auction_uz:ntext',
-            //'predmet_auction_en:ntext',
-            //'date_auction_ru:ntext',
-            //'date_auction_uz:ntext',
-            //'date_auction_en:ntext',
-            //'payment_auction_ru:ntext',
-            //'payment_auction_uz:ntext',
-            //'payment_auction_en:ntext',
-            //'payments_ru:ntext',
-            //'payments_uz:ntext',
-            //'payments_en:ntext',
-            //'conditions_ru:ntext',
-            //'conditions_uz:ntext',
-            //'conditions_en:ntext',
-            //'subjects_ru:ntext',
-            //'subjects_uz:ntext',
-            //'subjects_en:ntext',
-            //'contacts:ntext',
-            [
-                'attribute' => 'status',
-                'filter' => AuctionsHelper::statusList(),
-                'value' => function (Auctions $model) {
-                    return AuctionsHelper::statusLabel($model->status);
-                },
-                'format' => 'raw',
-            ],
+                    'id',
+                    'user_id',
+                    'title_ru:ntext',
+//                    'title_uz:ntext',
+//                    'title_en:ntext',
+                    //'file',
+                    //'obyom',
+                    //'company_id',
+                    //'address',
+                    'start_price',
+                    'start_date',
+                    //'end_date',
+                    //'description_ru:ntext',
+                    //'description_uz:ntext',
+                    //'description_en:ntext',
+                    //'phone',
+                    //'email:email',
+                    //'inn',
+                    //'mfo',
+                    //'account_number',
+                    //'bank',
+                    //'status',
 
-            ['class' => 'yii\grid\ActionColumn'],
-        ],
-    ]); ?>
+                    ['class' => 'yii\grid\ActionColumn'],
+                ],
+            ]); ?>
         </div>
     </div>
+
 </div>

@@ -24,7 +24,11 @@ $link = 'link_' . $lang;
 $material = 'material_' . $lang;
 
 ?>
-
+<style>
+    tr td{
+        text-align: center;
+    }
+</style>
 
 
 <div class="sp-wrapper">
@@ -47,7 +51,6 @@ $material = 'material_' . $lang;
                 <th><?= LangHelper::t("Местонахождение", "Местонахождение", "Местонахождение"); ?></th>
                 <th><?= LangHelper::t("Объем", "Объем", "Объем"); ?></th>
                 <th><?= LangHelper::t("Стартовая цена", "Стартовая цена", "Стартовая цена"); ?></th>
-                <th><?= LangHelper::t("Текущая цена", "Текущая цена", "Текущая цена"); ?></th>
                 <th><?= LangHelper::t("Компания", "Компания", "Компания"); ?> </th>
                 <th><?= LangHelper::t("Дата окончания", "Дата окончания", "Дата окончания"); ?></th>
             </tr>
@@ -59,10 +62,9 @@ $material = 'material_' . $lang;
                 <td><?= $auction->id ?></td>
                 <td><?=  $auction->start_date ?></td>
                 <td><?= $auction->$title ?></td>
-                <td><?= $auction->$address ?></td>
+                <td><?= $auction->address ?></td>
                 <td><?= $auction->obyom ?></td>
                 <td><?= $auction->start_price ?></td>
-                <td><?= $auction->next_price ?></td>
                 <td><?= $auction->company->$title ?></td>
                 <td><?= $auction->end_date ?></td>
             </tr>

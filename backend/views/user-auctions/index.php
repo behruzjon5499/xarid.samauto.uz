@@ -28,7 +28,13 @@ $this->params['breadcrumbs'][] = $this->title;
 
             'id',
             'user.username',
-            'price',
+            [
+                'attribute' => 'price',
+                'value' => function (\common\models\UserAuctions $data) {
+                    return Html::a($data->price, ['user-auctions/view', 'id' => $data->id]);
+                },
+                'format' => 'raw',
+            ],
 //            'file',
             [
                 'attribute' => 'status',

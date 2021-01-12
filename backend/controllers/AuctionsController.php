@@ -2,11 +2,9 @@
 
 namespace backend\controllers;
 
-use medin\entities\Feedback;
 use Yii;
 use common\models\Auctions;
 use common\models\AuctionsSearch;
-use yii\helpers\VarDumper;
 use yii\web\Controller;
 use yii\web\NotFoundHttpException;
 use yii\filters\VerbFilter;
@@ -17,8 +15,6 @@ use yii\web\UploadedFile;
  */
 class AuctionsController extends Controller
 {
-    const STATUS_WAIT = 0;
-    const STATUS_ACTIVE = 10;
     /**
      * {@inheritdoc}
      */
@@ -86,11 +82,11 @@ class AuctionsController extends Controller
             }
             return $this->redirect(['view', 'id' => $model->id]);
         }
-            return $this->render('create', [
-                'model' => $model,
 
-            ]);
 
+        return $this->render('create', [
+            'model' => $model,
+        ]);
     }
 
     /**
@@ -102,25 +98,27 @@ class AuctionsController extends Controller
      */
     public function actionUpdate($id)
     {
-
         $model = $this->findModel($id);
 
         if (Yii::$app->request->isPost && $model->load(Yii::$app->request->post())) {
             if (!empty($_FILES['Auctions']['name']['file1'])) {
-                $model->file = $_POST['Auctions']['file1'];
-                $model->file = UploadedFile::getInstance($model, 'file1');
+                $model->file1 = $_POST['Auctions']['file1'];
+                $model->file1 = UploadedFile::getInstance($model, 'file1');
                 $model->upload();
+                $model->user_id = Yii::$app->user->id;
                 $model->save(false);
+
             } else {
+
+                $model->user_id = Yii::$app->user->id;
                 $model->save(false);
             }
             return $this->redirect(['view', 'id' => $model->id]);
         }
-        $model->save(false);
+
         return $this->render('update', [
             'model' => $model,
         ]);
-
     }
 
     /**
@@ -152,45 +150,4 @@ class AuctionsController extends Controller
 
         throw new NotFoundHttpException(Yii::t('app', 'The requested page does not exist.'));
     }
-
-    public function actionDeleteFile()
-    {
-        $id = (int)Yii::$app->request->post('id');
-        if($auctions = Auctions::findOne($id)){
-            $path = Yii::getAlias("@frontend/web/uploads/auctions/" . $id . '/' );
-
-            if(isset($auctions->file)) {
-
-                @unlink($path . $auctions->file);
-
-                $auctions->save();
-
-                return json_encode(['status'=>1]);
-            }
-        }
-
-        return json_encode(['status'=>0]);
-    }
-
-    public function actionActive($id)
-    {
-        $feedback = Auctions::find()->where(['id'=>$id])->one();
-        $feedback->status=self::STATUS_ACTIVE;
-        $feedback->save(false);
-        return $this->render('view', [
-            'id'=>$id,
-            'model' => $feedback,
-        ]);
-    }
-    public function actionWait($id)
-    {
-        $feedback = Auctions::find()->where(['id'=>$id])->one();
-        $feedback->status=self::STATUS_WAIT;
-        $feedback->save(false);
-        return $this->render('view', [
-            'id'=>$id,
-            'model' => $feedback,
-        ]);
-    }
-
 }

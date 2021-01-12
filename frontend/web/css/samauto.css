@@ -5503,6 +5503,11 @@ display: block;
 		padding: 0;
 		text-align: center;
 	}
+	@media (max-width: 991px) {
+		.main-footer .contactPage > * {
+			text-align: left !important;
+		}
+	}
 	.main-footer .contactPage .box {
 		margin-bottom: 0;
 		margin-top: 40px;
@@ -7370,6 +7375,14 @@ h3._white {
     .stocks .boxes .item .end-date {
         margin-top: 15px;
     }
+}
+@media (max-width: 991px) {
+	.main-footer .contactPage .icon-text {
+		justify-content: flex-start !important;
+	}
+	.social-footer {
+		justify-content: flex-start !important;
+	}
 }
 @media(max-width: 960px) {
 	.fullpage_header .leftBox {width: auto; min-width: auto;}

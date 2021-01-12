@@ -4,7 +4,9 @@ namespace backend\controllers;
 
 use Yii;
 use common\models\UserAuctions;
+use common\models\AuctionsSearch;
 use common\models\UserAuctionsSearch;
+use yii\helpers\VarDumper;
 use yii\web\Controller;
 use yii\web\NotFoundHttpException;
 use yii\filters\VerbFilter;
@@ -39,9 +41,20 @@ class UserAuctionsController extends Controller
      */
     public function actionIndex()
     {
-        $searchModel = new UserAuctionsSearch();
+        $searchModel = new AuctionsSearch();
         $dataProvider = $searchModel->search(Yii::$app->request->queryParams);
 
+        return $this->render('auctionsindex', [
+            'searchModel' => $searchModel,
+            'dataProvider' => $dataProvider,
+        ]);
+    }
+
+    public function actionIndexTab($id)
+    {
+        $searchModel = new UserAuctionsSearch();
+        $dataProvider = $searchModel->search(Yii::$app->request->queryParams);
+        $dataProvider->query->where(['auction_id' =>$id]);
         return $this->render('index', [
             'searchModel' => $searchModel,
             'dataProvider' => $dataProvider,
@@ -76,6 +89,8 @@ class UserAuctionsController extends Controller
                 $model->file1 = UploadedFile::getInstance($model, 'file1');
                 $model->upload();
                 $model->user_id = Yii::$app->user->id;
+                VarDumper::dump($model->file,12,true);
+                die();
                 $model->save(false);
 
             } else {

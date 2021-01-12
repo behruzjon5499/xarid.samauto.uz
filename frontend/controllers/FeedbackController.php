@@ -37,6 +37,15 @@ class FeedbackController extends Controller
         $model = new Feedback();
 
         if ($model->load(Yii::$app->request->post()) && $model->save()) {
+
+            Yii::$app
+                ->mailer
+                ->compose(['html' => 'request/confirm-html', 'text' => 'request/confirm-text'])
+                ->setFrom('no-reply@samauto.uz')
+                ->setTo($model->email)
+                ->setSubject('So`rovingiz muvaffaqiyatli yetkazildi')
+                ->send();
+
             Yii::$app->session->setFlash('success', Yii::t('app', 'Your request has been successfully delivered'));
             return $this->redirect(['../feedback/create', 'id' => $model->id]);
         }

@@ -23,7 +23,7 @@ class m130524_201442_init extends Migration
             'phone_company' => $this->string()->notNull(),
             'address_company' => $this->text()->notNull(),
             'sertifacation' => $this->string()->notNull(),
-            'litsenziya' => $this->string()->notNull(),
+            'litsenziya' => $this->string(),
             'role' => $this->integer()->notNull()->defaultValue(0),
             'zametka' => $this->string(),
             'check' => $this->string()->notNull(),

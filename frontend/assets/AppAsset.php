@@ -13,12 +13,14 @@ class AppAsset extends AssetBundle
     public $baseUrl = '@web';
     public $css = [
         '/dist/zoomslider.css',
-        '/css/main.css',
+
         '/css/samauto.css',
-//        'css/site.css',
+        '/css/main.css',
+        'css/site.css',
 
     ];
     public $js = [
+        'js/jquery-3.2.1.min.js',
         '/js/modernizr-2.6.2.min.js',
         '/js/OverlayScrollbars.js',
         '/dist/jquery.zoomslider.min.js',

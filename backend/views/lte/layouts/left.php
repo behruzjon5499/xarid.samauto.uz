@@ -32,12 +32,28 @@
                 'items' => [
                     ['label' => 'Menu Yii2', 'options' => ['class' => 'header']],
 //                    ['label' => 'Categories', 'icon' => 'file-code-o', 'url' => ['/categories'],],
-                    ['label' => 'Companies', 'icon' => 'file-code-o', 'url' => ['/companies'],],
-                    ['label' => 'Feedback', 'icon' => 'file-code-o', 'url' => ['/feedback'],],
-                    ['label' => 'Document', 'icon' => 'file-code-o', 'url' => ['/document'],],
+                    ['label' => 'Компании', 'icon' => 'file-code-o', 'url' => ['/companies'],],
+                    ['label' => 'Отзывы', 'icon' => 'file-code-o', 'url' => ['/feedback'],],
+                    ['label' => 'Документы', 'icon' => 'file-code-o', 'url' => ['/document'],],
                     ['label' => 'Question and Answer', 'icon' => 'file-code-o', 'url' => ['/question-answer'],],
-                    ['label' => 'Contacts', 'icon' => 'file-code-o', 'url' => ['/contacts'],],
-                    ['label' => 'Auctions', 'icon' => 'file-code-o', 'url' => ['/auctions'],],
+                    ['label' => 'Контакты', 'icon' => 'file-code-o', 'url' => ['/contacts'],],
+                    ['label' => 'Users', 'icon' => 'file-code-o', 'url' => ['/user'],],
+                    ['label' => 'Auctions',
+                        'icon' => 'fa fa-user',
+                        'url' => '#',
+                        'items' => [
+                            ['label' => 'Auctions', 'icon' => 'file-code-o', 'url' => ['/auctions'],],
+                            ['label' => 'User Auctions', 'icon' => 'file-code-o', 'url' => ['/user-auctions'],],
+                        ]
+                    ],
+                    ['label' => 'Orders',
+                        'icon' => 'fa fa-user',
+                        'url' => '#',
+                        'items' => [
+                            ['label' => 'Orders', 'icon' => 'file-code-o', 'url' => ['/orders'],],
+                            ['label' => 'Orders User', 'icon' => 'file-code-o', 'url' => ['/order-user'],],
+                        ]
+                    ],
                     ['label' => 'Site Contacts', 'icon' => 'file-code-o', 'url' => ['/site-contacts'],],
                     ['label' => 'Login', 'url' => ['/login'], 'visible' => Yii::$app->user->isGuest],
                 ],

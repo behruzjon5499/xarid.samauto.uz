@@ -17,27 +17,23 @@ use yii\widgets\ActiveForm;
 
     <?= $form->field($model, 'id') ?>
 
+    <?= $form->field($model, 'user_id') ?>
+
     <?= $form->field($model, 'title_ru') ?>
 
     <?= $form->field($model, 'title_uz') ?>
 
     <?= $form->field($model, 'title_en') ?>
 
-    <?= $form->field($model, 'file') ?>
+    <?php // echo $form->field($model, 'file') ?>
 
     <?php // echo $form->field($model, 'obyom') ?>
 
     <?php // echo $form->field($model, 'company_id') ?>
 
-    <?php // echo $form->field($model, 'address_ru') ?>
-
-    <?php // echo $form->field($model, 'address_uz') ?>
-
-    <?php // echo $form->field($model, 'address_en') ?>
+    <?php // echo $form->field($model, 'address') ?>
 
     <?php // echo $form->field($model, 'start_price') ?>
-
-    <?php // echo $form->field($model, 'next_price') ?>
 
     <?php // echo $form->field($model, 'start_date') ?>
 
@@ -49,55 +45,17 @@ use yii\widgets\ActiveForm;
 
     <?php // echo $form->field($model, 'description_en') ?>
 
-    <?php // echo $form->field($model, 'contacts_auction_ru') ?>
+    <?php // echo $form->field($model, 'phone') ?>
 
-    <?php // echo $form->field($model, 'contacts_auction_uz') ?>
+    <?php // echo $form->field($model, 'email') ?>
 
-    <?php // echo $form->field($model, 'contacts_auction_en') ?>
+    <?php // echo $form->field($model, 'inn') ?>
 
-    <?php // echo $form->field($model, 'price_auction_ru') ?>
+    <?php // echo $form->field($model, 'mfo') ?>
 
-    <?php // echo $form->field($model, 'price_auction_uz') ?>
+    <?php // echo $form->field($model, 'account_number') ?>
 
-    <?php // echo $form->field($model, 'price_auction_en') ?>
-
-    <?php // echo $form->field($model, 'predmet_auction_ru') ?>
-
-    <?php // echo $form->field($model, 'predmet_auction_uz') ?>
-
-    <?php // echo $form->field($model, 'predmet_auction_en') ?>
-
-    <?php // echo $form->field($model, 'date_auction_ru') ?>
-
-    <?php // echo $form->field($model, 'date_auction_uz') ?>
-
-    <?php // echo $form->field($model, 'date_auction_en') ?>
-
-    <?php // echo $form->field($model, 'payment_auction_ru') ?>
-
-    <?php // echo $form->field($model, 'payment_auction_uz') ?>
-
-    <?php // echo $form->field($model, 'payment_auction_en') ?>
-
-    <?php // echo $form->field($model, 'payments_ru') ?>
-
-    <?php // echo $form->field($model, 'payments_uz') ?>
-
-    <?php // echo $form->field($model, 'payments_en') ?>
-
-    <?php // echo $form->field($model, 'conditions_ru') ?>
-
-    <?php // echo $form->field($model, 'conditions_uz') ?>
-
-    <?php // echo $form->field($model, 'conditions_en') ?>
-
-    <?php // echo $form->field($model, 'subjects_ru') ?>
-
-    <?php // echo $form->field($model, 'subjects_uz') ?>
-
-    <?php // echo $form->field($model, 'subjects_en') ?>
-
-    <?php // echo $form->field($model, 'contacts') ?>
+    <?php // echo $form->field($model, 'bank') ?>
 
     <?php // echo $form->field($model, 'status') ?>
 

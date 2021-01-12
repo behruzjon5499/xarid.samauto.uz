@@ -1,6 +1,44 @@
 <?php
 
 return [
+
+    'Companies' => 'Компании',
+'Update' => 'Обновить',
+'Title Ru' => 'Заголовок Ru',
+'Description Ru' => 'Информация',
+'Company' => 'Компания',
+'Feedbacks' => 'Отзывы',
+'Feedback' => 'Отзыв',
+'Documents' => 'Документы',
+'Support Ru'  => 'Поддержка Ru',
+'Заглавие Ru' => 'Заголовок RU',
+'Question Ru' => 'Вопрос Ru',
+'Answer Ru' => 'Ответ Ru',
+'Question Answers' => 'FAQ',
+'Address' => 'Адрес',
+'Phone1' => 'Телефон 1',
+'Phone2' => 'Телефон 2',
+"Home Phone" => 'Домашний телефон',
+'Obyom' => 'Объём',
+'Start Price' => 'Начальная цена',
+'Company ID' => 'ID компании',
+'Next Price' => 'Следующая цена',
+'Start date' => 'Дата начала',
+'End date' => 'Срок до' ,
+'Address Ru' => 'Адрес Ru',
+
+
+
+
+
+
+
+
+
+
+
+
+
     'Country' => 'Страна',
     'News' => 'Новости',
     'Links' => 'Связи',
@@ -16,9 +54,9 @@ return [
     'User ID' => 'Идентификатор пользователя',
     'Region ID' => 'ID региона',
     'Phone' => 'Телефон',
-    'Address' => 'Адрес',
+//    'Address' => 'Адрес',
     'Description' => 'Описание',
-    'Description Ru' => 'Описание Ru',
+//    'Description Ru' => 'Описание Ru',
     'Description Uz' => 'Описание Uz',
     'Description En' => 'Описание En',
     'Content' => 'Контент',
@@ -31,7 +69,7 @@ return [
     'Link ID' => 'Идентификатор ссылки',
     'Products' => 'Продукты',
     'Product ID' => 'ID Продукты',
-    'Title Ru' => 'Заглавие Ru',
+//    'Title Ru' => 'Заглавие Ru',
     'Title Uz' => 'Заглавие Uz',
     'Title En' => 'Заглавие En',
     'Suppliers' => 'Дистрибьютор',
@@ -89,7 +127,7 @@ return [
     'Welcome' => 'Добро пожаловать',
     'Create' => 'Добавить',
     'Save' => 'Сохранить',
-    'Update' => 'Обновление',
+//    'Update' => 'Обновление',
     'Delete' => 'Удалить',
     'Choose' => 'Выберите',
     'Upload' => 'Загрузить',
@@ -109,7 +147,7 @@ return [
     'Settings' => 'Настройка',
     'Profile' => 'Профиль',
     'Sign Up' => 'Регистрация',
-    'Feedback' => 'Обратная связь',
+//    'Feedback' => 'Обратная связь',
     'Home' => 'Главная',
     'Password' => 'Пароль',
     'Remember me' => 'Запомнить меня',

@@ -37,12 +37,19 @@ if (Yii::$app->session->hasFlash('success')): ?>
 <div class="sp-wrapper" style="margin-top: 0">
     <div class="buy-sale">
 
+        <a href="<?= yii\helpers\Url::to(['order/index']) ?>" style="background-image: url('/img/11.jpg');">
+            <div  class="buy-sale_text">
+                <div class="buy-sale_bg"></div>
+                <img src="/img/buy.png">
+                <h1><?= LangHelper::t("Конкурсы на закупки", "Конкурсы на закупки", "Конкурсы на закупки"); ?></h1>
+    </div>
+        </a>
         <a href="<?= yii\helpers\Url::to(['auctions/index']) ?>" style="background-image: url('/img/2.png');">
             <div  class="buy-sale_text">
                 <div class="buy-sale_bg"></div>
                 <img src="/img/sell.png">
                 <h1><?= LangHelper::t("Конкурсы на продажи", "Конкурсы на продажи", "Конкурсы на продажи"); ?></h1>
-    </div>
+            </div>
         </a>
     </div>
     <div style="margin-top: 100px;margin-bottom: 100px;">
