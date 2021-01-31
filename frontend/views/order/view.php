@@ -2,7 +2,6 @@
 
 use common\helpers\LangHelper;
 use common\models\Auctions;
-use common\helpers\LanguageHelper;
 use yii\helpers\Html;
 use yii\widgets\ActiveForm;
 
@@ -29,7 +28,7 @@ $payment_order = 'payment_order_' . $lang;
 $contacts_order = 'contacts_order_' . $lang;
 $payments = 'payments_' . $lang;
 $subjects = 'subjects_' . $lang;
-$conditions = 'conditions_'.$lang;
+$conditions = 'conditions_' . $lang;
 $description = 'description_' . $lang;
 $answer = 'answer_' . $lang;
 $signup = 'signup_' . $lang;
@@ -42,140 +41,150 @@ $material = 'material_' . $lang;
 
 ?>
 <style>
-    .form-group
-    {
+    .form-group {
         width: 70% !important;
     }
 </style>
 <div class="sp-wrapper">
-    <div class="container" >
+    <div class="container">
         <div class="row">
             <div class="col-md-8">
                 <div class="order-card">
                     <header>
-                        <h1><?=$order->$title?></h1>
-                        <p><?=$order->$description?></p>
+                        <h1><?= $order->$title ?></h1>
+                        <p><?= $order->$description ?></p>
                     </header>
                     <div class="item">
                         <section class="title">
-                            ● I. Предмет конкурса:
+                            ● I. <?=LangHelper::t(" ПРЕДМЕТ КОНКУРСА ", " KONKURS MA'LUMOTLARI", "CONTEST SUBJECT");?>:
                         </section>
-                        <p><?=$order->$predmet_order?></p>
+                        <p><?= $order->$predmet_order ?></p>
                     </div>
                     <div class="item">
                         <section class="title">
-                            ● II. УСЛОВИЯ ПОСТАВКИ:
+                            ● II. <?=LangHelper::t("УСЛОВИЯ ПОСТАВКИ", "YETKAZIB BERISH SHARTLARI", "TERMS OF DELIVERY"); ?>:
                         </section>
-                        <p><?=$order->$delivery_order?></p>
+                        <p><?= $order->$delivery_order ?></p>
                     </div>
                     <div class="item">
                         <section class="title">
-                            ● III. УСЛОВИЯ ОПЛАТЫ:
+                            ● III.<?=LangHelper::t("УСЛОВИЯ ОПЛАТЫ", "TO'LOV SHARTLARI ", "TERMS OF PAYMENT"); ?> :
                         </section>
-                        <p><?=$order->$payment_order?></p>
+                        <p><?= $order->$payment_order ?></p>
                     </div>
                     <div class="item">
                         <section class="title">
-                            ● IV. КОНТАКТЫ:
+                            ● IV.<?=LangHelper::t("КОНТАКТЫ", "BOG'LANISH UCHUN", "CONTACTS"); ?> :
                         </section>
-                        <p><b>E-mail: </b><?=$order->$contacts_order?></p>
+                        <p><b>E-mail: </b><?= $order->$contacts_order ?></p>
                     </div>
                     <div class="item">
                         <section class="title">
-                            ● РЕКВИЗИТЫ АО "UZAUTO MOTORS"
+                            ● <?=LangHelper::t("РЕКВИЗИТЫ СП ООО \"Самаркандский Автомобильный Завод\"", "QK MCHJ \"Samarqand Avtomobil Zavodi\" REKVIZITLARI", "DETAILS JV LLC \"Samarkand Automobile Factory\""); ?>
                         </section>
-                        <p><b>Реквизитлар: </b> <?=$order->company->$title?></p>
-                        <p><b>ИНН</b> <?=$order->inn?></p>
-                        <p><b><?=$order->bank?></b></p>
-                        <p><b>МФО:</b><?=$order->mfo?></p>
-                        <p><b>Хисоб ракам:</b> <?=$order->account_number?></p>
+                        <p><b><?= LangHelper::t("Реквизитлар", "Rekvizitlar", "Requisites"); ?>: </b> <?= $order->company->$title ?></p>
+                        <p><b><?= LangHelper::t("ИНН", "STIR", "TIN"); ?></b> <?= $order->company->inn ?></p>
+                        <p><b><?= LangHelper::t("АТБ ", "АТБ ", "АТБ "); ?>:</b><?= $order->company->bank ?></p>
+                        <p><b><?= LangHelper::t("МФО", "MFO", "MFO Inter-Branch Turnover"); ?>:</b><?= $order->company->mfo ?></p>
+                        <p><b><?= LangHelper::t("Расчётный счёт ", "Hisob raqami", "Payment account"); ?>:</b> <?= $order->company->account_number ?></p>
                     </div>
                     <div class="item">
                         <section class="title">
-                            ● V. ПРИКРЕПЛЕННЫЙ ФАЙЛ:
+                            ● V. <?=LangHelper::t("ПРИКРЕПЛЕННЫЙ ФАЙЛ", "BIRIKTIRILGAN FAYL", "ATTACHED FILE"); ?>:
                         </section>
                         <div class="d-flex">
-                            <a href="/uploads/orders/<?=$order->file?>" target="_blank" class="donwload btn_1" style="margin: auto ;margin-bottom: 45px">Скачать прикрепленный файл</a>
+                            <a href="/uploads/orders/<?= $order->file ?>" target="_blank" class="donwload btn_1"
+                               style="margin: auto ;margin-bottom: 45px"><?=LangHelper::t("Скачать прикреплённый файл", "Biriktirilgan faylni yuklab olish -", "Download attached file"); ?></a>
                         </div>
                     </div>
                     <div class="item">
                         <section class="title">
-                            ВРЕМЯ ОКОНЧАНИЯ
+                            <?= LangHelper::t("Время окончания", "Tugash vaqti", "End time"); ?>:
                         </section>
                         <ul class="timer">
-                            <li><span id="days"></span>ДНЕЙ</li>
-                            <li><span id="hours"></span>ЧАСЫ</li>
-                            <li><span id="minutes"></span>МИНУТЫ</li>
-                            <li><span id="seconds"></span>СЕКУНДЫ</li>
+                            <li><span id="days"></span><?= LangHelper::t("Дней", "Kun", "Days"); ?></li>
+                            <li><span id="hours"></span><?= LangHelper::t("Часы", "Soat", "Hours"); ?></li>
+                            <li><span id="minutes"></span><?= LangHelper::t("Минуты", "Daqiqa", "Minutes"); ?></li>
+                            <li><span id="seconds"></span><?= LangHelper::t("Секунды", "Soniya", "Seconds"); ?></li>
                         </ul>
                     </div>
                     <div class="item">
                         <section>
 
                         </section>
-                        <div class="row">
+                        <?php if (!(Yii::$app->user->isGuest)) { ?>
+                            <div class="row">
 
-                            <?php
-                            $form = ActiveForm::begin([
-                                'id' => 'order-user-form',
+                                <?php
+                                $form = ActiveForm::begin([
+                                    'id' => 'order-user-form',
 //                                'options' => ['class' => 'treatments-page'],
-                            ]); ?>
-                            <div class="row">
-                            <div class="col-lg-6">
+                                ]); ?>
+                                <div class="row">
+                                    <div class="col-lg-6">
+                                        <div>
+                                            <p class="text-ddq"><?= LangHelper::t("Требуется заполнить нижеуказанную анкету комплексной
+                                                проверки (DDQ) и
+                                                отправить вместе с коммерческим предложением", "Quyida berilgan kompleks tekshiruvi anketasini (DDQ) to'ldirish va tijorat taklifi bilan birgalikda jo'natish talab qilinadi", "It is required to complete the following due diligence questionnaire (DDQ) and submit with the quotation"); ?></p>
+                                            <a href="https://xarid.uzautomotors.com/files/DDQ.docx" class="btn_1 mb-3"
+                                               style="background-color:#C62829;" download=""><?= LangHelper::t("Скачать анкету DDQ", "DDQ anketasini yuklab olish", "Download DDQ questionnaire"); ?></a>
+                                        </div>
+                                    </div>
+
+
+                                    <div class="col-lg-6">
+                                        <div class="form-group">
+                                            <label><?= LangHelper::t("Прикрепите файл DDQ", "DDQ faylini biriktiring", "ttach the DDQ file"); ?></label>
+                                            <div class="fileupload">
+                                                <!--                                        <input name="file1" type="file" required="" oninvalid="this.setCustomValidity('Прикрепите файл DDQ!')">-->
+                                                <?= $form->field($model, 'file1')->fileInput(['class' => 'file', 'id' => 'img_file'])->label(false) ?>
+
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div class="row">
+                                    <div class="col-lg-6">
+                                        <label><?= LangHelper::t("Предлагаемая цена", "Taklif qilingan narx", "Offered price"); ?></label>
+                                        <div class="input-group mb-3">
+                                            <!--                                    <input name="price" style="width: 70%; height: 46px;" type="text" maxlength="9" class="form-control" placeholder="Цена">-->
+                                            <?= $form->field($model, 'price')->textInput(['maxlength' => true, 'style' => "width: 100%; height: 46px; margin-bottom 0px !important;", 'class' => 'form-control', 'placeholder' => LangHelper::t("Цена ", "Narx ", " Price")])->label(false) ?>
+                                            <select name="valyuta" style="width: 30%; height: 46px;"
+                                                    class="form-control custom-select" id="inputGroupSelect02">
+                                                <option value="UZS">UZS</option>
+                                                <option value="USD">USD</option>
+                                            </select>
+                                        </div>
+                                    </div>
+                                    <div class="col-lg-6">
+                                        <div class="form-group">
+                                            <label><?= LangHelper::t("Отправить коммерческое предложение", "Tijorat taklifini yuborish", "Send commercial offer"); ?></label>
+                                            <div class="fileupload">
+                                                <!--                                        <input name="file2" type="file" required="">-->
+                                                <?= $form->field($model, 'file2')->fileInput(['class' => 'file'])->label(false) ?>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <?= $form->field($model, 'order_id')->textInput(['maxlength' => true, 'value' => $order->id, 'type' => 'hidden', 'class' => 'form-control'])->label(false) ?>
+
+                                <hr>
                                 <div>
-                                    <p class="text-ddq">Требуется заполнить нижеуказанную анкету комплексной проверки (DDQ) и
-                                        отправить вместе с коммерческим предложением</p>
-                                    <a href="https://xarid.uzautomotors.com/files/DDQ.docx" class="btn_1 mb-3" style="background-color:#C62829;" download="">Скачать анкету DDQ</a>
+                                    <?= Html::submitButton(LangHelper::t("Коммерческое предложение ", "Tijorat taklifini yuborish ", " Send commercial offer"), ['class' => 'btn btn_1', 'style' => 'margin-top: 12px;']) ?>
                                 </div>
+                                <?php ActiveForm::end(); ?>
                             </div>
-
-
-                            <div class="col-lg-6">
-                                <div class="form-group">
-                                    <label>Прикрепите файл DDQ</label>
-                                    <div class="fileupload">
-<!--                                        <input name="file1" type="file" required="" oninvalid="this.setCustomValidity('Прикрепите файл DDQ!')">-->
-                                        <?= $form->field($model, 'file1')->fileInput(['class'=> 'file','id'=> 'img_file'])->label(false) ?>
-
-                                    </div>
-                                </div>
-                            </div>
-                            </div>
-
-
+                        <?php } else  { ?>
                             <div class="row">
-                            <div class="col-lg-6">
-                                <label>Предлагаемая цена</label>
-                                <div class="input-group mb-3">
-                                    <!--                                    <input name="price" style="width: 70%; height: 46px;" type="text" maxlength="9" class="form-control" placeholder="Цена">-->
-                                    <?= $form->field($model, 'price')->textInput(['maxlength' => true , 'style'=>"width: 100%; height: 46px; margin-bottom 0px !important;", 'class' => 'form-control','placeholder'=>'Цена'])->label(false) ?>
-                                    <select name="valyuta" style="width: 30%; height: 46px;" class="form-control custom-select" id="inputGroupSelect02">
-                                        <option value="UZS">UZS</option>
-                                        <option value="USD">USD</option>
-                                    </select>
-                                </div>
-                            </div>
-                            <div class="col-lg-6">
-                                <div class="form-group">
-                                    <label>Коммерческая предложения</label>
-                                    <div class="fileupload">
-                                        <!--                                        <input name="file2" type="file" required="">-->
-                                        <?= $form->field($model, 'file2')->fileInput(['class'=> 'file'])->label(false) ?>
-                                    </div>
+                            <div class="col-md-12">
+                                <div class="d-flex">
+                                    <a href="<?= yii\helpers\Url::to(['site/login']) ?>" class="btn_1 mb-3" style="margin: auto;background-color:#C62829;" ><?=LangHelper::t("Подать заявку", "Ariza berish ", "Apply"); ?></a>
                                 </div>
                             </div>
                             </div>
-
-                            <?= $form->field($model, 'order_id')->textInput(['maxlength' => true , 'value'=>$order->id, 'type'=>'hidden','class' => 'form-control'])->label(false) ?>
-
-                            <hr>
-                            <div>
-                                <?= Html::submitButton(Yii::t('app', 'Отправить коммерческую предложению'), ['class' => 'btn btn_1','style'=>'margin-top: 12px;']) ?>
-                            </div>
-                            <?php ActiveForm::end(); ?>
-                        </div>
-
-
+                        <?php } ?>
                     </div>
                 </div>
             </div>
@@ -183,32 +192,33 @@ $material = 'material_' . $lang;
                 <aside>
                     <div class="konkurs_card">
                         <div class="card-title">
-                            <h4 class="konkurs_text">Информация о лоте</h4>
+                            <h4 class="konkurs_text"><?=LangHelper::t("Информация о лоте ", " Lot haqida ma'lumot", "Lot information"); ?></h4>
                         </div>
                         <ul class="infos">
                             <li>
-                                <p class="data-label">Дата окончания конкурса</p>
+                                <p class="data-label"> <?= LangHelper::t("Дата окончания", "Tugash muddati", "Expiration date"); ?> </p>
                                 <span> : </span>
                                 <p class="info">
                                     <?= Yii::$app->formatter->asDate($order->end_date, 'yyyy-MM-dd'); ?>
                                 </p>
                             </li>
                             <li>
-                                <p class="data-label">Место проведения</p>
+                                <p class="data-label"> <?= LangHelper::t("Место проведения", " O'tkazish manzili", "Location"); ?> </p>
                                 <span> : </span>
-                                <p class="info"><?=  $order->address ?></p>
+                                <p class="info"><?= $order->address ?></p>
                             </li>
                             <li>
-                                <p class="data-label">Дата начала</p>
+                                <p class="data-label"><?= LangHelper::t("Дата начала", "Boshlanish sanasi", "Start date"); ?></p>
                                 <span> : </span>
-                                <p style="color: green;" class="info"><b><?= Yii::$app->formatter->asDate($order->end_date, 'yyyy-MM-dd'); ?></b></p>
+                                <p style="color: green;" class="info">
+                                    <b><?= Yii::$app->formatter->asDate($order->start_date, 'yyyy-MM-dd'); ?></b></p>
                             </li>
                         </ul>
                     </div>
                     <!-- end /.aside -->
                     <div class="konkurs_card ">
                         <div class="card-title">
-                            <h4 class="konkurs_text">Информация о заказчике</h4>
+                            <h4 class="konkurs_text"><?=LangHelper::t("Информация о заказчике", "Mijoz haqida ma'lumot ", "Customer information"); ?></h4>
                         </div>
                         <div class="author-infos">
                             <div class="author_avatar">
@@ -216,13 +226,13 @@ $material = 'material_' . $lang;
                             </div>
                             <div class="author">
                                 <h4>
-                                    <?=  $order->user->username ?>
+                                    <?= $order->user->username ?>
                                 </h4>
                                 <br>
                             </div>
                             <div class="all-konkurs">
-                                <a class="btn btn--sm btn--round">2381-Все конкурсы</a>
-                                <a class="btn btn--sm btn--round">Подробнее</a>
+                                <a class="btn btn--sm btn--round">2381-<?=LangHelper::t("Все конкурсы", "Barcha konkurslar ", "All contests"); ?></a>
+                                <a class="btn btn--sm btn--round"><?=LangHelper::t("Подробнее", "Batafsil", "More"); ?></a>
                             </div>
                         </div>
                     </div>
@@ -233,9 +243,6 @@ $material = 'material_' . $lang;
 </div>
 
 
-
-
-
 <script type="text/javascript">
     // timer js
     const second = 1000,
@@ -243,8 +250,8 @@ $material = 'material_' . $lang;
         hour = minute * 60,
         day = hour * 24;
 
-    let countDown = new Date('<?= date('F d, Y', $order->end_date) ?>').getTime(),
-        x = setInterval(function() {
+    let countDown = new Date('<?= date('F d, Y H:i:s', $order->end_date) ?>').getTime(),
+        x = setInterval(function () {
 
             let now = new Date().getTime(),
                 distance = countDown - now;
@@ -359,8 +366,8 @@ $material = 'material_' . $lang;
 <!--                </div>-->
 <!--            </ul>-->
 <!--            <div class="box">-->
-<!--                <div class="title">--><?//=LangHelper::t("САМАРКАНД", "SAMARQAND", "SAMARKAND"); ?><!--</div>-->
-<!--                <a onclick="mapPanTo(39.648095,66.910189); return false;" class="address">--><?//=$page['sam_address_'.$lang]?><!--</a>-->
+<!--                <div class="title">--><? //=LangHelper::t("САМАРКАНД", "SAMARQAND", "SAMARKAND"); ?><!--</div>-->
+<!--                <a onclick="mapPanTo(39.648095,66.910189); return false;" class="address">--><? //=$page['sam_address_'.$lang]?><!--</a>-->
 <!--                <div class="icon-text">-->
 <!--                    <svg xmlns="http://www.w3.org/2000/svg" xml:space="preserve" width="1.944mm" height="1.9439mm" version="1.1" style="shape-rendering:geometricPrecision; text-rendering:geometricPrecision; image-rendering:optimizeQuality; fill-rule:evenodd; clip-rule:evenodd" viewBox="0 0 3.23 3.23" xmlns:xlink="http://www.w3.org/1999/xlink"><g><metadata></metadata><g><path d="M1.34 1.86c0,0.05 0.01,0.09 0.01,0.13 -0,0.05 -0.02,0.04 -0.07,0.06 -0.03,0.01 -0.06,0.02 -0.1,0.03 -0.01,0 -0.02,0 -0.02,0.01 -0.01,0 -0.02,0 -0.02,0.01 -0.04,0.01 -0.06,0.02 -0.07,0 -0,-0 -0,-0.01 -0.01,-0.01 -0.02,-0.02 -0.04,-0.05 -0.05,-0.08 -0.01,-0.03 -0,-0.06 0,-0.09 0.01,-0.02 0.01,-0.03 0.02,-0.05 0,-0.01 0.01,-0.02 0.01,-0.02 0.01,-0.02 0.01,-0.03 0.03,-0.04l0.02 -0.02c0,-0 0.01,-0 0.01,-0.01 0.01,-0.01 0.02,-0.02 0.04,-0.03 0.04,-0.02 0.14,-0.07 0.18,-0.08 0.19,-0.06 0.4,-0.04 0.6,0.01 0.02,0 0.03,0.01 0.05,0.01 0.05,0.02 0.08,0.03 0.13,0.06 0.03,0.02 0.05,0.03 0.06,0.06 0.02,0.02 0.04,0.05 0.04,0.08 0.02,0.05 0.03,0.1 0.01,0.15 -0,0.01 -0.01,0.01 -0.01,0.02 -0.01,0.02 -0.03,0.03 -0.04,0.04 -0,0 -0,0 -0.01,0.01 -0.04,0.03 -0.04,0.01 -0.1,-0.02 -0.01,-0 -0.02,-0.01 -0.04,-0.02l-0.04 -0.02c-0.03,-0.01 -0.09,-0.04 -0.1,-0.06 -0.01,-0.03 -0.01,-0.06 -0.01,-0.09 0,-0.06 -0,-0.06 -0.07,-0.08 -0.11,-0.03 -0.23,-0.04 -0.35,-0.01 -0.02,0.01 -0.04,0.01 -0.06,0.02 -0.02,0 -0.04,0.01 -0.04,0.04zm-0.27 -1.07c0,-0.02 0.02,-0.03 0.03,-0.03l1.02 0c0.02,0 0.03,0.02 0.03,0.03l0 0.64 -1.08 0 0 -0.64zm-0.09 -0.01l0 0.65c-0.07,0 -0.12,0 -0.18,0.04 -0.01,0.01 -0.02,0.02 -0.04,0.03 -0.02,0.02 -0.04,0.04 -0.05,0.08 -0.01,0.03 -0.03,0.07 -0.03,0.11l0 0.38c0,0.08 0.04,0.16 0.1,0.2 0.01,0.01 0.02,0.02 0.04,0.02 0.02,0.01 0.07,0.03 0.1,0.03l1.37 0c0.06,0 0.12,-0.03 0.17,-0.08 0.02,-0.02 0.04,-0.05 0.05,-0.07 0.01,-0.03 0.02,-0.06 0.02,-0.1l0 -0.38c0,-0.04 -0.01,-0.08 -0.03,-0.11 -0.03,-0.06 -0.08,-0.1 -0.13,-0.13 -0.05,-0.02 -0.08,-0.02 -0.13,-0.02l0 -0.62c0,-0.03 -0,-0.06 -0.02,-0.08 -0.01,-0.02 -0.01,-0.02 -0.03,-0.03 -0,-0 -0.01,-0 -0.01,-0.01 -0.03,-0.02 -0.05,-0.02 -0.08,-0.02l-0.97 0c-0.05,0 -0.07,0.01 -0.1,0.03 -0.02,0.02 -0.04,0.05 -0.04,0.08z"></path><path d="M1.15 0.91c0,0.02 0.02,0.04 0.04,0.04l0.85 0c0.02,0 0.04,-0.02 0.04,-0.04 0,-0.02 -0.02,-0.04 -0.04,-0.04l-0.85 0c-0.02,0 -0.04,0.02 -0.04,0.04z"></path><path d="M1.15 1.09c0,0.02 0.02,0.04 0.04,0.04l0.86 0c0.02,0 0.04,-0.02 0.04,-0.05 -0,-0.02 -0.02,-0.04 -0.05,-0.04l-0.84 0c-0.03,0 -0.05,0.02 -0.05,0.04z"></path><path d="M1.15 1.27c0,0.02 0.02,0.04 0.04,0.04l0.84 0c0.02,0 0.04,-0.02 0.04,-0.04 0,-0.02 -0.02,-0.05 -0.04,-0.05l-0.85 0c-0.02,0 -0.04,0.02 -0.04,0.04z"></path><path d="M1.62 0c0.45,0 0.85,0.18 1.14,0.47 0.29,0.29 0.47,0.7 0.47,1.14 0,0.45 -0.18,0.85 -0.47,1.14 -0.29,0.29 -0.7,0.47 -1.14,0.47 -0.45,0 -0.85,-0.18 -1.14,-0.47 -0.29,-0.29 -0.47,-0.7 -0.47,-1.14 0,-0.45 0.18,-0.85 0.47,-1.14 0.29,-0.29 0.7,-0.47 1.14,-0.47zm1.09 0.52c-0.28,-0.28 -0.66,-0.45 -1.09,-0.45 -0.43,0 -0.81,0.17 -1.09,0.45 -0.28,0.28 -0.45,0.66 -0.45,1.09 0,0.43 0.17,0.81 0.45,1.09 0.28,0.28 0.66,0.45 1.09,0.45 0.43,0 0.81,-0.17 1.09,-0.45 0.28,-0.28 0.45,-0.66 0.45,-1.09 0,-0.43 -0.17,-0.81 -0.45,-1.09z"></path></g></g></svg>-->
 <!--                    <p>+998 98 999 99 99</p>-->

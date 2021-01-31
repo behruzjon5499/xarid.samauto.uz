@@ -4,6 +4,8 @@
 /* @var $auctions \common\models\Auctions */
 /* @var $count \common\models\Auctions */
 /* @var $counts \common\models\Auctions */
+/* @var $count_order \common\models\Orders */
+/* @var $counts_order \common\models\Orders */
 /* @var $auctionswait \common\models\Auctions */
 /* @var $companies \common\models\Companies */
 
@@ -39,18 +41,18 @@ $material = 'material_' . $lang;
                     <h2><?= $counts ?></h2>
                 </div>
             </div>
-            <!--     <div class="col-md-3">
+                 <div class="col-md-3">
                   <div class="st-card blue">
-                    <p>Активные аукционы</p>
-                    <h2>43</h2>
+                    <p>  <?= LangHelper::t("Активные продажи ", " Faol savdolar", "Active sales"); ?></p>
+                    <h2><?= $count_order ?></h2>
                   </div>
                 </div>
                 <div class="col-md-3">
                   <div class="st-card green">
-                    <p>Все аукционы</p>
-                    <h2>43</h2>
+                    <p><?= LangHelper::t("Все продажи", " Barcha savdolar", "All sales "); ?></p>
+                    <h2><?= $counts_order ?></h2>
                   </div>
-                </div> -->
+                </div>
         </div>
     </div>
 
@@ -231,12 +233,12 @@ $material = 'material_' . $lang;
 
     var options = {
         series: [{
-            name: "High - 2013",
-            data: [28, 29, 33, 36, 32, 32, 33]
+            name: "конкурсы - 2021",
+            data: [28, 29, 33, 36, 32, 32, 33,33,32,32,33,33]
         },
             {
-                name: "Low - 2013",
-                data: [12, 11, 14, 18, 17, 13, 13]
+                name: "продажи - 2021",
+                data: [12, 11, 14, 18, 17, 13, 13,12,15,13,14,13]
             }],
         chart: {
             height: 350,
@@ -262,11 +264,15 @@ $material = 'material_' . $lang;
             },
         },
         xaxis: {
-            categories: ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep'],
-        }
+            categories: ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Okt', 'Nov', 'Dec'],
+    }
     };
 
     var chart_3 = new ApexCharts(document.querySelector("#year-chart"), options);
     chart_3.render();
 
 </script>
+<script src="https://code.jquery.com/jquery-3.5.1.slim.min.js" integrity="sha384-DfXdz2htPH0lsSSs5nCTpuj/zy4C+OGpamoFVy38MVBnE+IbbVYUew+OrCXaRkfj" crossorigin="anonymous"></script>
+<script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.1/dist/umd/popper.min.js" integrity="sha384-9/reFTGAW83EW2RDu2S0VKaIzap3H66lZH81PoYlFhbGU+6BZp6G7niu735Sk7lN" crossorigin="anonymous"></script>
+<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js" integrity="sha384-B4gt1jrGC7Jh4AgTPSdUtOBvfO8shuf57BaghqFfPlYxofvL8/KUEfYiJOMMV+rV" crossorigin="anonymous"></script>
+<script src="https://code.jquery.com/jquery-3.5.0.js"></script>

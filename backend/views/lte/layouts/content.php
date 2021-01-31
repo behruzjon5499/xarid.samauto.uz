@@ -4,6 +4,7 @@ use dmstr\widgets\Alert;
 use yii\widgets\Breadcrumbs;
 
 ?>
+
 <div class="content-wrapper">
     <section class="content-header">
         <?php if (isset($this->blocks['content-header'])) { ?>

@@ -35,7 +35,7 @@
                     ['label' => 'Компании', 'icon' => 'file-code-o', 'url' => ['/companies'],],
                     ['label' => 'Отзывы', 'icon' => 'file-code-o', 'url' => ['/feedback'],],
                     ['label' => 'Документы', 'icon' => 'file-code-o', 'url' => ['/document'],],
-                    ['label' => 'Question and Answer', 'icon' => 'file-code-o', 'url' => ['/question-answer'],],
+                    ['label' => 'FAQ', 'icon' => 'file-code-o', 'url' => ['/question-answer'],],
                     ['label' => 'Contacts', 'icon' => 'file-code-o', 'url' => ['/contacts'],],
                     ['label' => 'Auctions', 'icon' => 'file-code-o', 'url' => ['/auctions'],],
                     ['label' => 'Site Contacts', 'icon' => 'file-code-o', 'url' => ['/site-contacts'],],

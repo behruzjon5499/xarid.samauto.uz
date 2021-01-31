@@ -21,61 +21,46 @@ use yii\widgets\ActiveForm;
     </div>
 <?php endif; ?>
         <div class="col-sm-12">
-            <header><h2><?= LangHelper::t("Обратная связь", "Обратная связь", "Обратная связь"); ?></h2></header>
+            <header><h2><?= LangHelper::t("Обратная связь", "Qayta aloqa", "Feedback"); ?></h2></header>
         </div>
 
         <div class="form-group col-sm-6">
-            <label for="exampleFormControlInput1"><?= LangHelper::t("Введите ваше имя", "Введите ваше имя", "Введите ваше имя"); ?>
+            <label for="exampleFormControlInput1"><?= LangHelper::t("Введите ваше имя", " Ismingizni kiriting", "Enter your name"); ?>
                 <span class="req">*</span></label>
-            <?= $form->field($model, 'full_name')->textInput(['rows' => 6, 'id' => 'exampleFormControlInput1', 'class' => 'form-control', 'placeholder' => Yii::t('app', 'Введите ваше имя')])->label(false); ?>
+            <?= $form->field($model, 'full_name')->textInput(['rows' => 6, 'id' => 'exampleFormControlInput1', 'class' => 'form-control', 'placeholder' =>  LangHelper::t("Введите ваше имя", " Ismingizni kiriting", "Enter your name")])->label(false); ?>
 
         </div>
         <div class="form-group col-sm-6">
-            <label for="exampleFormControlInput2"><?= LangHelper::t("Введите Ваш e-mail", "Введите Ваш e-mail", "Введите Ваш e-mail"); ?>
+            <label for="exampleFormControlInput2"><?= LangHelper::t("Введите адрес электронной почты ", "Elektron pochtangizni kiriting", " Please enter your email"); ?>
                 <span class="req">*</span></label>
-            <?= $form->field($model, 'email')->textInput(['rows' => 6, 'id' => 'exampleFormControlInput2', 'class' => 'form-control', 'placeholder' => Yii::t('app', 'Введите Ваш e-mail')])->label(false); ?>
+            <?= $form->field($model, 'email')->textInput(['rows' => 6, 'id' => 'exampleFormControlInput2', 'class' => 'form-control', 'placeholder' =>  LangHelper::t("Введите адрес электронной почты ", "Elektron pochtangizni kiriting", " Please enter your email")])->label(false); ?>
 
         </div>
         <div class="form-group col-sm-6">
-            <label for="exampleFormControlInput3"><?= LangHelper::t("Компания", "Компания", "Компания"); ?></label>
-            <?= $form->field($model, 'company')->textInput(['rows' => 6, 'id' => 'exampleFormControlInput3', 'class' => 'form-control', 'placeholder' => Yii::t('app', 'Компания')])->label(false); ?>
+            <label for="exampleFormControlInput3"><?= LangHelper::t("Компания", "Kompaniya", "Company"); ?></label>
+            <?= $form->field($model, 'company')->textInput(['rows' => 6, 'id' => 'exampleFormControlInput3', 'class' => 'form-control', 'placeholder' => LangHelper::t("Компания", "Kompaniya", "Company")])->label(false); ?>
         </div>
         <div class="form-group col-sm-6">
-            <label for="exampleFormControlInput4"><?= LangHelper::t("Телефон", "Телефон", "Телефон"); ?></label>
+            <label for="exampleFormControlInput4"><?= LangHelper::t("Телефон", "Telefon", "Phone"); ?></label>
             <?= $form->field($model, 'phone')->textInput(['rows' => 6, 'id' => 'exampleFormControlInput4', 'class' => 'form-control', 'placeholder' => Yii::t('app', '+998')])->label(false); ?>
 
         </div>
         <div class="form-group col-sm-12">
-            <label for="exampleFormControlTextarea7"><?= LangHelper::t("Обращения", "Обращения", "Обращения"); ?> </label>
+            <label for="exampleFormControlTextarea7"><?= LangHelper::t("Обращения", "Murojaat", "Appeal"); ?> </label>
             <?= $form->field($model, 'description')->textarea(['rows' => 6, 'id' => 'exampleFormControlInput7', 'class' => 'form-control'])->label(false); ?>
         </div>
     </div>
 
     <div class="form-group" style="display: flex; margin-bottom: 50px;">
-        <?= Html::submitButton(Yii::t('app', 'Submit'), ['class' => 'ButtonBox_2','style'=>'margin-top: 12px;']) ?>
-<!--        <a href=" class="ButtonBox_2" style="margin-top: 12px"> <svg viewBox="0 0 16 14" width="100%" height="100%">-->
-<!--            <path d="M9.8.5H8.2l5.6 5.9H.1v1.2h13.7l-5.6 5.9h1.6L15.9 7z"></path>-->
-<!--        </svg>-->
-<!--        </a>-->
+        <?= Html::submitButton(LangHelper::t("Отправить", " Jo'natish", "Send"), ['class' => 'ButtonBox_2','style'=>'margin-top: 12px;']) ?>
+
     </div>
-
-
-    <!--        <div  style="display: flex;margin-bottom: 50px;">-->
-    <!--            <a href="#" class="ButtonBox_2" style="margin-top: 12px">-->
-    <!--                Отправить-->
-    <!--                <svg viewBox="0 0 16 14" width="100%" height="100%"><path d="M9.8.5H8.2l5.6 5.9H.1v1.2h13.7l-5.6 5.9h1.6L15.9 7z"></path></svg>-->
-    <!--            </a>-->
-    <!--        </div>-->
-
-
     <?php ActiveForm::end(); ?>
 </div>
-
-
 <div class="site_bread">
     <div class="centerBox">
-        <a href="index.html">ГЛАВНАЯ</a>
-        <span>Вопрос-ответ</span>
+        <a href="<?= yii\helpers\Url::to(['site/index']) ?>"><?= LangHelper::t("Главная", "Bosh sahifa", "Homepage"); ?></a>
+        <span><?= LangHelper::t("Контакты", "Aloqa", "Contacts"); ?></span>
     </div>
 </div>
 

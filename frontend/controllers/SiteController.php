@@ -2,14 +2,16 @@
 
 namespace frontend\controllers;
 
+use common\models\Auctions;
 use common\models\Contacts;
 use common\models\LoginForm;
+use common\models\Orders;
+use common\models\Spiska;
 use common\models\User;
 use frontend\models\PasswordResetRequestForm;
 use frontend\models\ResendVerificationEmailForm;
 use frontend\models\ResetForm;
 use frontend\models\ResetPasswordForm;
-use frontend\models\SignupForm;
 use frontend\models\UpdateForm;
 use frontend\models\VerifyEmailForm;
 use Yii;
@@ -28,8 +30,6 @@ use yii\web\UploadedFile;
  */
 class SiteController extends Controller
 {
-
-
     public $password = '';
 
     /**
@@ -54,12 +54,6 @@ class SiteController extends Controller
                     ],
                 ],
             ],
-//            'verbs' => [
-//                'class' => VerbFilter::className(),
-//                'actions' => [
-//                    'logout' => ['post'],
-//                ],
-//            ],
         ];
     }
 
@@ -90,10 +84,14 @@ class SiteController extends Controller
         $model = new ResetForm();
         $user = User::find()->where(['id' => \Yii::$app->user->getId()])->one();
         $model1 = new UpdateForm();
+        $count = Auctions::find()->where(['status' => 10])->count();
+        $counts = Auctions::find()->count();
+        $count_order = Orders::find()->where(['status' => 10])->count();
+        $counts_order = Orders::find()->count();
 
         if ($model->load(Yii::$app->request->post()) && $model->reset()) {
             $pw = $model->new_password;
-            $pwc =$model->new_password;
+            $pwc = $model->new_password;
             if ($pw == $pwc) {
 
                 $user = User::findIdentity(\Yii::$app->user->getId());
@@ -110,8 +108,7 @@ class SiteController extends Controller
             } else {
 
             }
-        }
-        elseif ($model1->load(Yii::$app->request->post())) {
+        } elseif ($model1->load(Yii::$app->request->post())) {
 //            VarDumper::dump($model1,12,true);
 //            die();
             $user = User::findIdentity(\Yii::$app->user->getId());
@@ -127,6 +124,10 @@ class SiteController extends Controller
 
         } else {
             return $this->render('index', [
+                'count_order' => $count_order,
+                'counts_order' => $counts_order,
+                'count' => $count,
+                'counts' => $counts,
                 'model' => $model,
                 'model1' => $model1
             ]);
@@ -134,6 +135,10 @@ class SiteController extends Controller
 
 
         return $this->render('index', [
+            'count_order' => $count_order,
+            'counts_order' => $counts_order,
+            'count' => $count,
+            'counts' => $counts,
             'model' => $model,
             'model1' => $model1
         ]);
@@ -209,79 +214,64 @@ class SiteController extends Controller
      * @return mixed
      * @throws \yii\base\Exception
      */
-//    public function actionSignup()
-//    {
-//        $model = new User();
-//
-//        if ($model->load(Yii::$app->request->post())) {
-//
-//            if (Yii::$app->request->isPost && Yii::$app->request->post('password') == Yii::$app->request->post('again_password') ) {
-////                VarDumper::dump(Yii::$app->request->post(), 12, true);
-////                die();
-//                $model->setPassword(Yii::$app->request->post('password'));
-//                $model->generateAuthKey();
-//                $model->generateEmailVerificationToken();
-//
-//                if (!empty($_FILES['User']['name']['file'] && $_FILES['User']['name']['file1'])) {
-//                    $model->file = $_POST['User']['file'];
-//                    $model->file = UploadedFile::getInstance($model, 'file');
-//
-//                    $model->file1 = $_POST['User']['file1'];
-//                    $model->file1 = UploadedFile::getInstance($model, 'file1');
-//                    $model->upload();
-//
-//                    $model->save(false);
-//
-////                    VarDumper::dump($model, 12, true);
-////                    die();
-//                } else {
-//                    VarDumper::dump($model, 12, true);
-//                    die();
-//                    $model->save();
-//                }
-//
-//                Yii::$app->session->setFlash('success', 'Thank you for registration. Please check your inbox for verification email.');
-//                return $this->goHome();
-//            } else {
-//
-//            }
-//
-//        }
-//
-//        return $this->render('signup', [
-//            'model' => $model,
-//        ]);
-//    }
+
     public function actionSignup()
     {
         $model = new User();
 
         if ($model->load(Yii::$app->request->post())) {
-            $model->file = $_POST['User']['file'];
-            $model->file = UploadedFile::getInstance($model, 'file');
+            if ($model->jis_yur == 1) {
+                $model->file = $_POST['User']['file'];
+                $model->file = UploadedFile::getInstance($model, 'file');
 
-            $model->file1 = $_POST['User']['file1'];
-            $model->file1 = UploadedFile::getInstance($model, 'file1');
-            $model->upload();
-            $p = $model->password;
-            $model->setPassword($p);
-            $model->generateAuthKey();
-            $model->generateEmailVerificationToken();
-            $model->save(false);
-            Yii::$app->session->setFlash('success', 'Thank you for registration. Please check your inbox for verification email.');
-            return $this->render('login', [
-                'model' => $model,
-            ]);
+                $model->file1 = $_POST['User']['file1'];
+                $model->file1 = UploadedFile::getInstance($model, 'file1');
+                $model->upload();
+                $p = $model->password;
+                $model->setPassword($p);
+                $model->generateAuthKey();
+                $model->generateEmailVerificationToken();
+//            VarDumper::dump($model,12,true);
+//            die();
+                $model->save(false);
+                Yii::$app->session->setFlash('success', 'Thank you for registration. Please check your inbox for verification email.');
+                return $this->render('login', [
+                    'model' => $model,
+                ]);
+            }
         }
-        else{
-            Yii::$app->session->setFlash('success', 'Iloji bolmadi keyinroq yana urinib koring iltimos');
+        if ($model->load(Yii::$app->request->post())) {
+            if ($model->jis_yur == 2) {
+                $model->file2 = $_POST['User']['file2'];
+                $model->file2 = UploadedFile::getInstance($model, 'file2');
+                $spiska = Spiska::find()->Where(['inn' => $model->inn])->andWhere(['table_number' => $model->table_number])->all();
+                if (!Empty($spiska)) {
+                    $model->upload1();
+                    $p = $model->password;
+                    $model->setPassword($p);
+                    $model->generateAuthKey();
+                    $model->generateEmailVerificationToken();
+                    $model->title_company = 'СП ООО "Самаркандский Автомобильный Завод"';
+//                    VarDumper::dump($model, 12, true);
+//                    die();
+                    $model->save(false);
+                    Yii::$app->session->setFlash('success', 'Thank you for registration. Please check your inbox for verification email.');
+                    return $this->render('login', [
+                        'model' => $model,
+                    ]);
+                } else {
+                    Yii::$app->session->setFlash('success', 'Tabel nomer yoki inn xato kiritildi');
+                    return $this->render('signup', [
+                        'model' => $model,
+                    ]);
+                }
+            }
+        } else {
             return $this->render('signup', [
                 'model' => $model,
             ]);
+
         }
-
-
-
     }
 
     /**
@@ -296,20 +286,20 @@ class SiteController extends Controller
         $model1 = new UpdateForm();
         $user = User::find()->where(['id' => \Yii::$app->user->getId()])->one();
         if ($model->load(Yii::$app->request->post()) && $model->reset()) {
-                $pw = $model->new_password;
-                $pwc =$model->new_password;
-                if ($pw == $pwc) {
-                    $user = User::findIdentity(\Yii::$app->user->getId());
-                    $user->setPassword($pw);
-                    $user->generateAuthKey();
-                    $user->password = $pw;
-                    $user->generateEmailVerificationToken();
-                    $user->save(false);
-                    Yii::$app->session->setFlash('success', 'Thank you for reset password');
-                    return $this->render('index', [
-                        'model' => $model,
-                        'model1' => $model1
-                    ]);
+            $pw = $model->new_password;
+            $pwc = $model->new_password;
+            if ($pw == $pwc) {
+                $user = User::findIdentity(\Yii::$app->user->getId());
+                $user->setPassword($pw);
+                $user->generateAuthKey();
+                $user->password = $pw;
+                $user->generateEmailVerificationToken();
+                $user->save(false);
+                Yii::$app->session->setFlash('success', 'Thank you for reset password');
+                return $this->render('index', [
+                    'model' => $model,
+                    'model1' => $model1
+                ]);
 
             } else {
                 Yii::$app->session->setFlash('success', 'Thank you for registration. Please check your inbox for verification email.');
@@ -340,6 +330,8 @@ class SiteController extends Controller
 //            VarDumper::dump($model,12,true);
 //            die();
             if ($model->sendEmail()) {
+//                VarDumper::dump($model,12,true);
+//                die();
                 Yii::$app->session->setFlash('success', 'Check your email for further instructions.');
                 return $this->goHome();
             } else {

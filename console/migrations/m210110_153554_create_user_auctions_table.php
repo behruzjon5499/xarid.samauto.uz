@@ -18,7 +18,6 @@ class m210110_153554_create_user_auctions_table extends Migration
             'user_id' => $this->string()->notNull(),
             'auction_id' => $this->string()->notNull(),
             'price' =>$this->string()->notNull(),
-            'file'=> $this->string()->notNull(),
             'status'=> $this->integer()->notNull()->defaultValue(0),
         ], $tableOptions);
     }

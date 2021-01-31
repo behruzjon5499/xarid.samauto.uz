@@ -77,14 +77,14 @@ class Order extends \yii\db\ActiveRecord
     public function rules()
     {
         return [
-            [['user_id', 'company_id', 'start_price', 'start_date', 'end_date'], 'required'],
+            [['user_id', 'company_id'], 'required'],
             [['user_id', 'company_id', 'status'], 'integer'],
             [['title_ru', 'title_uz', 'title_en', 'address_ru', 'address_uz', 'address_en', 'description_ru', 'description_uz', 'description_en', 'contacts_auction_ru', 'contacts_auction_uz', 'contacts_auction_en', 'price_auction_ru', 'price_auction_uz', 'price_auction_en', 'predmet_auction_ru', 'predmet_auction_uz', 'predmet_auction_en', 'date_auction_ru', 'date_auction_uz', 'date_auction_en', 'payment_auction_ru', 'payment_auction_uz', 'payment_auction_en', 'payments_ru', 'payments_uz', 'payments_en', 'conditions_ru', 'conditions_uz', 'conditions_en', 'subjects_ru', 'subjects_uz', 'subjects_en', 'contacts'], 'string'],
             [['razdel', 'file', 'obyom', 'start_price', 'next_price', 'start_date', 'end_date'], 'string', 'max' => 255],
             [['company_id'], 'exist', 'skipOnError' => true, 'targetClass' => Companies::className(), 'targetAttribute' => ['company_id' => 'id']],
             [['user_id'], 'exist', 'skipOnError' => true, 'targetClass' => User::className(), 'targetAttribute' => ['user_id' => 'id']],
             [['file'], 'string', 'max' => 255],
-            [['file1'], 'file', 'skipOnEmpty' => false, 'extensions' => 'doc, docx, xls, xlsx, pdf']
+            [['file1'], 'file', 'skipOnEmpty' => true, 'extensions' => 'doc, docx, xls, xlsx, pdf']
         ];
     }
     public function behaviors()
@@ -97,7 +97,7 @@ class Order extends \yii\db\ActiveRecord
                     ActiveRecord::EVENT_BEFORE_UPDATE => ['start_date'],
                 ],
                 'value' => function() {
-                    return date('Y-m-d');
+                    return strtotime($this->start_date);
                 },
 
             ],
@@ -108,7 +108,8 @@ class Order extends \yii\db\ActiveRecord
                     ActiveRecord::EVENT_BEFORE_UPDATE => ['end_date'],
                 ],
                 'value' => function() {
-                    return date('Y-m-d');
+                    return strtotime($this->end_date);
+
                 },
             ],
         ];

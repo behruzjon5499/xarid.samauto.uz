@@ -27,31 +27,42 @@ use mihaildev\elfinder\ElFinder;
             <div class="tab-content">
                 <br>
                 <div role="tabpanel" class="tab-pane active" id="ru">
-                    <?= $form->field($model, 'title_ru')->textInput(['maxlength' => true])->label('title ru') ?>
+                    <?= $form->field($model, 'title_ru')->textInput(['maxlength' => true])->label('Заголовок Ru') ?>
                     <?= $form->field($model, 'description_ru')->widget(CKEditor::class, [
                         'editorOptions' => ElFinder::ckeditorOptions('elfinder', [
                             'language' => 'ru',
                         ])
-                    ])->label('Description Ru') ?>
+                    ])->label('Описание Ru') ?>
                 </div>
                 <div role="tabpanel" class="tab-pane" id="uz">
-                    <?= $form->field($model, 'title_uz')->textInput(['maxlength' => true])->label('title uz') ?>
+                    <?= $form->field($model, 'title_uz')->textInput(['maxlength' => true])->label('Заголовок Uz') ?>
                     <?= $form->field($model, 'description_uz')->widget(CKEditor::class, [
                         'editorOptions' => ElFinder::ckeditorOptions('elfinder', [
                             'language' => 'uz'])
-                    ])->label('Description Uz') ?>
+                    ])->label('Описание Uz') ?>
                 </div>
                 <div role="tabpanel" class="tab-pane" id="en">
-                    <?= $form->field($model, 'title_en')->textInput(['maxlength' => true])->label('title en') ?>
+                    <?= $form->field($model, 'title_en')->textInput(['maxlength' => true])->label('Заголовок Eng ') ?>
                     <?= $form->field($model, 'description_en')->widget(CKEditor::class, [
                         'editorOptions' => ElFinder::ckeditorOptions('elfinder', [
                             'language' => 'en'])
-                    ])->label('Description En') ?>
+                    ])->label('Описание Eng') ?>
                 </div>
             </div>
         </div>
     </div>
+<div class="row">
+    <div class="col-md-6">
+        <?= $form->field($model, 'inn')->textInput(['rows' => 6]) ?>
 
+        <?= $form->field($model, 'mfo')->textInput(['rows' => 6]) ?>
+    </div>
+    <div class="col-md-6">
+        <?= $form->field($model, 'account_number')->textInput(['rows' => 6]) ?>
+
+        <?= $form->field($model, 'bank')->textInput(['rows' => 6]) ?>
+    </div>
+</div>
 
     <div class="form-group">
         <?= Html::submitButton(Yii::t('app', 'Save'), ['class' => 'btn btn-success']) ?>

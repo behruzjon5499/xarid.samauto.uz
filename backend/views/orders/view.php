@@ -23,6 +23,13 @@ $this->params['breadcrumbs'][] = $this->title;
                 'method' => 'post',
             ],
         ]) ?>
+        <?php if ($model->isWait()):?>
+            <?= Html::a(Yii::t('app', 'Активный'), ['active', 'id' => $model->id], ['class' => 'btn btn-primary']) ?>
+        <?php endif; ?>
+        <?php if($model->isActive()): ?>
+            <?= Html::a(Yii::t('app', 'В ожидании'), ['wait', 'id' => $model->id], ['class' => 'btn btn-primary']) ?>
+        <?php endif; ?>
+
     </p>
 
     <?= DetailView::widget([
@@ -34,7 +41,14 @@ $this->params['breadcrumbs'][] = $this->title;
             'title_uz:ntext',
             'title_en:ntext',
             'razdel',
-            'file',
+            [
+                'attribute' => 'file',
+                'label' => 'Файл',
+                'value' => function ($model) {
+                    return Html::a('Download The File',  '../../uploads/orders/' . $model->file, ['class' => 'btn btn-primary', 'download'=>'']);
+                },
+                'format' => 'raw',
+            ],
             'company.title_ru',
             'address:ntext',
             'start_date:date',
@@ -54,11 +68,11 @@ $this->params['breadcrumbs'][] = $this->title;
             'contacts_order_ru:ntext',
             'contacts_order_uz:ntext',
             'contacts_order_en:ntext',
-            'inn:ntext',
-            'mfo:ntext',
-            'account_number:ntext',
-            'bank:ntext',
-            'status',
+            [
+                'attribute' => 'status',
+                'value' => \common\helpers\OrdersHelper::statusLabel($model->status),
+                'format' => 'raw',
+            ],
         ],
     ]) ?>
 

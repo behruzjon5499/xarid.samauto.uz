@@ -35,6 +35,10 @@ $this->params['breadcrumbs'][] = $this->title;
             <?= Html::a(Yii::t('app', 'ADMIN'), ['admin', 'id' => $model->id,'role' =>1], ['class' => 'btn btn-primary']) ?>
             <?= Html::a(Yii::t('app', 'MANAGER'), ['manager', 'id' => $model->id,'role' =>2], ['class' => 'btn btn-primary']) ?>
         <?php endif; ?>
+        <?php if($model->isGuest()): ?>
+            <?= Html::a(Yii::t('app', 'ADMIN'), ['admin', 'id' => $model->id,'role' =>1], ['class' => 'btn btn-primary']) ?>
+            <?= Html::a(Yii::t('app', 'MANAGER'), ['manager', 'id' => $model->id,'role' =>2], ['class' => 'btn btn-primary']) ?>
+        <?php endif; ?>
     </p>
 <div class="row">
     <div class="col-md-6">
@@ -58,21 +62,46 @@ $this->params['breadcrumbs'][] = $this->title;
             'model' => $model,
             'attributes' => [
                 'address_company:ntext',
-                'sertifacation',
-                'litsenziya',
+                [
+                    'attribute' => 'sertifacation',
+                    'label' => 'Сертификат',
+                    'value' => function ($model) {
+                        return Html::a('Download The File',  '../../uploads/sertification/' . $model->sertifacation, ['class' => 'btn btn-primary', 'download'=>'']);
+                    },
+                    'format' => 'raw',
+                ],
+                [
+                    'attribute' => 'litsenziya',
+                    'label' => 'Лицензия',
+                    'value' => function ($model) {
+                        return Html::a('Download The File',  '../../uploads/litsenziya/' . $model->litsenziya, ['class' => 'btn btn-primary', 'download'=>'']);
+                    },
+                    'format' => 'raw',
+                ],
+                [
+                    'attribute' => 'copy_passport',
+                    'label' => ' Копия паспорта',
+                    'value' => function ($model) {
+                        return Html::a('Download The File',  '../../uploads/passport/' . $model->copy_passport, ['class' => 'btn btn-primary', 'download'=>'']);
+                    },
+                    'format' => 'raw',
+                ],
                 [
                     'attribute' => 'role',
                     'value' => \common\helpers\UserHelper::statusLabel($model->role),
                     'format' => 'raw',
                 ],
+//                'copy_passport',
                 'zametka',
+                'table_number',
+//                'zametka',
 //                'check',
 //                'auth_key',
 //                'password_hash',
 //                'password_reset_token',
                 'status',
-                'created_at',
-                'updated_at',
+                'created_at:date',
+                'updated_at:date',
 //                'verification_token',
             ],
         ]) ?>

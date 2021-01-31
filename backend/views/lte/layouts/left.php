@@ -33,28 +33,37 @@
                     ['label' => 'Menu Yii2', 'options' => ['class' => 'header']],
 //                    ['label' => 'Categories', 'icon' => 'file-code-o', 'url' => ['/categories'],],
                     ['label' => 'Компании', 'icon' => 'file-code-o', 'url' => ['/companies'],],
-                    ['label' => 'Отзывы', 'icon' => 'file-code-o', 'url' => ['/feedback'],],
+
+                    ['label' => 'Вопросы',
+                        'icon' => 'fa fa-user',
+                        'url' => '#',
+                        'items' => [
+                            ['label' => 'Вопросы', 'icon' => 'file-code-o', 'url' => ['/feedback'],],
+                            ['label' => 'Отправка ответа', 'icon' => 'file-code-o', 'url' => ['/feedback-send'],],
+                        ]
+                    ],
                     ['label' => 'Документы', 'icon' => 'file-code-o', 'url' => ['/document'],],
-                    ['label' => 'Question and Answer', 'icon' => 'file-code-o', 'url' => ['/question-answer'],],
+                    ['label' => 'FAQ', 'icon' => 'file-code-o', 'url' => ['/question-answer'],],
                     ['label' => 'Контакты', 'icon' => 'file-code-o', 'url' => ['/contacts'],],
-                    ['label' => 'Users', 'icon' => 'file-code-o', 'url' => ['/user'],],
-                    ['label' => 'Auctions',
+                    ['label' => 'Пользователи', 'icon' => 'file-code-o', 'url' => ['/user'],],
+                    ['label' => 'Аукционы',
                         'icon' => 'fa fa-user',
                         'url' => '#',
                         'items' => [
-                            ['label' => 'Auctions', 'icon' => 'file-code-o', 'url' => ['/auctions'],],
-                            ['label' => 'User Auctions', 'icon' => 'file-code-o', 'url' => ['/user-auctions'],],
+                            ['label' => 'Аукционы', 'icon' => 'file-code-o', 'url' => ['/auctions'],],
+                            ['label' => 'Участники аукционов', 'icon' => 'file-code-o', 'url' => ['/user-auctions'],],
                         ]
                     ],
-                    ['label' => 'Orders',
+                    ['label' => 'Тендеры',
                         'icon' => 'fa fa-user',
                         'url' => '#',
                         'items' => [
-                            ['label' => 'Orders', 'icon' => 'file-code-o', 'url' => ['/orders'],],
-                            ['label' => 'Orders User', 'icon' => 'file-code-o', 'url' => ['/order-user'],],
+                            ['label' => 'Тендеры', 'icon' => 'file-code-o', 'url' => ['/orders'],],
+                            ['label' => 'Участники тендеров', 'icon' => 'file-code-o', 'url' => ['/order-user'],],
                         ]
                     ],
-                    ['label' => 'Site Contacts', 'icon' => 'file-code-o', 'url' => ['/site-contacts'],],
+                    ['label' => 'Контакты сайта', 'icon' => 'file-code-o', 'url' => ['/site-contacts'],],
+                    ['label' => 'Список работников', 'icon' => 'file-code-o', 'url' => ['/spiska'],],
                     ['label' => 'Login', 'url' => ['/login'], 'visible' => Yii::$app->user->isGuest],
                 ],
             ]

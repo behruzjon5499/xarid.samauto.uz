@@ -33,6 +33,22 @@ $this->params['breadcrumbs'][] = $this->title;
             'order.title_ru',
             'price',
             'ddq',
+            [
+                'attribute' => 'ddq',
+                'label' => 'File',
+                'value' => function ($model) {
+                    return Html::a('Download The DDQ',  '../../uploads/order-user/' . $model->ddq, ['class' => 'btn btn-primary', 'download'=>'']);
+                },
+                'format' => 'raw',
+            ],
+            [
+                'attribute' => 'file',
+                'label' => 'File',
+                'value' => function ($model) {
+                    return Html::a('Download The File',  '../../uploads/order-user/' . $model->file, ['class' => 'btn btn-primary', 'download'=>'']);
+                },
+                'format' => 'raw',
+            ],
             'file',
             'status',
         ],

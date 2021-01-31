@@ -2,12 +2,12 @@
 
 namespace backend\controllers;
 
-use Yii;
 use common\models\Auctions;
 use common\models\AuctionsSearch;
+use Yii;
+use yii\helpers\VarDumper;
 use yii\web\Controller;
 use yii\web\NotFoundHttpException;
-use yii\filters\VerbFilter;
 use yii\web\UploadedFile;
 
 /**
@@ -15,20 +15,8 @@ use yii\web\UploadedFile;
  */
 class AuctionsController extends Controller
 {
-    /**
-     * {@inheritdoc}
-     */
-    public function behaviors()
-    {
-        return [
-            'verbs' => [
-                'class' => VerbFilter::className(),
-                'actions' => [
-                    'delete' => ['POST'],
-                ],
-            ],
-        ];
-    }
+    const STATUS_WAIT = 0;
+    const STATUS_ACTIVE = 10;
 
     /**
      * Lists all Auctions models.
@@ -149,5 +137,33 @@ class AuctionsController extends Controller
         }
 
         throw new NotFoundHttpException(Yii::t('app', 'The requested page does not exist.'));
+    }
+
+    public function actionActive($id)
+    {
+        $auctions = Auctions::find()->where(['id' => $id])->one();
+        $auctions->status = self::STATUS_ACTIVE;
+        $auctions->start_date = $auctions->start_date;
+        $auctions->end_date = $auctions->end_date;
+//        VarDumper::dump($auctions,12,true);
+//        die();
+        $auctions->save(false);
+        return $this->render('view', [
+            'id' => $id,
+            'model' => $auctions,
+        ]);
+    }
+
+    public function actionWait($id)
+    {
+        $auctions = Auctions::find()->where(['id' => $id])->one();
+        $auctions->status = self::STATUS_WAIT;
+        $auctions->start_date = $auctions->start_date;
+        $auctions->end_date = $auctions->end_date;
+        $auctions->save(false);
+        return $this->render('view', [
+            'id' => $id,
+            'model' => $auctions,
+        ]);
     }
 }

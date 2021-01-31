@@ -7,13 +7,13 @@ use yii\helpers\Html;
 /* @var $searchModel backend\models\OrdersSearch */
 /* @var $dataProvider yii\data\ActiveDataProvider */
 
-$this->title = Yii::t('app', 'Orders');
+$this->title = Yii::t('app', 'тендера');
 $this->params['breadcrumbs'][] = $this->title;
 ?>
 <div class="orders-index">
 
     <p>
-        <?= Html::a(Yii::t('app', 'Create'), ['create'], ['class' => 'btn btn-success']) ?>
+        <?= Html::a(Yii::t('app', 'Добавить тендера'), ['create'], ['class' => 'btn btn-success']) ?>
     </p>
 
     <?php // echo $this->render('_search', ['model' => $searchModel]); ?>
@@ -28,6 +28,7 @@ $this->params['breadcrumbs'][] = $this->title;
                     'id',
                     'user.username',
                     'title_ru:ntext',
+
 //                    'title_uz:ntext',
 //                    'title_en:ntext',
                     //'razdel',

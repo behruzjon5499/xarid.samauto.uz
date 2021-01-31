@@ -31,6 +31,14 @@ $this->params['breadcrumbs'][] = $this->title;
         'model' => $model,
         'attributes' => [
             'id',
+            [
+                'attribute' => 'file',
+                'label' => 'File',
+                'value' => function ($model) {
+                    return Html::a('Download The File',  '../../uploads/document/' . $model->file, ['class' => 'btn btn-primary', 'download'=>'']);
+                },
+                'format' => 'raw',
+            ],
             'title_ru:ntext',
             'title_uz:ntext',
             'title_en:ntext',

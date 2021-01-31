@@ -27,26 +27,26 @@ use yii\widgets\ActiveForm;
             <div class="tab-content">
                 <br>
                 <div role="tabpanel" class="tab-pane active" id="ru">
-                    <?= $form->field($model, 'title_ru')->textInput(['maxlength' => true])->label('title ru') ?>
+                    <?= $form->field($model, 'title_ru')->textInput(['maxlength' => true])->label('Заголовок Ru') ?>
                     <?= $form->field($model, 'address_ru')->widget(CKEditor::class, [
                         'editorOptions' => ElFinder::ckeditorOptions('elfinder', [
                             'language' => 'ru',
                         ])
-                    ])->label('Address') ?>
+                    ])->label('Адрес Ru') ?>
                 </div>
                 <div role="tabpanel" class="tab-pane" id="uz">
-                    <?= $form->field($model, 'title_uz')->textInput(['maxlength' => true])->label('title uz') ?>
+                    <?= $form->field($model, 'title_uz')->textInput(['maxlength' => true])->label('Заголовок Uz') ?>
                     <?= $form->field($model, 'address_uz')->widget(CKEditor::class, [
                         'editorOptions' => ElFinder::ckeditorOptions('elfinder', [
                                 'language' => 'uz'])
-                    ])->label('Address') ?>
+                    ])->label('Адрес Uz') ?>
                 </div>
                 <div role="tabpanel" class="tab-pane" id="en">
-                    <?= $form->field($model, 'title_en')->textInput(['maxlength' => true])->label('title en') ?>
+                    <?= $form->field($model, 'title_en')->textInput(['maxlength' => true])->label('Заголовок Eng') ?>
                     <?= $form->field($model, 'address_en')->widget(CKEditor::class, [
                         'editorOptions' => ElFinder::ckeditorOptions('elfinder', [
                                 'language' => 'en'])
-                    ])->label('Address') ?>
+                    ])->label('Адрес Eng') ?>
                 </div>
             </div>
         </div>

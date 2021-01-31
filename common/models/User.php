@@ -17,12 +17,15 @@ use yii\web\IdentityInterface;
  * @property string $verification_token
  * @property string $email
  *  @property integer $role
- *  * @property string $phone
- *  * @property string $title_company
+ *  @property string $phone
+ *  @property string $title_company
  * @property string $email_company
  *  @property integer $address_company
  * @property string $sertifacation
  * @property string $litsenziya
+ * @property string $table_number
+ * @property string $copy_passport
+ * @property string $jis_yur
  * @property string $auth_key
  * @property string $again_password
  * @property integer $status
@@ -40,16 +43,14 @@ class User extends ActiveRecord implements IdentityInterface
     const USER = 3;
     const GUEST = 0;
     const STATUS_DELETED = 0;
-    const STATUS_INACTIVE = 3;
+    const STATUS_INACTIVE = 10;
     const STATUS_ACTIVE = 10;
     public $password = '';
-    public $file;
-//    public $username;
-//    public $phone;
-//    public $email;
-//    public $company_id;
+        public $file;
     public $file1;
-
+    public $file2;
+    const SCENARIO_SIGNUP2 = 'signup2';
+    const SCENARIO_SIGNUP = 'signup';
     /**
      * {@inheritdoc}
      */
@@ -74,14 +75,26 @@ class User extends ActiveRecord implements IdentityInterface
     public function rules()
     {
         return [
-            [['username', 'email', 'password', 'phone', 'inn', 'title_company', 'email_company', 'phone_company', 'address_company'], 'required'],
-            [['username', 'email', 'phone', 'inn', 'title_company', 'email_company', 'phone_company'], 'string', 'max' => 255],
+            [['username', 'email', 'password', 'phone', 'inn', 'title_company', 'email_company', 'phone_company', 'address_company','jis_yur'], 'required','when' => function($model) {
+        return $model->jis_yur == 1;
+    }],
+            [['username', 'email', 'password', 'phone', 'inn','jis_yur','table_number'], 'required','when' => function($model) {
+                return $model->jis_yur == 2;
+            }],
+            [['username', 'email', 'phone', 'inn', 'title_company', 'email_company', 'phone_company','jis_yur'], 'string', 'max' => 255],
             ['status', 'default', 'value' => self::STATUS_INACTIVE],
             ['status', 'in', 'range' => [self::STATUS_ACTIVE, self::STATUS_INACTIVE, self::STATUS_DELETED]],
             [['check'], 'required'],
             [['check'], 'compare', 'compareValue' => 1, 'message'=>'Please check this'],
-            [['file'], 'file', 'skipOnEmpty' => false, 'extensions' => 'doc, docx, xls, xlsx, pdf','maxSize'=>1024 * 1024 * 5, 'message'=>'Not more than 10MB'],
-            [['file1'], 'file', 'skipOnEmpty' => false, 'extensions' => 'doc, docx, xls, xlsx, pdf', 'maxSize'=>1024 * 1024 * 5, 'message'=>'Not more than 10MB']
+            [['file'], 'file', 'skipOnEmpty' => false, 'extensions' => 'doc, docx, xls, xlsx, pdf','maxSize'=>1024 * 1024 * 5, 'message'=>'Not more than 10MB','when' => function($model) {
+                return $model->jis_yur == 1;
+            }],
+            [['file1'], 'file', 'skipOnEmpty' => false, 'extensions' => 'doc, docx, xls, xlsx, pdf', 'maxSize'=>1024 * 1024 * 5, 'message'=>'Not more than 10MB','when' => function($model) {
+                return $model->jis_yur == 1;
+            }],
+            [['file2'], 'file', 'skipOnEmpty' => false, 'extensions' => 'doc, docx, xls, xlsx, pdf','maxSize'=>1024 * 1024 * 5, 'message'=>'Not more than 10MB','when' => function($model) {
+                return $model->jis_yur == 2;
+            }],
         ];
     }
 
@@ -115,7 +128,7 @@ class User extends ActiveRecord implements IdentityInterface
     }
     public static function findByUsername($username)
     {
-        return static::findOne(['username' => $username, 'status' => self::STATUS_ACTIVE]);
+        return static::findOne(['username' => $username, 'status' => self::STATUS_ACTIVE ,'role' => 1]);
     }
     /**
      * Finds user by password reset token
@@ -234,6 +247,40 @@ class User extends ActiveRecord implements IdentityInterface
         $this->verification_token = Yii::$app->security->generateRandomString() . '_' . time();
     }
 
+    public function attributeLabels()
+    {
+        return [
+            'id' => Yii::t('app', 'ID'),
+            'username' => Yii::t('app', 'Имя пользователя'),
+            'email' => Yii::t('app', 'Электронная почта'),
+            'phone' => Yii::t('app', 'Телефон'),
+            'title_company' => Yii::t('app', 'Компания'),
+            'razdel' => Yii::t('app', 'Razdel'),
+            'role' => Yii::t('app', 'Роль'),
+            'obyom' => Yii::t('app', 'Obyom'),
+            'inn' => Yii::t('app', 'ИНН'),
+            'email_company' => Yii::t('app', 'Электронная почта компании'),
+            'phone_company' => Yii::t('app', 'Телефон компании'),
+            'address_company' => Yii::t('app', 'Адрес компании'),
+            'sertifacation' => Yii::t('app', 'Сертификат'),
+            'litsenziya' => Yii::t('app', 'Лицензия'),
+            'copy_passport' => Yii::t('app', ' Копия паспорта'),
+            'company_id' => Yii::t('app', 'Company ID'),
+            'address_ru' => Yii::t('app', 'Address Ru'),
+            'zametka' => Yii::t('app', 'Заметка'),
+            'table_number' => Yii::t('app', 'Табельный номер'),
+            'table_number' => Yii::t('app', 'Табельный номер'),
+            'address_en' => Yii::t('app', 'Address En'),
+            'start_price' => Yii::t('app', 'Start Price'),
+            'next_price' => Yii::t('app', 'Next Price'),
+            'start_date' => Yii::t('app', 'Start Date'),
+            'end_date' => Yii::t('app', 'End Date'),
+            'created_at' => Yii::t('app', 'Добавлено'),
+            'updated_at' => Yii::t('app', 'Обновлено'),
+            'end_date' => Yii::t('app', 'End Date'),
+            'status' => Yii::t('app', 'Статус'),
+        ];
+    }
     /**
      * Removes password reset token
      */
@@ -280,6 +327,21 @@ class User extends ActiveRecord implements IdentityInterface
             return false;
         }
     }
+    public function upload1()
+    {
+        if ($this->validate()) {
+            $name2 = $this->file2->baseName . '_' . Yii::$app->security->generateRandomString(5) . '.' . $this->file2->extension;
+            if ($this->copy_passport !== null && !empty($this->copy_passport)) {
+                unlink(Yii::getAlias('@frontend').'/web/uploads/passport/' . $this->copy_passport);
+            }
+            $this->copy_passport = $name2;
+            $this->file2->saveAs(Yii::getAlias('@frontend').'/web/uploads/passport/' . $name2);
+
+            return true;
+        } else {
+            return false;
+        }
+    }
     public function getRole()
     {
         return User::find()->where(['id'=> \Yii::$app->user->getId()])->one();
@@ -296,5 +358,16 @@ class User extends ActiveRecord implements IdentityInterface
     {
         return $this->role === self::USER;
     }
-
+    public function isGuest()
+    {
+        return $this->role === self::GUEST;
+    }
+    public function getUserAuctions()
+    {
+        return $this->hasMany(UserAuctions::className(), ['user_id' => 'id']);
+    }
+    public function getOrderUser()
+    {
+        return $this->hasMany(OrderUser::className(), ['email' => 'id']);
+    }
 }

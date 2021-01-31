@@ -18,7 +18,7 @@ class AuctionsSearch extends Auctions
     {
         return [
             [['id', 'user_id', 'company_id', 'status'], 'integer'],
-            [['title_ru', 'title_uz', 'title_en', 'file', 'obyom', 'address', 'start_price', 'start_date', 'end_date', 'description_ru', 'description_uz', 'description_en', 'phone', 'email', 'inn', 'mfo', 'account_number', 'bank'], 'safe'],
+            [['title_ru', 'title_uz', 'title_en', 'file', 'obyom', 'address', 'start_price', 'start_date', 'end_date', 'description_ru', 'description_uz', 'description_en', 'phone', 'email'], 'safe'],
         ];
     }
 
@@ -77,12 +77,7 @@ class AuctionsSearch extends Auctions
             ->andFilterWhere(['like', 'description_uz', $this->description_uz])
             ->andFilterWhere(['like', 'description_en', $this->description_en])
             ->andFilterWhere(['like', 'phone', $this->phone])
-            ->andFilterWhere(['like', 'email', $this->email])
-            ->andFilterWhere(['like', 'inn', $this->inn])
-            ->andFilterWhere(['like', 'mfo', $this->mfo])
-            ->andFilterWhere(['like', 'account_number', $this->account_number])
-            ->andFilterWhere(['like', 'bank', $this->bank]);
-
+            ->andFilterWhere(['like', 'email', $this->email]);
         return $dataProvider;
     }
 }

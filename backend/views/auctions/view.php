@@ -22,6 +22,13 @@ $this->params['breadcrumbs'][] = $this->title;
                 'method' => 'post',
             ],
         ]) ?>
+
+        <?php if ($model->isWait()):?>
+            <?= Html::a(Yii::t('app', 'Активный'), ['active', 'id' => $model->id], ['class' => 'btn btn-primary']) ?>
+        <?php endif; ?>
+        <?php if($model->isActive()): ?>
+            <?= Html::a(Yii::t('app', 'В ожидании'), ['wait', 'id' => $model->id], ['class' => 'btn btn-primary']) ?>
+        <?php endif; ?>
     </p>
 
     <?= DetailView::widget([
@@ -32,23 +39,31 @@ $this->params['breadcrumbs'][] = $this->title;
             'title_ru:ntext',
             'title_uz:ntext',
             'title_en:ntext',
-            'file',
+           [
+                'attribute' => 'file',
+                'label' => 'File',
+                'value' => function ($model) {
+                    return Html::a('Download The File',  '../../uploads/auctions/' . $model->file, ['class' => 'btn btn-primary', 'download'=>'']);
+                },
+                'format' => 'raw',
+            ],
             'obyom',
-            'company_id',
+//            'size_obyom',
+            'company.title_ru',
             'address',
             'start_price',
-            'start_date',
-            'end_date',
+            'start_date:date',
+            'end_date:date',
             'description_ru:ntext',
             'description_uz:ntext',
             'description_en:ntext',
             'phone',
             'email:email',
-            'inn',
-            'mfo',
-            'account_number',
-            'bank',
-            'status',
+            [
+                'attribute' => 'status',
+                'value' => \common\helpers\AuctionsHelper::statusLabel($model->status),
+                'format' => 'raw',
+            ],
         ],
     ]) ?>
 

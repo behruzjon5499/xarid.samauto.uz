@@ -7,13 +7,13 @@ use yii\grid\GridView;
 /* @var $searchModel common\models\QuestionAnswerSearch */
 /* @var $dataProvider yii\data\ActiveDataProvider */
 
-$this->title = Yii::t('app', 'Question Answers');
+//$this->title = Yii::t('app', 'Добавить FAQ');
 $this->params['breadcrumbs'][] = $this->title;
 ?>
 <div class="question-answer-index">
 
     <p>
-        <?= Html::a(Yii::t('app', 'Create'), ['create'], ['class' => 'btn btn-success']) ?>
+        <?= Html::a(Yii::t('app', 'Добавить FAQ'), ['create'], ['class' => 'btn btn-success']) ?>
     </p>
 
     <?php // echo $this->render('_search', ['model' => $searchModel]); ?>

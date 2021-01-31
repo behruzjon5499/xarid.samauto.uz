@@ -486,9 +486,9 @@ select.filter-input {
 	background-color: #C62829;
 	color: #fff;
 	padding: 15px;
-	font-weight: 600;
+	font-weight: 500;
 	text-align: center;
-	font-size: 22px;
+	font-size: 18px;
 }
 .login-page .content {
 	display: flex;
@@ -500,7 +500,7 @@ select.filter-input {
 	margin-bottom: 7px;
 }
 .login-page .content label {
-	margin-bottom: 15px;
+	/*margin-bottom: 15px;*/
 }
 .login-page button {
 	background-color: rgba(0,0,0,0.2);
@@ -528,7 +528,7 @@ select.filter-input {
 	width: 100%;
 	height: calc(1.5em + .75rem + 2px);
 	padding: .375rem .75rem;
-	font-size: 1rem;
+	/*font-size: 1rem;*/
 	font-weight: 400;
 	line-height: 1.5;
 	color: #495057;
@@ -556,6 +556,7 @@ select.filter-input {
 .oferta {
 	display: flex;
 	justify-content: flex-start;
+	align-items: center;
 	margin-bottom: 20px;
 	margin-top: 20px;
 }
@@ -563,6 +564,11 @@ select.filter-input {
 	width: 20px;
 	height: 20px;
 	margin-right: 15px;
+}
+.oferta input[type="checkbox"] {
+	width: 16px;
+	height: 16px;
+	margin-right: 6px;
 }
 #oferta .modal-body p {
 	font-size: 16px;
@@ -825,7 +831,7 @@ a.download {
 
 .timer li {
 	display: inline-block;
-	font-size: 1em;
+	/*font-size: 1em;*/
 	list-style-type: none;
 	padding: 1em;
 	text-transform: uppercase;
@@ -945,11 +951,13 @@ a.btn_1, .btn_1 {
 	border: 1px solid #e1e8ed;
 }
 .order-card h1 {
+	color: black;
+	font-size: 30px;
 	font-weight: 300;
-	font-size: 20px;
+	/*font-size: 20px;*/
 	/*font-size: 1.25rem;*/
 	text-align: center;
-	color: #555;
+	/*color: #555;*/
 	margin-bottom: 25px;
 }
 .order-card header p {
@@ -1022,4 +1030,16 @@ a.btn_1, .btn_1 {
 	max-width: 300px;
 	color: #28a745!important;
 	text-align: center !important;
+}
+.select-type {
+	display: flex;
+	padding-top: 50px;
+	margin: 0 auto;
+	justify-content: center;
+}
+.select-type .select-item:first-child {
+	margin-right: 20px;
+}
+.d-none {
+	display: none;
 }

@@ -7,14 +7,14 @@ use yii\helpers\Html;
 /* @var $searchModel common\models\AuctionsSearch */
 /* @var $dataProvider yii\data\ActiveDataProvider */
 
-$this->title = Yii::t('app', 'Auctions');
+$this->title = Yii::t('app', 'Добавить Аукционы');
 $this->params['breadcrumbs'][] = $this->title;
 ?>
 <div class="auctions-index">
 
 
     <p>
-        <?= Html::a(Yii::t('app', 'Create'), ['create'], ['class' => 'btn btn-success']) ?>
+        <?= Html::a(Yii::t('app', 'Добавить'), ['create'], ['class' => 'btn btn-success']) ?>
     </p>
 
     <?php // echo $this->render('_search', ['model' => $searchModel]); ?>
@@ -24,10 +24,10 @@ $this->params['breadcrumbs'][] = $this->title;
                 'dataProvider' => $dataProvider,
                 'filterModel' => $searchModel,
                 'columns' => [
-                    ['class' => 'yii\grid\SerialColumn'],
+//                    ['class' => 'yii\grid\SerialColumn'],
 
                     'id',
-                    'user_id',
+                    'user.username',
                     'title_ru:ntext',
 //                    'title_uz:ntext',
 //                    'title_en:ntext',
@@ -36,7 +36,7 @@ $this->params['breadcrumbs'][] = $this->title;
                     //'company_id',
                     //'address',
                     'start_price',
-                    'start_date',
+                    'start_date:date',
                     //'end_date',
                     //'description_ru:ntext',
                     //'description_uz:ntext',

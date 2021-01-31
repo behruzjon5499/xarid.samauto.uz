@@ -5,6 +5,7 @@ use kartik\datetime\DateTimePicker;
 use yii\helpers\Html;
 use yii\widgets\ActiveForm;
 
+\backend\assets\AppAsset::register($this);
 /* @var $this yii\web\View */
 /* @var $model common\models\Auctions */
 /* @var $form yii\widgets\ActiveForm */
@@ -65,9 +66,22 @@ use yii\widgets\ActiveForm;
                     <span class="clearfix"></span>
                     <div class="row">
                         <div class="col-md-6">
+<div class="row">
+    <div class="col-md-9">  <?= $form->field($model, 'obyom')->textInput(['maxlength' => true]) ?></div>
+    <div class="col-md-3">  <?= $form->field($model, "size_obyom")
+            ->dropDownList([
+                "1" => "штук",
+                "2" => "тонна",
+                "3" => "кг",
+            ],
+                $param = ['options' => [$model->isNewRecord ? 1 : $model->size_obyom => ['Selected' => true]]]
+            );
+        ?>
 
-                            <?= $form->field($model, 'obyom')->textInput(['maxlength' => true]) ?>
-
+    </div>
+</div>
+                        </div>
+                        <div class="col-md-6">
                             <?= $form->field($model, 'company_id')->dropDownList(
                                 \yii\helpers\ArrayHelper::map(
                                     Companies::find()->all(),
@@ -75,8 +89,6 @@ use yii\widgets\ActiveForm;
                                     'title_ru'
                                 )
                             ) ?>
-                        </div>
-                        <div class="col-md-6">
                             <?= $form->field($model, 'start_price')->textInput(['maxlength' => true]) ?>
 
                             <?php
@@ -107,6 +119,7 @@ use yii\widgets\ActiveForm;
                                     ]
                                 ]);
                             ?>
+
 
                         </div>
 
@@ -172,11 +185,11 @@ use yii\widgets\ActiveForm;
                     <div class="nav-tabs-custom">
 
                         <div class="col-md-6 form-group">
-                            <div>Загрузить файл с характеристиками</div>
+<!--                            <div>Загрузить файл с характеристиками</div>-->
 
-                            <button class="btn btn-success img_file">Загрузить файл</button>
-                            <div id="image-preview" style="display:none">
-                                <?= $form->field($model, 'file1')->fileInput(['class'=> 'file','id'=> 'img_file'])->label( false) ?>
+<!--                            <button class="btn btn-success img_file">Загрузить файл</button>-->
+                            <div id="image-preview">
+                                <?= $form->field($model, 'file1')->fileInput(['class'=> 'file','id'=> 'img_file']) ?>
                             </div>
 
                             <?php if( $model->file != '' ){ ?>
@@ -202,18 +215,9 @@ use yii\widgets\ActiveForm;
 
                 <?= $form->field($model, 'address')->textInput(['rows' => 6]) ?>
 
-                <?= $form->field($model, 'inn')->textInput(['rows' => 6]) ?>
-
-                <?= $form->field($model, 'mfo')->textInput(['rows' => 6]) ?>
-
                 <?= $form->field($model, 'phone')->textInput(['maxlength' => true]) ?>
             </div>
             <div class="col-md-6">
-
-                <?= $form->field($model, 'account_number')->textInput(['rows' => 6]) ?>
-
-                <?= $form->field($model, 'bank')->textInput(['rows' => 6]) ?>
-
 
                 <?= $form->field($model, 'email')->textInput(['maxlength' => true]) ?>
 

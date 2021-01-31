@@ -118,6 +118,36 @@ use yii\widgets\ActiveForm;
         </div>
     </div>
 
+<div class="row">
+    <div class="col-md-6">
+        <div class="col-md-6">
+            <!-- Custom Tabs -->
+            <div class="nav-tabs-custom">
+
+                <div class="col-md-6 form-group">
+                    <div id="image-preview" >
+                        <?= $form->field($model, 'file1')->fileInput(['class'=> 'file','id'=> 'img_file'])->label( false) ?>
+                    </div>
+
+                    <?php if( $model->file != '' ){ ?>
+
+                        <img width="150px" src="/uploads/file.png">
+                        <button class="btn btn-danger remove-file" data-id="<?=$model->id ?>">Удалить файл</button>
+
+                    <?php } ?>
+                </div>
+                <div class="clearfix"></div>
+                <?if(!$model->isNewRecord):?>
+                    <?= Html::a($model->file, ['../../uploads/orders/' . $model->file,], ['class' => 'btn btn-primary', 'style' => 'margin-bottom: 10px;']) ?>
+                <?endif;?>
+
+            </div>
+
+        </div>
+    </div>
+    <div class="col-md-6"></div>
+</div>
+
 
 
     <div class="form-group">

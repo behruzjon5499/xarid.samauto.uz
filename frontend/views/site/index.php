@@ -2,6 +2,10 @@
 
 /* @var $this yii\web\View */
 /* @var $model1 User */
+/* @var $count \common\models\Auctions */
+/* @var $counts \common\models\Auctions */
+/* @var $count_order \common\models\Orders */
+/* @var $counts_order \common\models\Orders */
 use common\helpers\TextHelper;
 use common\helpers\LangHelper;
 use common\models\Companies;
@@ -41,14 +45,14 @@ if (Yii::$app->session->hasFlash('success')): ?>
             <div  class="buy-sale_text">
                 <div class="buy-sale_bg"></div>
                 <img src="/img/buy.png">
-                <h1><?= LangHelper::t("Конкурсы на закупки", "Конкурсы на закупки", "Конкурсы на закупки"); ?></h1>
+                <h1><?= LangHelper::t("Конкурсы на закупки", "Xarid uchun tenderlar", " Contests for purchases"); ?></h1>
     </div>
         </a>
         <a href="<?= yii\helpers\Url::to(['auctions/index']) ?>" style="background-image: url('/img/2.png');">
             <div  class="buy-sale_text">
                 <div class="buy-sale_bg"></div>
                 <img src="/img/sell.png">
-                <h1><?= LangHelper::t("Конкурсы на продажи", "Конкурсы на продажи", "Конкурсы на продажи"); ?></h1>
+                <h1><?= LangHelper::t("Конкурсы на продажи", "Onlayn savdolar", "Contests for sale"); ?></h1>
             </div>
         </a>
     </div>
@@ -57,10 +61,10 @@ if (Yii::$app->session->hasFlash('success')): ?>
             <section class="order-use">
                 <div class="flex-1">
                     <a href="#">
-                        <h1><?= LangHelper::t("Порядок пользования", "Порядок пользования", "Порядок пользования"); ?> <br><?= LangHelper::t("порталом", "порталом", "порталом"); ?></h1>
+                        <h1><?= LangHelper::t("Порядок пользования порталом", "Portaldan foydalanish tartibi", "Order of use of the portal"); ?> <br></h1>
                     </a>
                     <a href="<?= yii\helpers\Url::to(['document/index']) ?>" class="ButtonBox_2" style="margin-top: 12px">
-                        <?= LangHelper::t("перейти", "перейти", "перейти"); ?>
+                        <?= LangHelper::t("ПЕРЕЙТИ", "O'TISH", "GO TO"); ?>
                         <svg viewBox="0 0 16 14" width="100%" height="100%">
                             <path d="M9.8.5H8.2l5.6 5.9H.1v1.2h13.7l-5.6 5.9h1.6L15.9 7z"></path>
                         </svg>
@@ -71,19 +75,19 @@ if (Yii::$app->session->hasFlash('success')): ?>
                         <section>
                             <img src="/img/b2.svg">
                         </section>
-                        <span>   <?= LangHelper::t("Зарегистрироваться", "Ro'yxatdan o'tish", "Sign up"); ?>  </span>
+                        <span>   <?= LangHelper::t("Зарегистрироваться", "Ro'yxatdan o'ting ", "Register"); ?>  </span>
                     </li>
                     <li>
                         <section>
                             <img src="/img/b1.svg">
                         </section>
-                        <span>Участвовать</span>
+                        <span> <?= LangHelper::t("Участвовать", "Qatnashing", "Participate"); ?> </span>
                     </li>
                     <li>
                         <section>
                             <img src="/img/b3.svg">
                         </section>
-                        <span><?= LangHelper::t("Выиграть", "Выиграть", "Выиграть"); ?> </span>
+                        <span><?= LangHelper::t("Выиграть", " G'olib bo'ling", "Win"); ?> </span>
                     </li>
                 </ul>
             </section>
@@ -94,27 +98,27 @@ if (Yii::$app->session->hasFlash('success')): ?>
         <div class="line_top"></div>
         <div class="mb_parallax_overlay" style="z-index: 2;position: relative;">
             <h1>
-                29
+                <?= $count ?>
                 <p>
-                    <?= LangHelper::t("Активные конкурсы", "Активные конкурсы", "Активные конкурсы"); ?>
+                    <?= LangHelper::t("Активные конкурсы", " Faol tenderlar", "Active contests"); ?>
                 </p>
             </h1>
             <h1>
-                1851
+                <?= $counts ?>
                 <p>
-                    <?= LangHelper::t("Все конкурсы", "Все конкурсы", "Все конкурсы"); ?>
+                    <?= LangHelper::t("Все конкурсы", "Barcha tenderlar", "All contests"); ?>
                 </p>
             </h1>
             <h1>
-                0
+                <?= $count_order ?>
                 <p>
-                    <?= LangHelper::t("Активные аукционы", "Активные аукционы", "Активные аукционы"); ?>
+                    <?= LangHelper::t("Активные продажи ", " Faol savdolar", "Active sales"); ?>
                 </p>
             </h1>
             <h1>
-                2597
+                <?= $counts_order ?>
                 <p>
-                    <?= LangHelper::t("Все аукционы", "Все аукционы", "Все аукционы"); ?>
+                    <?= LangHelper::t("Все продажи", " Barcha savdolar", "All sales "); ?>
                 </p>
             </h1>
         </div>
@@ -125,13 +129,13 @@ if (Yii::$app->session->hasFlash('success')): ?>
             <a href="<?= yii\helpers\Url::to(['question/index']) ?>">
                 <div class="faq-item">
                     <img src="/img/f1.png">
-                    <p> <?= LangHelper::t("Часто задаваемые", "Часто задаваемые", "Часто задаваемые"); ?>          <span> <?= LangHelper::t("вопросы", "вопросы", "вопросы"); ?></span></p>
+                    <p> <?= LangHelper::t("Часто задаваемые ", "Ko'p so'raladigan ", "Frequently asked "); ?>   <span> <?= LangHelper::t("вопросы", "savollar", "questions"); ?></span> </p>
                 </div>
             </a>
             <a href="<?= yii\helpers\Url::to(['feedback/create']) ?>">
                 <div class="faq-item">
                     <img src="/img/f2.png">
-                    <p> <?= LangHelper::t("Спрашивайте", "Спрашивайте", "Спрашивайте"); ?>   <span> <?= LangHelper::t("отвечаем", "отвечаем", "отвечаем"); ?> </span></p>
+                    <p> <?= LangHelper::t("Спрашивайте ", " Savol bering", "Ask we"); ?>  <span> <?= LangHelper::t("отвечаем", "javob beramiz", "answer"); ?> </span></p>
                 </div>
             </a>
         </div>
@@ -174,7 +178,7 @@ if (Yii::$app->session->hasFlash('success')): ?>
     <div class="modal-dialog" role="document">
         <div class="modal-content">
             <div class="modal-header">
-                <h5 class="modal-title" id="exampleModalLabel"><?= LangHelper::t("Паролни ўзгартириш", "Паролни ўзгартириш", "Паролни ўзгартириш"); ?> </h5>
+                <h5 class="modal-title" id="exampleModalLabel"><?= LangHelper::t("Изменить пароль", "Паролни ўзгартириш", "Change password"); ?> </h5>
                 <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                     <span aria-hidden="true">&times;</span>
                 </button>

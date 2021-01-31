@@ -43,12 +43,12 @@ class QuestionAnswer extends \yii\db\ActiveRecord
     {
         return [
             'id' => Yii::t('app', 'ID'),
-            'question_ru' => Yii::t('app', 'Question Ru'),
-            'question_uz' => Yii::t('app', 'Question Uz'),
-            'question_en' => Yii::t('app', 'Question En'),
-            'answer_ru' => Yii::t('app', 'Answer Ru'),
-            'answer_uz' => Yii::t('app', 'Answer Uz'),
-            'answer_en' => Yii::t('app', 'Answer En'),
+            'question_ru' => Yii::t('app', 'Вопрос Ru'),
+            'question_uz' => Yii::t('app', 'Вопрос Uz'),
+            'question_en' => Yii::t('app', 'Вопрос Eng'),
+            'answer_ru' => Yii::t('app', 'Ответ Ru'),
+            'answer_uz' => Yii::t('app', 'Ответ Uz'),
+            'answer_en' => Yii::t('app', 'Ответ Eng'),
         ];
     }
 }

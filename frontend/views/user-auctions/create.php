@@ -7,6 +7,7 @@ use yii\widgets\ActiveForm;
 
 /* @var $auction Auctions
  * @var $auction Auctions
+ * @var $next_price Auctions
  */
 
 $this->title = 'Xarid | Samauto.uz';
@@ -43,20 +44,13 @@ $material = 'material_' . $lang;
         ]); ?>
 
             <div class="create-item">
-                <p>Предложенная сумма</p>
-                <?= $form->field($model, 'price')->textInput(['rows' => 6,'min'=> '0', 'class' => 'form-item form-control', 'placeholder' => Yii::t('app', 'Тыс. сум')])->label(false); ?>
+                <p><?= LangHelper::t("Предложенная сумма", "Taklif qilingan narx", "Amount offered"); ?></p>
+                <?= $form->field($model, 'price')->textInput(['rows' => 6,'min'=> '0', 'readonly'=>'readonly','class' => 'form-item form-control', 'value' =>$next_price , 'placeholder' => LangHelper::t("сум", "so'm", "sum")])->label(false); ?>
 
             </div>
-            <div class="create-item">
-                <p>Коммерческое предложение</p>
-                <?= $form->field($model, 'file1')->fileInput(['class'=>'form-item form-control'])->label(false) ?>
-                     </div>
-
-
         <div class="create-footer">
-            <?= Html::submitButton(Yii::t('app', 'Submit'), ['class' => 'btn-save']) ?>
-<!--                <button class="btn-save" type="button" onclick="location.href='my-tenders.html'"><i class="fa fa-floppy-o"></i>Сохранить</button>-->
-                <button class="btn-cancel" type="button" onclick="location.href='order-item.html'"><i class="fa fa-ban"></i>Отмена</button>
+            <?= Html::submitButton(LangHelper::t("Разместить", "Joylashtirish", "Place"), ['class' => 'btn-save']) ?>
+                <button class="btn-cancel" type="button" onclick="location.href='order-item.html'"><i class="fa fa-ban"></i><?= LangHelper::t("Отмена", "Bekor qilish", "Cancel"); ?></button>
             </div>
 
         <?php ActiveForm::end(); ?>
@@ -65,9 +59,8 @@ $material = 'material_' . $lang;
 
 <div class="site_bread">
     <div class="centerBox">
-        <a href="index.html">ГЛАВНАЯ</a>
-        <a href="order.html">Конкурсы на закупки</a>
-        <span>Мои тендеры</span>
+        <a href="<?= yii\helpers\Url::to(['site/index']) ?>"><?= LangHelper::t("Главная", "Bosh sahifa", "Homepage"); ?></a>
+        <span> <?= LangHelper::t("Конкурсы на продажи", "Onlayn savdolar", "Contests for sale"); ?></span>
     </div>
 </div>
 

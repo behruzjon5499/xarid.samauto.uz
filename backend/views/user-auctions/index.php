@@ -8,14 +8,14 @@ use yii\grid\GridView;
 /* @var $searchModel common\models\UserAuctionsSearch */
 /* @var $dataProvider yii\data\ActiveDataProvider */
 
-$this->title = Yii::t('app', 'User Auctions');
+$this->title = Yii::t('app', 'Участники аукционов');
 $this->params['breadcrumbs'][] = $this->title;
 ?>
 <div class="user-auctions-index">
 
 
     <p>
-        <?= Html::a(Yii::t('app', 'Create'), ['create'], ['class' => 'btn btn-success']) ?>
+        <?= Html::a(Yii::t('app', 'Добавить'), ['create'], ['class' => 'btn btn-success']) ?>
     </p>
 
     <?php // echo $this->render('_search', ['model' => $searchModel]); ?>

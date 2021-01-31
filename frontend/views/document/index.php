@@ -27,9 +27,19 @@ $material = 'material_' . $lang;
 
 <div class="simplePage section-gap">
     <div class="small_container">
-        <div class="mTitle">
-            <?= LangHelper::t("Инструкция", "Инструкция", "Инструкция"); ?>
+        <div class="row">
+            <div class="col-md-4"> <div class="mTitle" style="display: inline;">
+                    <?= LangHelper::t("Инструкция", "Yo'riqnoma ", "Instruction"); ?>
+                </div></div>
+            <div class="col-md-4"></div>
+            <div class="col-md-4">  <div class="item" style="text-align: right; display: inline;">
+                    <a href="../uploads/document/<?=$documents->file?>" style="margin: 0; font-size: 20px;" class="download"><i
+                                class="fa fa-flag mx-1"></i><?= LangHelper::t("Прикрепленный файл", "Biriktirilgan fayl", "Attached file"); ?>
+                    </a>
+                </div></div>
         </div>
+
+
         <div class="content">
             <p>
             <?= $documents->$title ?>
@@ -54,7 +64,7 @@ $material = 'material_' . $lang;
 </div>
 <div class="site_bread">
     <div class="centerBox">
-        <a href="index.html"> <?= LangHelper::t("ГЛАВНАЯ", "ГЛАВНАЯ", "ГЛАВНАЯ"); ?></a>
+        <a href="<?= yii\helpers\Url::to(['site/index']) ?>"><?= LangHelper::t("Главная", "Bosh sahifa", "Homepage"); ?></a>
         <span><?= LangHelper::t("О КОМПАНИИ", "О КОМПАНИИ", "О КОМПАНИИ"); ?></span>
     </div>
 </div>

@@ -14,6 +14,10 @@ use Yii;
  * @property string $description_ru
  * @property string $description_uz
  * @property string $description_en
+ * @property string $mfo
+ * @property string $bank
+ * @property string $account_number
+ * @property string $inn
  *
  * @property Auctions[] $auctions
  */
@@ -33,9 +37,9 @@ class Companies extends \yii\db\ActiveRecord
     public function rules()
     {
         return [
-            [['title_ru', 'title_uz', 'title_en', 'description_ru', 'description_uz', 'description_en'], 'required'],
+            [['title_ru', 'title_uz', 'title_en', 'description_ru', 'description_uz', 'description_en','mfo','bank','account_number','inn'], 'required'],
             [['description_ru', 'description_uz', 'description_en'], 'string'],
-            [['title_ru', 'title_uz', 'title_en'], 'string', 'max' => 255],
+            [['title_ru', 'title_uz', 'title_en','mfo','bank','account_number','inn'], 'string', 'max' => 255],
         ];
     }
 
@@ -46,12 +50,16 @@ class Companies extends \yii\db\ActiveRecord
     {
         return [
             'id' => Yii::t('app', 'ID'),
-            'title_ru' => Yii::t('app', 'Title Ru'),
-            'title_uz' => Yii::t('app', 'Title Uz'),
-            'title_en' => Yii::t('app', 'Title En'),
+            'title_ru' => Yii::t('app', ' Компания  СП ООО "Самаркандский Автомобильный Завод"'),
+            'title_uz' => Yii::t('app', 'Заголовок Uz'),
+            'title_en' => Yii::t('app', 'Заголовок Eng'),
             'description_ru' => Yii::t('app', 'Description Ru'),
             'description_uz' => Yii::t('app', 'Description Uz'),
             'description_en' => Yii::t('app', 'Description En'),
+            'mfo' => Yii::t('app', 'МФО'),
+            'bank' => Yii::t('app', 'Банк'),
+            'account_number' => Yii::t('app', 'Расчётный счёт'),
+            'inn' => Yii::t('app', 'ИНН'),
         ];
     }
 

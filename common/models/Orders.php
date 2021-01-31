@@ -35,10 +35,6 @@ use yii\db\ActiveRecord;
  * @property string|null $contacts_order_ru
  * @property string|null $contacts_order_uz
  * @property string|null $contacts_order_en
- * @property string|null $inn
- * @property string|null $mfo
- * @property string|null $account_number
- * @property string|null $bank
  * @property int $status
  *
  * @property Companies $company
@@ -63,14 +59,14 @@ class Orders extends \yii\db\ActiveRecord
     public function rules()
     {
         return [
-            [['user_id', 'company_id', 'start_date', 'end_date'], 'required'],
+            [['company_id'], 'required'],
             [['user_id', 'company_id', 'status'], 'integer'],
-            [['title_ru', 'title_uz', 'title_en', 'address', 'description_ru', 'description_uz', 'description_en', 'predmet_order_ru', 'predmet_order_uz', 'predmet_order_en', 'delivery_order_ru', 'delivery_order_uz', 'delivery_order_en', 'payment_order_ru', 'payment_order_uz', 'payment_order_en', 'contacts_order_ru', 'contacts_order_uz', 'contacts_order_en', 'inn', 'mfo', 'account_number', 'bank'], 'string'],
+            [['title_ru', 'title_uz', 'title_en', 'address', 'description_ru', 'description_uz', 'description_en', 'predmet_order_ru', 'predmet_order_uz', 'predmet_order_en', 'delivery_order_ru', 'delivery_order_uz', 'delivery_order_en', 'payment_order_ru', 'payment_order_uz', 'payment_order_en', 'contacts_order_ru', 'contacts_order_uz', 'contacts_order_en'], 'string'],
             [['razdel', 'file', 'start_date', 'end_date'], 'string', 'max' => 255],
             [['company_id'], 'exist', 'skipOnError' => true, 'targetClass' => Companies::className(), 'targetAttribute' => ['company_id' => 'id']],
             [['user_id'], 'exist', 'skipOnError' => true, 'targetClass' => User::className(), 'targetAttribute' => ['user_id' => 'id']],
             [['file'], 'string', 'max' => 255],
-            [['file1'], 'file', 'skipOnEmpty' => false, 'extensions' => 'doc, docx, xls, xlsx, pdf']
+            [['file1'], 'file', 'skipOnEmpty' => true, 'extensions' => 'doc, docx, xls, xlsx, pdf,jpeg, png, jpg, gif']
 
         ];
     }
@@ -81,10 +77,9 @@ class Orders extends \yii\db\ActiveRecord
                 'class' => AttributeBehavior::class,
                 'attributes' => [
                     ActiveRecord::EVENT_BEFORE_INSERT => ['start_date'],
-                    ActiveRecord::EVENT_BEFORE_UPDATE => ['start_date'],
                 ],
                 'value' => function() {
-                    return strtotime($this->end_date);
+                    return strtotime($this->start_date);
                 },
 
             ],
@@ -92,7 +87,6 @@ class Orders extends \yii\db\ActiveRecord
                 'class' => AttributeBehavior::class,
                 'attributes' => [
                     ActiveRecord::EVENT_BEFORE_INSERT => ['end_date'],
-                    ActiveRecord::EVENT_BEFORE_UPDATE => ['end_date'],
                 ],
                 'value' => function() {
                     return strtotime($this->end_date);
@@ -107,38 +101,31 @@ class Orders extends \yii\db\ActiveRecord
     {
         return [
             'id' => Yii::t('app', 'ID'),
-            'user_id' => Yii::t('app', 'User ID'),
-            'title_ru' => Yii::t('app', 'Title Ru'),
-            'title_uz' => Yii::t('app', 'Title Uz'),
-            'title_en' => Yii::t('app', 'Title En'),
-            'razdel' => Yii::t('app', 'Razdel'),
-            'file' => Yii::t('app', 'File'),
-            'company_id' => Yii::t('app', 'Company ID'),
+            'user_id' => Yii::t('app', 'Добавил'),
+            'title_ru' => Yii::t('app', 'Заголовок Ru'),
+            'title_uz' => Yii::t('app', 'Заголовок Uz'),
+            'title_en' => Yii::t('app', 'Заголовок Eng'),
+            'razdel' => Yii::t('app', 'Раздел'),
+            'file' => Yii::t('app', 'Файл'),
+            'company_id' => Yii::t('app', 'Компания'),
             'address' => Yii::t('app', 'Address'),
             'start_date' => Yii::t('app', 'Start Date'),
             'end_date' => Yii::t('app', 'End Date'),
-            'description_ru' => Yii::t('app', 'Description Ru'),
-            'description_uz' => Yii::t('app', 'Description Uz'),
-            'description_en' => Yii::t('app', 'Description En'),
-            'predmet_order_ru' => Yii::t('app', 'Predmet Order Ru'),
-            'predmet_order_uz' => Yii::t('app', 'Predmet Order Uz'),
-            'predmet_order_en' => Yii::t('app', 'Predmet Order En'),
-            'delivery_order_ru' => Yii::t('app', 'Delivery Order Ru'),
-            'delivery_order_uz' => Yii::t('app', 'Delivery Order Uz'),
-            'delivery_order_en' => Yii::t('app', 'Delivery Order En'),
-            'payment_order_ru' => Yii::t('app', 'Payment Order Ru'),
-            'payment_order_uz' => Yii::t('app', 'Payment Order Uz'),
-            'payment_order_en' => Yii::t('app', 'Payment Order En'),
-            'contacts_order_ru' => Yii::t('app', 'Contacts Order Ru'),
-            'contacts_order_uz' => Yii::t('app', 'Contacts Order Uz'),
-            'contacts_order_en' => Yii::t('app', 'Contacts Order En'),
-            'price_auction_ru' => Yii::t('app', 'Price Auction Ru'),
-            'price_auction_uz' => Yii::t('app', 'Price Auction Uz'),
-            'price_auction_en' => Yii::t('app', 'Price Auction En'),
-            'inn' => Yii::t('app', 'Inn'),
-            'mfo' => Yii::t('app', 'Mfo'),
-            'account_number' => Yii::t('app', 'Account Number'),
-            'bank' => Yii::t('app', 'Bank'),
+            'description_ru' => Yii::t('app', 'Описание конкурса Ru'),
+            'description_uz' => Yii::t('app', 'Описание конкурса Uz'),
+            'description_en' => Yii::t('app', 'Описание конкурса En'),
+            'predmet_order_ru' => Yii::t('app', ' I. Предмет конкурса Ru'),
+            'predmet_order_uz' => Yii::t('app', 'I. Предмет конкурса Uz Uz'),
+            'predmet_order_en' => Yii::t('app', 'I. Предмет конкурса Uz Eng'),
+            'delivery_order_ru' => Yii::t('app', 'II. Условия поставки Ru'),
+            'delivery_order_uz' => Yii::t('app', 'II. Условия поставки Uz'),
+            'delivery_order_en' => Yii::t('app', 'II. Условия поставки En'),
+            'payment_order_ru' => Yii::t('app', 'III. Условия оплаты  Ru'),
+            'payment_order_uz' => Yii::t('app', 'III. Условия оплаты  Uz'),
+            'payment_order_en' => Yii::t('app', 'III. Условия оплаты  En'),
+            'contacts_order_ru' => Yii::t('app', 'IV. Контакты Ru'),
+            'contacts_order_uz' => Yii::t('app', 'IV. Контакты Uz'),
+            'contacts_order_en' => Yii::t('app', 'IV. Контакты En'),
             'status' => Yii::t('app', 'Status'),
         ];
     }

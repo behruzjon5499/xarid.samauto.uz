@@ -33,11 +33,11 @@ $material = 'material_' . $lang;
 
 <div class="sp-wrapper">
     <div class="container">
-        <div class="mTitle aos-init aos-animate" data-aos="fade-right">Конкурсы на продажи</div>
+        <div class="mTitle aos-init aos-animate" data-aos="fade-right"> <?= LangHelper::t("Конкурсы на продажи", "Onlayn savdolar", "Contests for sale"); ?></div>
         <div class="table_filter d-flex">
             <section class="my-auctions">
-                <a href="my-auction.html">Мои Аукционы: 0</a>
-                <a href="#" style="margin-left: 15px;" data-toggle="modal" data-target="#info_modal">Полезно знать</a>
+                <a href="<?= yii\helpers\Url::to(['auctions/index']) ?>"> <?= LangHelper::t("Мои аукционы", "Mening auksionlarim", "My auctions"); ?></a>
+                <a href="<?= yii\helpers\Url::to(['document/index']) ?>" style="margin-left: 15px;" data-toggle="modal" data-target="#info_modal"><?= LangHelper::t("Полезно знать ", "Bilib olgan yaxshi ", "Good to know"); ?></a>
             </section>
         </div>
 
@@ -46,13 +46,13 @@ $material = 'material_' . $lang;
             <thead>
             <tr>
                 <th>  <?= LangHelper::t("id", "id", "id"); ?></th>
-                <th><?= LangHelper::t("Дата начала", "Дата начала", "Дата начала"); ?></th>
-                <th><?= LangHelper::t("Наименование", "Наименование", "Наименование"); ?></th>
-                <th><?= LangHelper::t("Местонахождение", "Местонахождение", "Местонахождение"); ?></th>
-                <th><?= LangHelper::t("Объем", "Объем", "Объем"); ?></th>
-                <th><?= LangHelper::t("Стартовая цена", "Стартовая цена", "Стартовая цена"); ?></th>
-                <th><?= LangHelper::t("Компания", "Компания", "Компания"); ?> </th>
-                <th><?= LangHelper::t("Дата окончания", "Дата окончания", "Дата окончания"); ?></th>
+                <th><?= LangHelper::t("Дата начала", "Boshlanish sanasi ", "Start date"); ?></th>
+                <th><?= LangHelper::t("Наименование аукциона", " Auksion nomi", " Auction name"); ?></th>
+                <th><?= LangHelper::t("Местонахождение", "Manzil", "Location"); ?></th>
+                <th><?= LangHelper::t("Объем", "Hajmi", "Volume"); ?></th>
+                <th><?= LangHelper::t("Стартовая цена", " Boshlang'ich narx", "Starting price"); ?></th>
+                <th><?= LangHelper::t("Компания", "Kompaniya", "Company"); ?> </th>
+                <th><?= LangHelper::t("Дата окончания", "Tugash muddati", "Expiration date"); ?></th>
             </tr>
             </thead>
             <?php foreach($auctions as $auction):?>
@@ -60,27 +60,17 @@ $material = 'material_' . $lang;
             <tr onclick="location.href='<?= yii\helpers\Url::to(['auctions/view','id'=>$auction->id
             ]) ?>'">
                 <td><?= $auction->id ?></td>
-                <td><?=  $auction->start_date ?></td>
+                <td><?= Yii::$app->formatter->asDate($auction->start_date, 'yyyy-MM-dd'); ?></td>
                 <td><?= $auction->$title ?></td>
                 <td><?= $auction->address ?></td>
                 <td><?= $auction->obyom ?></td>
                 <td><?= $auction->start_price ?></td>
                 <td><?= $auction->company->$title ?></td>
-                <td><?= $auction->end_date ?></td>
+                <td><?= Yii::$app->formatter->asDate($auction->end_date, 'yyyy-MM-dd'); ?></td>
             </tr>
             </tbody>
 
             <?php endforeach;?>
-            <!--         <tfoot>
-                        <tr>
-                            <th>Name</th>
-                            <th>Position</th>
-                            <th>Office</th>  ёёё
-                            <th>Age</th>
-                            <th>Start date</th>
-                            <th>Salary</th>
-                        </tr>
-                    </tfoot> -->
         </table>
 
     </div>
@@ -88,7 +78,7 @@ $material = 'material_' . $lang;
 
 <div class="site_bread">
     <div class="centerBox">
-        <a href="index.html">ГЛАВНАЯ</a>
-        <span>Конкурсы на продажи</span>
+        <a href="<?= yii\helpers\Url::to(['site/index']) ?>"><?= LangHelper::t("Главная", "Bosh sahifa", "Homepage"); ?></a>
+        <span> <?= LangHelper::t("Конкурсы на продажи", "Onlayn savdolar", "Contests for sale"); ?></span>
     </div>
 </div>

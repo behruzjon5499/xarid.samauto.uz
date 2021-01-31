@@ -64,4 +64,9 @@ class Feedback extends \yii\db\ActiveRecord
     {
         return $this->status === self::STATUS_ACTIVE;
     }
+
+    public function getFeedbackSend()
+    {
+        return $this->hasMany(FeedbackSend::className(), ['feedback_id' => 'full_name']);
+    }
 }

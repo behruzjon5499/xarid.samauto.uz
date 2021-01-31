@@ -5,8 +5,8 @@ use yii\helpers\Html;
 /* @var $this yii\web\View */
 /* @var $model common\models\QuestionAnswer */
 
-$this->title = Yii::t('app', 'Create Question Answer');
-$this->params['breadcrumbs'][] = ['label' => Yii::t('app', 'Question Answers'), 'url' => ['index']];
+$this->title = Yii::t('app', 'Добавить FAQ');
+$this->params['breadcrumbs'][] = ['label' => Yii::t('app', 'FAQ'), 'url' => ['index']];
 $this->params['breadcrumbs'][] = $this->title;
 ?>
 <div class="question-answer-create">

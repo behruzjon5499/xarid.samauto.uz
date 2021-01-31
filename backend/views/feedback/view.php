@@ -23,12 +23,14 @@ $this->params['breadcrumbs'][] = $this->title;
                 'method' => 'post',
             ],
         ]) ?>
+        <?= Html::a(Yii::t('app', 'Отправить ответ'), ['feedback-send/create', 'id' => $model->id], ['class' => 'btn btn-primary']) ?>
+
 
         <?php if ($model->isWait()):?>
-            <?= Html::a(Yii::t('app', 'Active'), ['active', 'id' => $model->id], ['class' => 'btn btn-primary']) ?>
+            <?= Html::a(Yii::t('app', 'Активный'), ['active', 'id' => $model->id], ['class' => 'btn btn-primary']) ?>
         <?php endif; ?>
         <?php if($model->isActive()): ?>
-            <?= Html::a(Yii::t('app', 'Wait'), ['wait', 'id' => $model->id], ['class' => 'btn btn-primary']) ?>
+            <?= Html::a(Yii::t('app', ' В ожидании'), ['wait', 'id' => $model->id], ['class' => 'btn btn-primary']) ?>
         <?php endif; ?>
     </p>
 

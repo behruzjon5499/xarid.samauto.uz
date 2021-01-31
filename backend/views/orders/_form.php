@@ -7,6 +7,7 @@ use mihaildev\elfinder\ElFinder;
 use yii\helpers\Html;
 use yii\widgets\ActiveForm;
 
+\backend\assets\AppAsset::register($this);
 /* @var $this yii\web\View */
 /* @var $model common\models\Orders */
 /* @var $form yii\widgets\ActiveForm */
@@ -81,7 +82,7 @@ use yii\widgets\ActiveForm;
 
                             <?php
                             $model->start_date = date('d.m.Y H:i', $model->isNewRecord ? time() : $model->start_date);
-                            echo '<label class="control-label">Start date</label>' . DateTimePicker::widget([
+                            echo '<label class="control-label">Дата начала</label>' . DateTimePicker::widget([
                                     'model' => $model,
                                     'attribute' => 'start_date',
                                     'name' => 'start_date',
@@ -95,7 +96,7 @@ use yii\widgets\ActiveForm;
                             ?>
                             <?php
                             $model->end_date = date('d.m.Y H:i', $model->isNewRecord ? time() : $model->end_date);
-                            echo '<label class="control-label">End date</label>' . DateTimePicker::widget([
+                            echo '<label class="control-label">Дата окончания</label>' . DateTimePicker::widget([
                                     'model' => $model,
                                     'attribute' => 'end_date',
                                     'name' => 'end_date',
@@ -165,7 +166,7 @@ use yii\widgets\ActiveForm;
                             <div class="box-header">
                                 <h4 class="box-title">
                                     <a data-toggle="collapse" data-parent="#accordion" href="#collapseOne" aria-expanded="false" class="collapsed">
-                                      Predmet Orders
+                                        I. Предмет конкурса
                                     </a>
                                 </h4>
                             </div>
@@ -205,7 +206,7 @@ use yii\widgets\ActiveForm;
                             <div class="box-header">
                                 <h4 class="box-title">
                                     <a data-toggle="collapse" data-parent="#accordion" href="#collapse2" aria-expanded="false" class="collapsed">
-                                        Delivery Order
+                                        УСЛОВИЯ ПОСТАВКИ"
                                     </a>
                                 </h4>
                             </div>
@@ -246,7 +247,7 @@ use yii\widgets\ActiveForm;
                             <div class="box-header">
                                 <h4 class="box-title">
                                     <a data-toggle="collapse" data-parent="#accordion" href="#collapse5" aria-expanded="false" class="collapsed">
-                                        Predmet Order
+                                        УСЛОВИЯ ОПЛАТЫ
                                     </a>
                                 </h4>
                             </div>
@@ -290,7 +291,7 @@ use yii\widgets\ActiveForm;
                             <div class="box-header">
                                 <h4 class="box-title">
                                     <a data-toggle="collapse" data-parent="#accordion" href="#collapse1" aria-expanded="false" class="collapsed">
-                                        Contacts Order
+                                        E-mail
                                     </a>
                                 </h4>
                             </div>
@@ -341,10 +342,10 @@ use yii\widgets\ActiveForm;
                 <div class="nav-tabs-custom">
 
                     <div class="col-md-6 form-group">
-                        <div>Загрузить файл с характеристиками</div>
+<!--                        <div>Загрузить файл с характеристиками</div>-->
 
-                        <button class="btn btn-success img_file">Загрузить файл</button>
-                        <div id="image-preview" style="display:none">
+<!--                        <button class="btn btn-success img_file">Загрузить файл</button>-->
+                        <div id="image-preview" >
                             <?= $form->field($model, 'file1')->fileInput(['class'=> 'file','id'=> 'img_file'])->label( false) ?>
                         </div>
 
@@ -357,7 +358,7 @@ use yii\widgets\ActiveForm;
                     </div>
                     <div class="clearfix"></div>
                     <?if(!$model->isNewRecord):?>
-                        <?= Html::a($model->file, ['/uploads/resume/' . $model->file,], ['class' => 'btn btn-primary', 'style' => 'margin-bottom: 10px;']) ?>
+                        <?= Html::a($model->file, ['../../uploads/orders/' . $model->file,], ['class' => 'btn btn-primary', 'style' => 'margin-bottom: 10px;']) ?>
                     <?endif;?>
 
                 </div>
@@ -370,23 +371,6 @@ use yii\widgets\ActiveForm;
             </div>
         </div>
 
-<div class="row">
-    <div class="col-md-6">
-
-        <?= $form->field($model, 'inn')->textInput(['rows' => 6]) ?>
-
-        <?= $form->field($model, 'mfo')->textInput(['rows' => 6]) ?>
-
-    </div>
-    <div class="col-md-6">
-
-        <?= $form->field($model, 'account_number')->textInput(['rows' => 6]) ?>
-
-        <?= $form->field($model, 'bank')->textInput(['rows' => 6]) ?>
-
-
-    </div>
-</div>
         <div class="form-group">
             <?= Html::submitButton(Yii::t('app', 'Save'), ['class' => 'btn btn-success']) ?>
         </div>

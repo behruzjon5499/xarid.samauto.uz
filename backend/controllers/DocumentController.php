@@ -8,26 +8,13 @@ use backend\models\DocumentSearch;
 use yii\web\Controller;
 use yii\web\NotFoundHttpException;
 use yii\filters\VerbFilter;
+use yii\web\UploadedFile;
 
 /**
  * DocumentController implements the CRUD actions for Document model.
  */
 class DocumentController extends Controller
 {
-    /**
-     * {@inheritdoc}
-     */
-    public function behaviors()
-    {
-        return [
-            'verbs' => [
-                'class' => VerbFilter::className(),
-                'actions' => [
-                    'delete' => ['POST'],
-                ],
-            ],
-        ];
-    }
 
     /**
      * Lists all Document models.
@@ -66,7 +53,18 @@ class DocumentController extends Controller
     {
         $model = new Document();
 
-        if ($model->load(Yii::$app->request->post()) && $model->save()) {
+
+        if (Yii::$app->request->isPost && $model->load(Yii::$app->request->post())) {
+            if (!empty($_FILES['Document']['name']['file1'])) {
+                $model->file1 = $_POST['Document']['file1'];
+                $model->file1 = UploadedFile::getInstance($model, 'file1');
+                $model->upload();
+                $model->save(false);
+
+            } else {
+
+                $model->save(false);
+            }
             return $this->redirect(['view', 'id' => $model->id]);
         }
 
@@ -86,9 +84,21 @@ class DocumentController extends Controller
     {
         $model = $this->findModel($id);
 
-        if ($model->load(Yii::$app->request->post()) && $model->save()) {
+
+        if (Yii::$app->request->isPost && $model->load(Yii::$app->request->post())) {
+            if (!empty($_FILES['Document']['name']['file1'])) {
+                $model->file1 = $_POST['Document']['file1'];
+                $model->file1 = UploadedFile::getInstance($model, 'file1');
+                $model->upload();
+                $model->save(false);
+
+            } else {
+
+                $model->save(false);
+            }
             return $this->redirect(['view', 'id' => $model->id]);
         }
+
 
         return $this->render('update', [
             'model' => $model,

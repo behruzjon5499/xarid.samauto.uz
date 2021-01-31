@@ -2,10 +2,13 @@
 
 use common\helpers\LangHelper;
 use common\models\Auctions;
-use common\helpers\LanguageHelper;
+use common\models\UserAuctions;
+use yii\helpers\VarDumper;
 
 /* @var $auction Auctions
  * @var $auctions Auctions
+ * @var $countss Auctions
+ * @var $counts Auctions
  */
 
 $this->title = 'Xarid | Samauto.uz';
@@ -27,7 +30,7 @@ $contacts = 'date_' . $lang;
 $predmet_auction = 'predmet_auction_' . $lang;
 $payments = 'payments_' . $lang;
 $subjects = 'subjects_' . $lang;
-$conditions = 'conditions_'.$lang;
+$conditions = 'conditions_' . $lang;
 $description = 'description_' . $lang;
 $answer = 'answer_' . $lang;
 $signup = 'signup_' . $lang;
@@ -39,55 +42,71 @@ $descr = 'descr_' . $lang;
 $link = 'link_' . $lang;
 $material = 'material_' . $lang;
 
+$_engine['size_obyom'][1] = LangHelper::t("штук", "штук", "штук");
+$_engine['size_obyom'][2] = LangHelper::t("тонна", "тонна", "тонна");
+$_engine['size_obyom'][3] = LangHelper::t("кг", "кг", "кг");
 ?>
 
 
 <div class="sp-wrapper">
-    <div class="container container-mini" >
+    <div class="container container-mini">
         <div class="row">
             <div class="col-lg-12 mb-4">
                 <div style="text-align: center;">
-                    <b style="color: red; font-size: 18px;">Хурматли харидорлар! Хар бир ютилган лот ўз нархида сотилишини эълон киламиз. <br>Онлайн савдода катнашинг ва ғолиб бўлинг!<br> !!! Онлайн савдога катнашиб лекин нарх таклиф килмаган тадбиркорлар билан шартнома тузилмайди !!!</b>
+                    <b style="color: red; font-size: 18px;">Хурматли харидорлар! Хар бир ютилган лот ўз нархида
+                        сотилишини эълон киламиз. <br>Онлайн савдода катнашинг ва ғолиб бўлинг!<br> !!! Онлайн савдога
+                        катнашиб лекин нарх таклиф килмаган тадбиркорлар билан шартнома тузилмайди !!!</b>
                 </div>
             </div>
             <div class="col-lg-8">
                 <div class="order-card">
                     <header>
-                        <h1><?=$auction->$title?></h1>
-                        <p><?=$auction->$description?></p>
+                        <h1><?= $auction->$title ?></h1>
+                        <p><?= $auction->$description ?></p>
                     </header>
                     <div class="item">
                         <section class="title">
-                            ● I. Предмет конкурса:
+                            ● I.<?= LangHelper::t("Предмет конкурса", "Konkurs ma'lumotlari ", "Contest subject"); ?> :
                         </section>
-                        <p class="ml-3 mb-2"><b>● Местонахождение:</b> <?=$auction->address?></p>
-                        <p class="ml-3 mb-2"><b>● Обьем:</b> <?=$auction->obyom?> тн</p>
-                        <p class="ml-3 mb-2"><b>● Дата начала:</b><?= Yii::$app->formatter->asDate($auction->start_date, 'yyyy-MM-dd'); ?></p>
-                        <p class="ml-3 mb-2"><b>● Дата окончания:</b> <?= Yii::$app->formatter->asDate($auction->end_date, 'yyyy-MM-dd'); ?> </p>
+                        <p class="ml-3 mb-2"><b>● <?= LangHelper::t("Местонахождение", "Manzil", "Location"); ?>
+                                :</b> <?= $auction->address ?></p>
+                        <p class="ml-3 mb-2"><b>● <?= LangHelper::t("Обьем", "Hajmi", "Volume"); ?>
+                                :</b> <?= $auction->obyom ?> <?= @$_engine['size_obyom'][$auction->size_obyom] ?></p>
+                        <p class="ml-3 mb-2"><b>●<?= LangHelper::t("Дата начала", "Boshlanish sanasi", "Start date"); ?>
+                                :</b><?= Yii::$app->formatter->asDate($auction->start_date, 'yyyy-MM-dd'); ?></p>
+                        <p class="ml-3 mb-2">
+                            <b>● <?= LangHelper::t("Дата окончания", "Tugash muddati", "Expiration date"); ?>
+                                :</b> <?= Yii::$app->formatter->asDate($auction->end_date, 'yyyy-MM-dd'); ?> </p>
                     </div>
                     <div class="item mt-5">
                         <section class="title">
-                            ● I. Стартовая цена:
+                            ● I. <?= LangHelper::t("Стартовая цена:", "Boshlang'ich narx:", "Starting price:"); ?>
                         </section>
-                        <p class="ml-3 mb-2"><b>●  Стартовая цена:</b> <?=$auction->start_price?></p>
+                        <p class="ml-3 mb-2">
+                            <b>● <?= LangHelper::t("Стартовая цена:", "Boshlang'ich narx:", "Starting price:"); ?>
+                                :</b> <?= $auction->start_price ?></p>
 
                     </div>
                 </div>
             </div>
             <div class="col-lg-4">
                 <div class="lot-number">
-                    <header>ЛОТ №: <?=$auction->id?></header>
+                    <header><?= LangHelper::t("Лот №", " Lot № ", " Lot №"); ?>: <?= $auction->id ?></header>
                     <div class="body">
                         <div class="item">
                             <ul class="timer">
-                                <li><span id="days"></span>ДНЕЙ</li>
-                                <li><span id="hours"></span>ЧАСЫ</li>
-                                <li><span id="minutes"></span>МИНУТЫ</li>
-                                <li><span id="seconds"></span>СЕКУНДЫ</li>
+                                <li><span id="days"></span><?= LangHelper::t("Дней", "Kun", "Days"); ?></li>
+                                <li><span id="hours"></span><?= LangHelper::t("Часы", "Soat", "Hours"); ?></li>
+                                <li><span id="minutes"></span><?= LangHelper::t("Минуты", "Daqiqa", "Minutes"); ?></li>
+                                <li><span id="seconds"></span><?= LangHelper::t("Секунды", "Soniya", "Seconds"); ?></li>
                             </ul>
                         </div>
-                        <p>Текущая цена:</p>
-                        <h1><?=$auction->start_price?> СУМ</h1>
+                        <p><?= LangHelper::t("Текущая цена:", " Hozirgi narx :", " Current price:"); ?></p>
+                        <?php if (!empty($prices)){ ?>
+                        <h1><?php echo $prices->price ?>  <?= LangHelper::t("СУМ", "SO'M", "SUM"); ?></h1>
+                        <?php } else { ?>
+                            <h1><?php echo $auction->start_price ?>  <?= LangHelper::t("СУМ", "SO'M", "SUM"); ?></h1>
+                        <?php } ?>
                     </div>
                 </div>
             </div>
@@ -95,53 +114,61 @@ $material = 'material_' . $lang;
             <div class="col-lg-8">
                 <div class="order-card">
                     <header>
-                        <div class="item">
-                            <a href="<?= yii\helpers\Url::to(['user-auctions/create','id'=>$auction->id
-                            ]) ?>" style="margin: 0" class="download"><i class="fa fa-flag mx-1"></i>Предложить</a>
-                        </div>
-                        <h1>Как стать участником?</h1>
+                        <?php if (!(Yii::$app->user->isGuest)): { ?>
+                            <div class="item" style="text-align: center; margin: 10px 0;">
+                                <a href="<?= yii\helpers\Url::to(['user-auctions/create', 'id' => $auction->id
+                                ]) ?>" style="margin: 0" class="download"><i
+                                            class="fa fa-flag mx-1"></i><?= LangHelper::t("Предложить", " Taklif berish ", "Offer"); ?>
+                                </a>
+                            </div>
 
+                        <?php } endif; ?>
+                        <?php if ((Yii::$app->user->isGuest)): { ?>
+                        <h1><?= LangHelper::t("Как стать участником?", "Qanday qilib qatnashish mumkin?", "How to get involved?"); ?></h1>
+                        <?php } endif; ?>
                     </header>
                     <div class="item">
                         <section class="title">
-                            ● I.  РЕКВИЗИТЫ ПЛАТЕЖА:
+                            ● I. <?= LangHelper::t("РЕКВИЗИТЫ ПЛАТЕЖА", "TO'LOV MA'LUMOTLARI", "PAYMENT DETAILS"); ?>:
                         </section>
-                        <p><b>Реквизитлар: </b> <?=$auction->company->$title?></p>
-                        <p><b>ИНН</b> <?=$auction->inn?></p>
-                        <p><b><?=$auction->bank?></b></p>
-                        <p><b>МФО:</b><?=$auction->mfo?></p>
-                        <p><b>Хисоб ракам:</b> <?=$auction->account_number?></p>
+                        <p><b><?= LangHelper::t("Реквизитлар", "Rekvizitlar", "Requisites"); ?>
+                                : </b> <?= $auction->company->$title ?></p>
+                        <p><b><?= LangHelper::t("ИНН", "STIR", "TIN"); ?>:</b> <?= $auction->company->inn ?></p>
+                        <p><b><?= LangHelper::t("АТБ ", "АТБ ", "АТБ "); ?>:</b><?= $auction->company->bank ?></p>
+                        <p><b><?= LangHelper::t("МФО", "MFO", "MFO Inter-Branch Turnover"); ?>
+                                :</b><?= $auction->company->mfo ?></p>
+                        <p><b><?= LangHelper::t("Расчётный счёт ", "Hisob raqami", "Payment account"); ?>
+                                :</b> <?= $auction->company->account_number ?></p>
                     </div>
-                    <div class="item mt-5">
-                        <section class="title">
-                            ● I. СУММА ДЛЯ ОПЛАТЫ:
-                        </section>
-                        <p class="ml-3 mb-2"><b>● Сумма (30%):</b> <?=$auction->start_price * 0.3?></p>
-                    </div>
+
                 </div>
             </div>
             <div class="col-lg-8">
                 <div class="order-card">
                     <header>
-                        <h1>Участники</h1>
+                        <h1><?= LangHelper::t("Участники", "Ishtirokchilar", "Participants"); ?></h1>
                     </header>
                     <div class="row">
                         <div class="col-md-4 mb-2">
                             <div class="partical-item">
-                                <h1>0</h1>
-                                <p>Список участников</p>
+                                <h1><?php echo $countss ?></h1>
+                                <p><?= LangHelper::t("Список участников", "Ishtirokchilar ro'yxati", "List of participants"); ?></p>
                             </div>
                         </div>
                         <div class="col-md-4 mb-2">
                             <div class="partical-item">
-                                <h1>0</h1>
-                                <p>Количество ставок</p>
+                                <h1><?php echo  $counts ?></h1>
+                                <p><?= LangHelper::t("Количество ставок", "Stavkalar soni", "Number of bets"); ?></p>
                             </div>
                         </div>
                         <div class="col-md-4 mb-2">
                             <div class="partical-item">
-                                <h1>не подано</h1>
-                                <p>Последняя ставка</p>
+                                <?php if (!empty($prices)){ ?>
+                                    <h1><?php echo $prices->price ?> </h1>
+                                <?php } else { ?>
+                                  <h1><?= LangHelper::t("не подано", "qatnashilmadi", "not submitted"); ?></h1>
+                               <?php } ?>
+                                <p><?= LangHelper::t("Последняя ставка", "Oxirgi stavka", "Last bet"); ?></p>
                             </div>
                         </div>
                     </div>
@@ -157,29 +184,30 @@ $material = 'material_' . $lang;
                         </div>
                         <div class="col-md-9">
                             <div class="partical-info">
-                                <h1><?=$auction->company->$title?></h1>
+                                <h1><?= $auction->company->$title ?></h1>
                                 <div class="status">
-                                    <span>2381-Все конкурсы</span>
-                                    <span>3415-Все онлайн продажи</span>
+                                    <span>2381- <?= LangHelper::t("Все конкурсы", "Barcha tenderlar", "All contests"); ?></span>
+                                    <span>3415-   <?= LangHelper::t("Все продажи", " Barcha savdolar", "All sales "); ?></span>
                                 </div>
                                 <div class="item">
-                                    <h2>Адрес:</h2>
-                                    <p><?=$auction->address?></p>
+                                    <h2><?= LangHelper::t("Адрес", "Manzil", "Address"); ?>:</h2>
+                                    <p><?= $auction->address ?></p>
                                 </div>
                                 <div class="item">
-                                    <h2>Телефон доверия</h2>
-                                    <p><?=$auction->phone?></p>
+                                    <h2><?= LangHelper::t("Телефон доверия", "Ishonch nomeri", "Телефон доверия"); ?></h2>
+                                    <p><?= $auction->phone ?></p>
                                 </div>
                                 <div class="item">
-                                    <h2>Эл.почта</h2>
-                                    <p><?=$auction->email?></p>
+                                    <h2><?= LangHelper::t("Эл.почта", "Elektron pochta", "Email"); ?></h2>
+                                    <p><?= $auction->email ?></p>
                                 </div>
                             </div>
                         </div>
                         <div class="order-footer w-100">
                             <hr>
                             <div class="d-flex w-100">
-                                <a href="#" target="_blank" class="donwload btn_1 mt-1" style="margin-left: auto">Подробнее</a>
+                                <a href="#" target="_blank" class="donwload btn_1 mt-1"
+                                   style="margin-left: auto"><?= LangHelper::t("Подробнее", "Подробнее", "Подробнее"); ?></a>
                             </div>
                         </div>
                     </div>
@@ -188,11 +216,6 @@ $material = 'material_' . $lang;
         </div>
     </div>
 </div>
-
-
-
-
-
 <script type="text/javascript">
     // timer js
     const second = 1000,
@@ -200,8 +223,8 @@ $material = 'material_' . $lang;
         hour = minute * 60,
         day = hour * 24;
 
-    let countDown = new Date('<?= date('F d, Y', $auction->end_date) ?>').getTime(),
-        x = setInterval(function() {
+    let countDown = new Date('<?= date('F d, Y H:i:s', $auction->end_date) ?>').getTime(),
+        x = setInterval(function () {
 
             let now = new Date().getTime(),
                 distance = countDown - now;
@@ -210,12 +233,6 @@ $material = 'material_' . $lang;
                 document.getElementById('hours').innerText = Math.floor((distance % (day)) / (hour)),
                 document.getElementById('minutes').innerText = Math.floor((distance % (hour)) / (minute)),
                 document.getElementById('seconds').innerText = Math.floor((distance % (minute)) / second);
-
-            //do something later when date is reached
-            //if (distance < 0) {
-            //  clearInterval(x);
-            //  'IT'S MY BIRTHDAY!;
-            //}
 
         }, second)
 </script>
@@ -316,8 +333,8 @@ $material = 'material_' . $lang;
 <!--                </div>-->
 <!--            </ul>-->
 <!--            <div class="box">-->
-<!--                <div class="title">--><?//=LangHelper::t("САМАРКАНД", "SAMARQAND", "SAMARKAND"); ?><!--</div>-->
-<!--                <a onclick="mapPanTo(39.648095,66.910189); return false;" class="address">--><?//=$page['sam_address_'.$lang]?><!--</a>-->
+<!--                <div class="title">--><? //=LangHelper::t("САМАРКАНД", "SAMARQAND", "SAMARKAND"); ?><!--</div>-->
+<!--                <a onclick="mapPanTo(39.648095,66.910189); return false;" class="address">--><? //=$page['sam_address_'.$lang]?><!--</a>-->
 <!--                <div class="icon-text">-->
 <!--                    <svg xmlns="http://www.w3.org/2000/svg" xml:space="preserve" width="1.944mm" height="1.9439mm" version="1.1" style="shape-rendering:geometricPrecision; text-rendering:geometricPrecision; image-rendering:optimizeQuality; fill-rule:evenodd; clip-rule:evenodd" viewBox="0 0 3.23 3.23" xmlns:xlink="http://www.w3.org/1999/xlink"><g><metadata></metadata><g><path d="M1.34 1.86c0,0.05 0.01,0.09 0.01,0.13 -0,0.05 -0.02,0.04 -0.07,0.06 -0.03,0.01 -0.06,0.02 -0.1,0.03 -0.01,0 -0.02,0 -0.02,0.01 -0.01,0 -0.02,0 -0.02,0.01 -0.04,0.01 -0.06,0.02 -0.07,0 -0,-0 -0,-0.01 -0.01,-0.01 -0.02,-0.02 -0.04,-0.05 -0.05,-0.08 -0.01,-0.03 -0,-0.06 0,-0.09 0.01,-0.02 0.01,-0.03 0.02,-0.05 0,-0.01 0.01,-0.02 0.01,-0.02 0.01,-0.02 0.01,-0.03 0.03,-0.04l0.02 -0.02c0,-0 0.01,-0 0.01,-0.01 0.01,-0.01 0.02,-0.02 0.04,-0.03 0.04,-0.02 0.14,-0.07 0.18,-0.08 0.19,-0.06 0.4,-0.04 0.6,0.01 0.02,0 0.03,0.01 0.05,0.01 0.05,0.02 0.08,0.03 0.13,0.06 0.03,0.02 0.05,0.03 0.06,0.06 0.02,0.02 0.04,0.05 0.04,0.08 0.02,0.05 0.03,0.1 0.01,0.15 -0,0.01 -0.01,0.01 -0.01,0.02 -0.01,0.02 -0.03,0.03 -0.04,0.04 -0,0 -0,0 -0.01,0.01 -0.04,0.03 -0.04,0.01 -0.1,-0.02 -0.01,-0 -0.02,-0.01 -0.04,-0.02l-0.04 -0.02c-0.03,-0.01 -0.09,-0.04 -0.1,-0.06 -0.01,-0.03 -0.01,-0.06 -0.01,-0.09 0,-0.06 -0,-0.06 -0.07,-0.08 -0.11,-0.03 -0.23,-0.04 -0.35,-0.01 -0.02,0.01 -0.04,0.01 -0.06,0.02 -0.02,0 -0.04,0.01 -0.04,0.04zm-0.27 -1.07c0,-0.02 0.02,-0.03 0.03,-0.03l1.02 0c0.02,0 0.03,0.02 0.03,0.03l0 0.64 -1.08 0 0 -0.64zm-0.09 -0.01l0 0.65c-0.07,0 -0.12,0 -0.18,0.04 -0.01,0.01 -0.02,0.02 -0.04,0.03 -0.02,0.02 -0.04,0.04 -0.05,0.08 -0.01,0.03 -0.03,0.07 -0.03,0.11l0 0.38c0,0.08 0.04,0.16 0.1,0.2 0.01,0.01 0.02,0.02 0.04,0.02 0.02,0.01 0.07,0.03 0.1,0.03l1.37 0c0.06,0 0.12,-0.03 0.17,-0.08 0.02,-0.02 0.04,-0.05 0.05,-0.07 0.01,-0.03 0.02,-0.06 0.02,-0.1l0 -0.38c0,-0.04 -0.01,-0.08 -0.03,-0.11 -0.03,-0.06 -0.08,-0.1 -0.13,-0.13 -0.05,-0.02 -0.08,-0.02 -0.13,-0.02l0 -0.62c0,-0.03 -0,-0.06 -0.02,-0.08 -0.01,-0.02 -0.01,-0.02 -0.03,-0.03 -0,-0 -0.01,-0 -0.01,-0.01 -0.03,-0.02 -0.05,-0.02 -0.08,-0.02l-0.97 0c-0.05,0 -0.07,0.01 -0.1,0.03 -0.02,0.02 -0.04,0.05 -0.04,0.08z"></path><path d="M1.15 0.91c0,0.02 0.02,0.04 0.04,0.04l0.85 0c0.02,0 0.04,-0.02 0.04,-0.04 0,-0.02 -0.02,-0.04 -0.04,-0.04l-0.85 0c-0.02,0 -0.04,0.02 -0.04,0.04z"></path><path d="M1.15 1.09c0,0.02 0.02,0.04 0.04,0.04l0.86 0c0.02,0 0.04,-0.02 0.04,-0.05 -0,-0.02 -0.02,-0.04 -0.05,-0.04l-0.84 0c-0.03,0 -0.05,0.02 -0.05,0.04z"></path><path d="M1.15 1.27c0,0.02 0.02,0.04 0.04,0.04l0.84 0c0.02,0 0.04,-0.02 0.04,-0.04 0,-0.02 -0.02,-0.05 -0.04,-0.05l-0.85 0c-0.02,0 -0.04,0.02 -0.04,0.04z"></path><path d="M1.62 0c0.45,0 0.85,0.18 1.14,0.47 0.29,0.29 0.47,0.7 0.47,1.14 0,0.45 -0.18,0.85 -0.47,1.14 -0.29,0.29 -0.7,0.47 -1.14,0.47 -0.45,0 -0.85,-0.18 -1.14,-0.47 -0.29,-0.29 -0.47,-0.7 -0.47,-1.14 0,-0.45 0.18,-0.85 0.47,-1.14 0.29,-0.29 0.7,-0.47 1.14,-0.47zm1.09 0.52c-0.28,-0.28 -0.66,-0.45 -1.09,-0.45 -0.43,0 -0.81,0.17 -1.09,0.45 -0.28,0.28 -0.45,0.66 -0.45,1.09 0,0.43 0.17,0.81 0.45,1.09 0.28,0.28 0.66,0.45 1.09,0.45 0.43,0 0.81,-0.17 1.09,-0.45 0.28,-0.28 0.45,-0.66 0.45,-1.09 0,-0.43 -0.17,-0.81 -0.45,-1.09z"></path></g></g></svg>-->
 <!--                    <p>+998 98 999 99 99</p>-->

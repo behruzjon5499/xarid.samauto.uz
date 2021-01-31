@@ -40,7 +40,8 @@
     "ext-mbstring": "*",
     "himiklab/yii2-recaptcha-widget": "2.*",
     "ext-pdo": "*",
-    "ext-json": "*"
+    "ext-json": "*",
+    "phpoffice/phpexcel": "dev-develop"
   },
   "require-dev": {
     "yiisoft/yii2-debug": "~2.1.0",

@@ -47,12 +47,12 @@ class Contacts extends \yii\db\ActiveRecord
     {
         return [
             'id' => Yii::t('app', 'ID'),
-            'title_ru' => Yii::t('app', 'Title Ru'),
-            'title_uz' => Yii::t('app', 'Title Uz'),
-            'title_en' => Yii::t('app', 'Title En'),
+            'title_ru' => Yii::t('app', 'Заголовок Ru'),
+            'title_uz' => Yii::t('app', 'Заголовок Uz'),
+            'title_en' => Yii::t('app', 'Заголовок Eng'),
             'phone1' => Yii::t('app', 'Phone1'),
             'phone2' => Yii::t('app', 'Phone2'),
-            'address_ru' => Yii::t('app', 'Address Ru'),
+            'address_ru' => Yii::t('app', 'Адрес'),
             'address_uz' => Yii::t('app', 'Address Uz'),
             'address_en' => Yii::t('app', 'Address En'),
             'email' => Yii::t('app', 'Email'),

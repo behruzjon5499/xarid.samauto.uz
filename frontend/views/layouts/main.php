@@ -4,14 +4,19 @@
 
 /* @var $content string */
 /* @var $contacts SiteContacts */
+
+use frontend\assets\AppAsset;
 use common\helpers\LangHelper;
 use common\models\SiteContacts;
 use common\widgets\Alert;
-use frontend\assets\AppAsset;
 use yii\helpers\Html;
 use yii\widgets\Breadcrumbs;
 
 $contacts = SiteContacts::find()->where(['id'=> 1])->one();
+
+$controller = Yii::$app->controller->id;
+$action = Yii::$app->controller->action->id;
+
 
 $lang = Yii::$app->session->get('lang');
 if ($lang == '') $lang = 'ru';
@@ -34,6 +39,9 @@ AppAsset::register($this);
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1">
 
+    <link rel="apple-touch-icon" href="/img/logo.png">
+    <link rel="shortcut icon" type="image/x-icon" href="/img/logo.png">
+
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css"
           integrity="sha384-JcKb8q3iqJ61gNV9KGb8thSsNjpSL0n8PARn9HuZOnIxN0hoP+VmmDGMN5t9UJ0Z" crossorigin="anonymous">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
@@ -50,11 +58,15 @@ AppAsset::register($this);
             crossorigin="anonymous"></script>
     <script src="https://code.jquery.com/jquery-3.5.0.js"></script>
     <script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jquery/1.10.2/jquery.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/apexcharts"></script>
 
     <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js" integrity="sha384-DfXdz2htPH0lsSSs5nCTpuj/zy4C+OGpamoFVy38MVBnE+IbbVYUew+OrCXaRkfj" crossorigin="anonymous"></script>
     <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.1/dist/umd/popper.min.js" integrity="sha384-9/reFTGAW83EW2RDu2S0VKaIzap3H66lZH81PoYlFhbGU+6BZp6G7niu735Sk7lN" crossorigin="anonymous"></script>
     <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js" integrity="sha384-B4gt1jrGC7Jh4AgTPSdUtOBvfO8shuf57BaghqFfPlYxofvL8/KUEfYiJOMMV+rV" crossorigin="anonymous"></script>
     <script src="https://code.jquery.com/jquery-3.5.0.js"></script>
+
+    <script src="https://code.jquery.com/jquery-3.3.1.min.js"></script>
+    <script src="https://code.jquery.com/jquery-migrate-1.4.1.min.js"></script>
     <?php $this->registerCsrfMetaTags() ?>
     <title><?= Html::encode($this->title) ?></title>
     <?php $this->head() ?>
@@ -77,7 +89,7 @@ $user  = \common\models\User::find()->where(['id'=>Yii::$app->user->id])->one();
                     <a href="tel:+998900000000" class="phone-item under-hover preload lang-mob-hide"><i
                                 class="fa fa-phone"></i><span><?=  $contacts->phone?></span> </a>
                     <a href="<?= yii\helpers\Url::to(['feedback/create']) ?>" class="phone-item under-hover preload lang-mob-hide"><i
-                                class="fa fa-comments-o"></i><span><?= LangHelper::t("Задавать вопросы?", "Задавать вопросы?", "Задавать вопросы?"); ?></span>
+                                class="fa fa-comments-o"></i><span><?= LangHelper::t("Задавайте вопросы?", "Savol bering?", "Ask questions?"); ?></span>
                     </a>
                 </div>
             </div>
@@ -111,18 +123,19 @@ $user  = \common\models\User::find()->where(['id'=>Yii::$app->user->id])->one();
                 } else {
                     echo '    <div class="sing-out">
                     <img src="/img/user-alt-512.png">
-                    <div>
+                    <div> 
+                    
                         <p>'.  \Yii::$app->user->identity->username.'</p>
-                        <a>AO "UzAuto Motors"</a>
+                        <a>'.  \Yii::$app->user->identity->title_company.'</a>
                     </div>
                     <ul class="nav-cog">
                         <li>
-                            <a href="#" data-toggle="modal" data-target="#exampleModal"><i class="fa fa-user" aria-hidden="true"></i>' . LangHelper::t("Профиль", "Профиль", "Профиль") .'  </a>
+                            <a href="#" data-toggle="modal" data-target="#exampleModal"><i class="fa fa-user" aria-hidden="true"></i>' . LangHelper::t("Профиль", "Profil", "Profile") .'  </a>
                         </li>
                         <li>
-                            <a href="#" data-toggle="modal" data-target="#exampleModal2"><i class="fa fa-cog" aria-hidden="true"></i>'.  LangHelper::t("Изменить пароль", "Изменить пароль", "Изменить пароль") . '</a>
+                            <a href="#" data-toggle="modal" data-target="#exampleModal2"><i class="fa fa-cog" aria-hidden="true"></i>'.  LangHelper::t("Изменить пароль", "Parolni o'zgartirish", "Change password") . '</a>
                         </li>
-                        <li> ' . Html::a(   'Sign out',['/site/logout'],['data-method' => 'post', 'class' => 'btn btn-default btn-flat'])  . '</li>
+                        <li> ' . Html::a(   LangHelper::t("Выход", "Chiqish", "SIgn out"),['/site/logout'],['data-method' => 'post', 'class' => 'btn btn-default btn-flat'])  . '</li>
                                
                     </ul>
                 </div>';
@@ -156,51 +169,53 @@ $user  = \common\models\User::find()->where(['id'=>Yii::$app->user->id])->one();
             <div class="downloads">
                 <div class="nav-dropdown" >
                     <a class="v-mid">
-                        ГЛАВНАЯ
+                        <?= LangHelper::t("Главная", "Bosh sahifa", "Homepage"); ?>
                     </a>
                 <ul class="nav-dropdown-content">
-                    <li><a href="<?= yii\helpers\Url::to(['order/index']) ?>"><?= LangHelper::t("Закупки", "Закупки", "Закупки"); ?></a></li>
-                    <li><a href="<?= yii\helpers\Url::to(['auctions/index']) ?>"> <?= LangHelper::t("Конкурсы на продажи", "Конкурсы на продажи", "Конкурсы на продажи"); ?></a></li>
+                    <li><a href="<?= yii\helpers\Url::to(['order/index']) ?>"><?= LangHelper::t("Конкурсы на закупки", " Xarid uchun tenderlar", "Contests for purchases"); ?></a></li>
+                    <li><a href="<?= yii\helpers\Url::to(['auctions/index']) ?>"> <?= LangHelper::t("Конкурсы на продажи", "Onlayn savdolar", "Contests for sale"); ?></a></li>
                 </ul>
                 </div>
                 <a href="<?= yii\helpers\Url::to(['statistics/index']) ?>"
-                   class="under-hover"><?= LangHelper::t("СТАТИСТИКА", "СТАТИСТИКА", "СТАТИСТИКА"); ?></a>
+                   class="under-hover"><?= LangHelper::t("Статистика", "Statistika", "Statistics"); ?></a>
                 <!-- <a href="company.html"  class="under-hover">КОМПАНИИ</a> -->
                 <a href="<?= yii\helpers\Url::to(['question/index']) ?>"
-                   class="under-hover">   <?= LangHelper::t("ЧАВО", "ЧАВО", "ЧАВО"); ?></a>
+                   class="under-hover">   <?= LangHelper::t("FAQ", "FAQ", "FAQ"); ?></a>
                 <div class="nav-dropdown">
                     <a class="v-mid">
-                        <?= LangHelper::t("ДОКУМЕНТАЦИЯ", "ДОКУМЕНТАЦИЯ", "ДОКУМЕНТАЦИЯ"); ?>
+                        <?= LangHelper::t("Документация", "Hujjatlar", "Documentation"); ?>
                     </a>
                     <ul class="nav-dropdown-content">
                         <li>
-                            <a href="<?= yii\helpers\Url::to(['document/index']) ?>"> <?= LangHelper::t("Инструкция", "Инструкция", "Инструкция"); ?>  </a>
+                            <a href="<?= yii\helpers\Url::to(['document/index','id'=>1]) ?>"> <?= LangHelper::t("Инструкция", "Yo'riqnoma", "Instruction"); ?>  </a>
                         </li>
                         <li>
-                            <a href="<?= yii\helpers\Url::to(['document/index']) ?>"><?= LangHelper::t("Положение", "Положение", "Положение"); ?> </a>
+                            <a href="<?= yii\helpers\Url::to(['document/index','id'=>2]) ?>"><?= LangHelper::t("Положение", "Nizom", "Posture"); ?> </a>
                         </li>
-                        <li><a href="<?= yii\helpers\Url::to(['document/index']) ?>"
-                               target="_blank"><?= LangHelper::t("Пром отход", "Пром отход", "Пром отход"); ?> </a></li>
+                        <li><a href="<?= yii\helpers\Url::to(['document/index','id'=>3]) ?>"
+                               target="_blank"><?= LangHelper::t("Пром отход", "Maishiy chiqindilar", " Industrial waste"); ?> </a></li>
                     </ul>
                 </div>
                 <a href="<?= yii\helpers\Url::to(['site/contact']) ?>"
-                   class="under-hover"><?= LangHelper::t("КОНТАКТЫ", "BOG'LANISHLAR", "CONTACS"); ?> </a>
+                   class="under-hover"><?= LangHelper::t("Контакты", "Aloqa", "Contacts"); ?> </a>
                 <div class="nav-dropdown">
                     <a class="v-mid">
-                        <?= LangHelper::t("ТЕЛЕГРАМ", "TELEGRAM", "ТЕЛЕГРАМ"); ?>
+                        <?= LangHelper::t("Телеграм", "Telegram", "Telegram"); ?>
                     </a>
                     <ul class="nav-dropdown-content">
-                        <li><a href="#" target="_blank"><?= LangHelper::t("Закупки", "Закупки", "Закупки"); ?></a></li>
+                        <li><a href="#" target="_blank"><?= LangHelper::t("Конкурсы на закупки", "Xarid uchun tenderlar", "Contests for purchases"); ?></a></li>
                         <li><a href="#"
-                               target="_blank"><?= LangHelper::t("Конкурсы на продажи", "Конкурсы на продажи", "Конкурсы на продажи"); ?></a>
+                               target="_blank"><?= LangHelper::t("Конкурсы на продажи", "Onlayn savdolar", "Contests for sale"); ?></a>
                         </li>
                     </ul>
                 </div>
             </div>
         </div>
         <div class="rightBox flex_row_end_cen">
+
+            <?php if ((($controller == "order") && (($action == "index" ) || ($action == "view" ))) ||(($controller == "auctions") && (($action == "index" ) || ($action == "view" )))) : ?>
             <div class="search sp-search">
-                <!-- style="margin-right: 0px;" если один-->
+
                 <form action="">
                     <input type="text" placeholder="Поиск..." style="width: 120px"/>
                     <svg xmlns="http://www.w3.org/2000/svg" xml:space="preserve" width="2.3098mm" height="2.28mm"
@@ -219,6 +234,7 @@ $user  = \common\models\User::find()->where(['id'=>Yii::$app->user->id])->one();
               </svg>
                 </form>
             </div>
+            <?php endif ?>
         </div>
     </div>
 </div>
@@ -226,32 +242,32 @@ $user  = \common\models\User::find()->where(['id'=>Yii::$app->user->id])->one();
     <ul>
         <li class="overlayClose"></li>
         <li style="transition-delay: 0s;"><a href="<?= yii\helpers\Url::to(['site/index']) ?>"
-                                             class="preload">    <?= LangHelper::t("ГЛАВНАЯ", "BOSH SAHIFA", "ГЛАВНАЯ"); ?></a>
+                                             class="preload">     <?= LangHelper::t("Главная", "Bosh sahifa", "Homepage"); ?></a>
         </li>
         <li style="transition-delay: 0s;"><a
-                    href="<?= yii\helpers\Url::to(['order/index']) ?>"> <?= LangHelper::t("Закупки", "Закупки", "Закупки"); ?></a>
+                    href="<?= yii\helpers\Url::to(['order/index']) ?>"> <?= LangHelper::t("Конкурсы на закупки", "Xarid uchun tenderlar", "Contests for purchases"); ?></a>
         </li>
         <li style="transition-delay: 0s;"><a
-                    href="<?= yii\helpers\Url::to(['auction/index']) ?>"> <?= LangHelper::t("Конкурсы на продажи", "Конкурсы на продажи", "Конкурсы на продажи"); ?></a>
+                    href="<?= yii\helpers\Url::to(['auction/index']) ?>"> <?= LangHelper::t("Конкурсы на продажи", "Onlayn savdolar", "Contests for sale"); ?></a>
         </li>
         <!-- <li style="transition-delay: 0.1s;"><a href="company.html" class="preload">КОМПАНИИ</a></li> -->
         <li style="transition-delay: 0.2s;"><a href="<?= yii\helpers\Url::to(['document/index']) ?>"
-                                               class="preload"> <?= LangHelper::t("ЧАВО", "ЧАВО", "ЧАВО"); ?></a></li>
+                                               class="preload"><?= LangHelper::t("FAQ", "FAQ", "FAQ"); ?></a></li>
         <li style="transition-delay: 0.2s;"><a
-                    href="<?= yii\helpers\Url::to(['document/index']) ?>"><?= LangHelper::t("Инструкция", "Инструкция", "Инструкция"); ?></a></li>
+                    href="<?= yii\helpers\Url::to(['document/index']) ?>"> <?= LangHelper::t("Инструкция", "Yo'riqnoma", "Инструкция"); ?> </a></li>
         <li style="transition-delay: 0.2s;"><a
-                    href="<?= yii\helpers\Url::to(['document/index']) ?>"><?= LangHelper::t("Положение", "Положение", "Положение"); ?></a></li>
+                    href="<?= yii\helpers\Url::to(['document/index']) ?>"><?= LangHelper::t("Положение", "Nizom", "Posture"); ?> </a></li>
         <li style="transition-delay: 0.2s;"><a href="#"
-                                               target="_blank"><?= LangHelper::t("Пром отход", "Пром отход", "Пром отход"); ?></a>
+                                               target="_blank"><?= LangHelper::t("Пром отход", "Maishiy chiqindilar", " Industrial waste"); ?></a>
         </li>
         <li style="transition-delay: 0.3s;"><a href="<?= yii\helpers\Url::to(['site/contact']) ?>"
-                                               class="preload"><?= LangHelper::t("КОНТАКТЫ", "BOG'LANISHLAR", "CONTACTS"); ?></a>
+                                               class="preload"><?= LangHelper::t("Контакты", "Aloqa", "Contacts"); ?> </a>
         </li>
         <li style="transition-delay: 0.3s;"><a href="#" target="_blank"><i class="fa fa-telegram"
-                                                                           style="margin-right: 20px;"></i><?= LangHelper::t("Закупки", "Закупки", "Закупки"); ?>
+                                                                           style="margin-right: 20px;"></i> <?= LangHelper::t("Конкурсы на закупки", "Xarid uchun tenderlar", "Contests for purchases"); ?>
             </a></li>
         <li style="transition-delay: 0.3s;"><a href="#" target="_blank"><i class="fa fa-telegram"
-                                                                           style="margin-right: 20px;"></i><?= LangHelper::t("Конкурсы на продажи", "Конкурсы на продажи", "Конкурсы на продажи"); ?>
+                                                                           style="margin-right: 20px;"></i><?= LangHelper::t("Конкурсы на продажи", "Onlayn savdolar", "Contests for sale"); ?>
             </a></li>
     </ul>
 </div>
@@ -265,27 +281,39 @@ $user  = \common\models\User::find()->where(['id'=>Yii::$app->user->id])->one();
     <?= $content ?>
 
 </div>
+<?php if (!(($controller == "site") && ($action == "contact" ))) : ?>
 
-<div class="main-footer">
-    <div class="medium_container">
-        <div class="contactPage">
-            <ul>
-                <li class="ul_title"><a href="index.html"><?= LangHelper::t("Главная", "Bosh Sahifa", "Главная"); ?></a>
-                </li>
-                <li><a href="#company.html"><?= LangHelper::t("Компании", "Kompaniya", "Company"); ?></a></li>
-            </ul>
-            <ul>
-                <li class="ul_title"><a href="faq.html"><?= LangHelper::t("FAQ", "FAQ", "FAQ"); ?></a></li>
-                <li>
-                    <a href="instructions.html"><?= LangHelper::t("ДОКУМЕНТАЦИЯ", "ДОКУМЕНТАЦИЯ", "ДОКУМЕНТАЦИЯ"); ?></a>
-                </li>
-            </ul>
-            <ul>
-                <li class="ul_title"><a><?= LangHelper::t("Cоц. сети", "Cоц. сети", "Cоц. сети"); ?></a></li>
-                <div class="social-footer">
-                    <a href="<?= $contacts->telegram ?>" target="_blank">
-                        <svg version="1.1" xmlns="http://www.w3.org/2000/svg" x="0px" y="0px"
-                             viewBox="0 0 300 300" style="enable-background:new 0 0 300 300;" xml:space="preserve">
+    <div class="main-footer">
+        <div class="medium_container">
+            <div class="contactPage">
+                <ul>
+                    <li class="ul_title"><a href="<?= yii\helpers\Url::to(['site/index']) ?>"><?= LangHelper::t("Главная", "Bosh sahifa", "Homepage"); ?></a>
+                    </li>
+                    <!--                <li><a href="#company.html"> --><?//= LangHelper::t("Компании", "Kompaniya", "Company"); ?><!--</a></li>-->
+                    <li> <a href="<?= yii\helpers\Url::to(['statistics/index']) ?>"
+                            class="under-hover"><?= LangHelper::t("Статистика", "Statistika", "Statistics"); ?></a></li>
+                    <li> <a href="<?= yii\helpers\Url::to(['question/index']) ?>"
+                            class="under-hover">   <?= LangHelper::t("FAQ", "FAQ", "FAQ"); ?></a></li>
+                    <li> <a href="<?= yii\helpers\Url::to(['site/contact']) ?>"
+                            class="under-hover"><?= LangHelper::t("Контакты", "Aloqa", "Contacts"); ?> </a></li>
+                </ul>
+                <ul>
+                    <li class="ul_title"><a href="faq.html"><?= LangHelper::t("FAQ", "FAQ", "FAQ"); ?></a></li>
+                    <li>
+                        <a href="<?= yii\helpers\Url::to(['document/index']) ?>"> <?= LangHelper::t("Инструкция", "Yo'riqnoma", "Instruction"); ?>  </a></li>
+                    <li>    <a
+                                href="<?= yii\helpers\Url::to(['document/index']) ?>"><?= LangHelper::t("Положение", "Nizom", "Posture"); ?> </a>  </li>
+                    <li> <a href="<?= yii\helpers\Url::to(['document/index']) ?>"
+                            target="_blank"><?= LangHelper::t("Пром отход", "Maishiy chiqindilar", " Industrial waste"); ?> </a>  </li>
+                    </li>
+                    <ul>
+                        <div class="social-footer">
+
+
+
+                            <a href="<?= $contacts->telegram ?>" target="_blank">
+                                <svg version="1.1" xmlns="http://www.w3.org/2000/svg" x="0px" y="0px"
+                                     viewBox="0 0 300 300" style="enable-background:new 0 0 300 300;" xml:space="preserve">
                   <g>
                       <path d="M5.299,144.645l69.126,25.8l26.756,86.047c1.712,5.511,8.451,7.548,12.924,3.891l38.532-31.412
                       c4.039-3.291,9.792-3.455,14.013-0.391l69.498,50.457c4.785,3.478,11.564,0.856,12.764-4.926L299.823,29.22
@@ -294,18 +322,18 @@ $user  = \common\models\User::find()->where(['id'=>Yii::$app->user->id])->one();
                       c-0.503,3.758-5.782,4.131-6.819,0.494l-14.607-51.325C89.253,166.16,91.691,159.907,96.869,156.711z"/>
                   </g>
                 </svg>
-                    </a>
-                    <a href="<?= $contacts->instagram ?>" target="_blank">
-                        <svg viewBox="-21 -21 682.66669 682.66669" xmlns="http://www.w3.org/2000/svg">
-                            <path d="m0 132.976562v374.046876c0 73.441406 59.535156 132.976562 132.976562 132.976562h374.046876c73.441406 0 132.976562-59.535156 132.976562-132.976562v-374.046876c0-73.441406-59.535156-132.976562-132.976562-132.976562h-374.046876c-73.441406 0-132.976562 59.535156-132.976562 132.976562zm387.792969 368.359376c-157.855469 54.464843-303.59375-91.273438-249.128907-249.128907 18.351563-53.203125 60.335938-95.191406 113.539063-113.542969 157.859375-54.464843 303.597656 91.273438 249.132813 249.132813-18.351563 53.203125-60.335938 95.1875-113.542969 113.539063zm154.28125-374.859376c-2.511719 13.152344-13.394531 20.804688-24.652344 20.804688-6.851563 0-13.835937-2.828125-19.183594-8.964844-.472656-.542968-.914062-1.125-1.304687-1.730468-5.519532-8.4375-5.691406-18.460938-1-26.589844 3.320312-5.753906 8.679687-9.863282 15.097656-11.582032 6.410156-1.726562 13.113281-.839843 18.859375 2.484376 8.132813 4.6875 12.992187 13.457031 12.4375 23.511718-.039063.6875-.121094 1.386719-.253906 2.066406zm0 0"/>
-                            <path d="m320 164.523438c-85.734375 0-155.476562 69.742187-155.476562 155.476562s69.742187 155.476562 155.476562 155.476562 155.476562-69.742187 155.476562-155.476562-69.742187-155.476562-155.476562-155.476562zm0 0"/>
-                        </svg>
-                    </a>
-                    <a href="<?= $contacts->facebook ?>" target="_blank">
-                        <svg version="1.1" xmlns="http://www.w3.org/2000/svg" x="0px" y="0px"
-                             width="96.124px" height="96.123px" viewBox="0 0 96.124 96.123"
-                             style="enable-background:new 0 0 96.124 96.123;"
-                             xml:space="preserve">
+                            </a>
+                            <a href="<?= $contacts->instagram ?>" target="_blank">
+                                <svg viewBox="-21 -21 682.66669 682.66669" xmlns="http://www.w3.org/2000/svg">
+                                    <path d="m0 132.976562v374.046876c0 73.441406 59.535156 132.976562 132.976562 132.976562h374.046876c73.441406 0 132.976562-59.535156 132.976562-132.976562v-374.046876c0-73.441406-59.535156-132.976562-132.976562-132.976562h-374.046876c-73.441406 0-132.976562 59.535156-132.976562 132.976562zm387.792969 368.359376c-157.855469 54.464843-303.59375-91.273438-249.128907-249.128907 18.351563-53.203125 60.335938-95.191406 113.539063-113.542969 157.859375-54.464843 303.597656 91.273438 249.132813 249.132813-18.351563 53.203125-60.335938 95.1875-113.542969 113.539063zm154.28125-374.859376c-2.511719 13.152344-13.394531 20.804688-24.652344 20.804688-6.851563 0-13.835937-2.828125-19.183594-8.964844-.472656-.542968-.914062-1.125-1.304687-1.730468-5.519532-8.4375-5.691406-18.460938-1-26.589844 3.320312-5.753906 8.679687-9.863282 15.097656-11.582032 6.410156-1.726562 13.113281-.839843 18.859375 2.484376 8.132813 4.6875 12.992187 13.457031 12.4375 23.511718-.039063.6875-.121094 1.386719-.253906 2.066406zm0 0"/>
+                                    <path d="m320 164.523438c-85.734375 0-155.476562 69.742187-155.476562 155.476562s69.742187 155.476562 155.476562 155.476562 155.476562-69.742187 155.476562-155.476562-69.742187-155.476562-155.476562-155.476562zm0 0"/>
+                                </svg>
+                            </a>
+                            <a href="<?= $contacts->facebook ?>" target="_blank">
+                                <svg version="1.1" xmlns="http://www.w3.org/2000/svg" x="0px" y="0px"
+                                     width="96.124px" height="96.123px" viewBox="0 0 96.124 96.123"
+                                     style="enable-background:new 0 0 96.124 96.123;"
+                                     xml:space="preserve">
                   <g>
                       <path d="M72.089,0.02L59.624,0C45.62,0,36.57,9.285,36.57,23.656v10.907H24.037c-1.083,0-1.96,0.878-1.96,1.961v15.803
                       c0,1.083,0.878,1.96,1.96,1.96h12.533v39.876c0,1.083,0.877,1.96,1.96,1.96h16.352c1.083,0,1.96-0.878,1.96-1.96V54.287h14.654
@@ -313,11 +341,11 @@ $user  = \common\models\User::find()->where(['id'=>Yii::$app->user->id])->one();
                       c0-4.444,1.059-6.7,6.848-6.7l8.397-0.003c1.082,0,1.959-0.878,1.959-1.96V1.98C74.046,0.899,73.17,0.022,72.089,0.02z"/>
                   </g>
                 </svg>
-                    </a>
-                    <a href="<?= $contacts->youtube?>" target="_blank">
-                        <svg version="1.1" xmlns="http://www.w3.org/2000/svg" x="0px" y="0px"
-                             width="90px" height="90px" viewBox="0 0 90 90" style="enable-background:new 0 0 90 90;"
-                             xml:space="preserve">
+                            </a>
+                            <a href="<?= $contacts->youtube?>" target="_blank">
+                                <svg version="1.1" xmlns="http://www.w3.org/2000/svg" x="0px" y="0px"
+                                     width="90px" height="90px" viewBox="0 0 90 90" style="enable-background:new 0 0 90 90;"
+                                     xml:space="preserve">
                   <g>
                       <path d="M70.939,65.832H66l0.023-2.869c0-1.275,1.047-2.318,2.326-2.318h0.315c1.282,0,2.332,1.043,2.332,2.318
                       L70.939,65.832z M52.413,59.684c-1.253,0-2.278,0.842-2.278,1.873V75.51c0,1.029,1.025,1.869,2.278,1.869
@@ -345,10 +373,10 @@ $user  = \common\models\User::find()->where(['id'=>Yii::$app->user->id])->one();
                       l6.894,16.284L25.682,35.235z"/>
                   </g>
                 </svg>
-                    </a>
-                    <a href="<?php if (!empty($contacts->rss)){$contacts->rss;}?>">
-                        <svg version="1.1" id="Layer_1" xmlns="http://www.w3.org/2000/svg" x="0px" y="0px"
-                             viewBox="0 0 485 485" style="enable-background:new 0 0 485 485;" xml:space="preserve">
+                            </a>
+                            <a href="<?php if (!empty($contacts->rss)){$contacts->rss;}?>">
+                                <svg version="1.1" id="Layer_1" xmlns="http://www.w3.org/2000/svg" x="0px" y="0px"
+                                     viewBox="0 0 485 485" style="enable-background:new 0 0 485 485;" xml:space="preserve">
                   <g>
                       <path d="M339.708,400H400c-0.035-86.835-35.341-165.515-92.369-222.578C250.567,120.359,171.953,85.035,85.136,85v60.121
                       C225.512,145.226,339.603,259.505,339.708,400z"/>
@@ -361,18 +389,23 @@ $user  = \common\models\User::find()->where(['id'=>Yii::$app->user->id])->one();
                       <path d="M0,0v485h485V0H0z M455,455H30V30h425V455z"/>
                   </g>
                 </svg>
-                    </a>
-                </div>
-            </ul>
-            <div class="box">
-                <div class="title"><?= LangHelper::t("САМАРКАНД", "SAMARQAND", "SAMARKAND"); ?></div>
-                <a onclick="mapPanTo(39.648095,66.910189); return false;"
-                   class="address"></a>
-                <div class="icon-text">
-                    <svg xmlns="http://www.w3.org/2000/svg" xml:space="preserve" width="1.944mm" height="1.9439mm"
-                         version="1.1"
-                         style="shape-rendering:geometricPrecision; text-rendering:geometricPrecision; image-rendering:optimizeQuality; fill-rule:evenodd; clip-rule:evenodd"
-                         viewBox="0 0 3.23 3.23">
+                            </a>
+
+                        </div>
+                    </ul>
+                </ul>
+
+                <div class="box">
+                    <div class="title"><?= LangHelper::t("Самарканд", "Samarqand", "Samarkand"); ?></div>
+                    <a onclick="mapPanTo(39.648095,66.910189); return false;"
+                       class="address"><?= LangHelper::t("СП ООО «Самаркандский Автомобильный Завод» Республика Узбекистан, 140160, г.Самарканд, ул. Бухорий, 5", "MChJ QK 'Samarqand Avtomobil Zavodi', O'zbekiston Respublikasi, 140660, Samarqand shahri, Buxoriy ko'chasi, 5", "JV LLC 'Samarkand Automobile Factory', 5, Bukhoriy str., 140660, Samarkand city, Republic of Uzbekistan
++998 66 230 87 00"); ?> </a>
+
+                    <div class="icon-text">
+                        <svg xmlns="http://www.w3.org/2000/svg" xml:space="preserve" width="1.944mm" height="1.9439mm"
+                             version="1.1"
+                             style="shape-rendering:geometricPrecision; text-rendering:geometricPrecision; image-rendering:optimizeQuality; fill-rule:evenodd; clip-rule:evenodd"
+                             viewBox="0 0 3.23 3.23">
                 <g>
                     <metadata></metadata>
                     <g>
@@ -384,28 +417,30 @@ $user  = \common\models\User::find()->where(['id'=>Yii::$app->user->id])->one();
                     </g>
                 </g>
               </svg>
-                    <p>+998 98 999 99 99</p>
-                </div>
-                <div class="icon-text">
-                    <svg xmlns="http://www.w3.org/2000/svg" xml:space="preserve" width="1.966mm" height="1.9662mm"
-                         version="1.1"
-                         style="shape-rendering:geometricPrecision; text-rendering:geometricPrecision; image-rendering:optimizeQuality; fill-rule:evenodd; clip-rule:evenodd"
-                         viewBox="0 0 5.12 5.12">
+                        <p>+998 66 230 87 00</p>
+                    </div>
+                    <div class="icon-text">
+                        <svg xmlns="http://www.w3.org/2000/svg" xml:space="preserve" width="1.966mm" height="1.9662mm"
+                             version="1.1"
+                             style="shape-rendering:geometricPrecision; text-rendering:geometricPrecision; image-rendering:optimizeQuality; fill-rule:evenodd; clip-rule:evenodd"
+                             viewBox="0 0 5.12 5.12">
                 <g>
                     <metadata></metadata>
                     <path d="M2.94 2.5l-0 -0 0.75 -0.65 0 1.4 -0.74 -0.74zm-0.64 0.11l0.01 -0.01 0.2 0.18 0 0 0.01 0 0.01 0 0.01 0 0.01 0 0 0 0.02 0 0.01 -0 0 -0 0.01 -0 0 -0 0.01 -0 0.01 -0 0 -0 0.2 -0.18 0.01 0.01 0.74 0.74 -2.02 0 0.74 -0.74zm0.26 -0l-0.98 -0.85 1.95 0 -0.98 0.85zm-1.12 -0.77l0.75 0.65 -0 0 -0.74 0.74 0 -1.4zm2.4 -0.41l-2.56 0c-0.09,0 -0.16,0.07 -0.16,0.16l0 1.92c0,0.09 0.07,0.16 0.16,0.16l2.56 0c0.09,0 0.16,-0.07 0.16,-0.16l0 -1.92c0,-0.09 -0.07,-0.16 -0.16,-0.16zm0.42 2.82c-0.45,0.45 -1.06,0.7 -1.7,0.7 -0.64,0 -1.24,-0.25 -1.7,-0.7 -0.45,-0.45 -0.7,-1.06 -0.7,-1.7 0,-0.64 0.25,-1.24 0.7,-1.7 0.45,-0.45 1.06,-0.7 1.7,-0.7 0.64,0 1.24,0.25 1.7,0.7 0.45,0.45 0.7,1.06 0.7,1.7 0,0.64 -0.25,1.24 -0.7,1.7zm-1.7 -4.26c-1.42,0 -2.56,1.15 -2.56,2.56 0,1.41 1.15,2.56 2.56,2.56 1.41,0 2.56,-1.15 2.56,-2.56 0,-1.41 -1.15,-2.56 -2.56,-2.56z"></path>
                 </g>
               </svg>
-                    <p>asd@mail.ru></p>
+                        <p>saminfo@samauto.uz</p>
+                    </div>
                 </div>
-            </div>
-            <div class="box">
-                <div class="title">ТАШКЕНТ</div>
-                <div class="icon-text">
-                    <svg xmlns="http://www.w3.org/2000/svg" xml:space="preserve" width="1.944mm" height="1.9439mm"
-                         version="1.1"
-                         style="shape-rendering:geometricPrecision; text-rendering:geometricPrecision; image-rendering:optimizeQuality; fill-rule:evenodd; clip-rule:evenodd"
-                         viewBox="0 0 3.23 3.23">
+                <div class="box">
+                    <div class="title"><?= LangHelper::t("Ташкент", "Toshkent", "Tashkent"); ?></div>
+                    <a onclick="mapPanTo(39.648095,66.910189); return false;"
+                       class="address"><?= LangHelper::t("Ташкентский офис СП ООО «Самаркандский Автомобильный Завод»  Республика Узбекистан, 100000, г.Ташкент, ул. Амира Темура, 13", "MChJ QK 'Samarqand Avtomobil Zavodi' Toshkent ofisi, O'zbekiston Respublikasi, 100000, Toshkent shahri, Amir Temur ko'chasi, 13", "JV LLC 'Samarkand Automobile Factory' Tashkent branch, 13, Amir Temur str., 100000, Tashkent city, Republic of Uzbekistan+998 78 140 80 00"); ?>                             </a>
+                    <div class="icon-text">
+                        <svg xmlns="http://www.w3.org/2000/svg" xml:space="preserve" width="1.944mm" height="1.9439mm"
+                             version="1.1"
+                             style="shape-rendering:geometricPrecision; text-rendering:geometricPrecision; image-rendering:optimizeQuality; fill-rule:evenodd; clip-rule:evenodd"
+                             viewBox="0 0 3.23 3.23">
                 <g>
                     <metadata></metadata>
                     <g>
@@ -417,48 +452,50 @@ $user  = \common\models\User::find()->where(['id'=>Yii::$app->user->id])->one();
                     </g>
                 </g>
               </svg>
-                    <a onclick="mapPanTo(41.305927,69.278291); return false;" class="address">faks
-                    </a>
-                </div>
-                <div class="icon-text">
-                    <svg xmlns="http://www.w3.org/2000/svg" xml:space="preserve" width="1.966mm" height="1.9662mm"
-                         version="1.1"
-                         style="shape-rendering:geometricPrecision; text-rendering:geometricPrecision; image-rendering:optimizeQuality; fill-rule:evenodd; clip-rule:evenodd"
-                         viewBox="0 0 5.12 5.12">
+                        <a onclick="mapPanTo(41.305927,69.278291); return false;" class="address">
+                        </a>
+                        <p>  +998 78 140 80 00</p>
+                    </div>
+                    <div class="icon-text">
+                        <svg xmlns="http://www.w3.org/2000/svg" xml:space="preserve" width="1.966mm" height="1.9662mm"
+                             version="1.1"
+                             style="shape-rendering:geometricPrecision; text-rendering:geometricPrecision; image-rendering:optimizeQuality; fill-rule:evenodd; clip-rule:evenodd"
+                             viewBox="0 0 5.12 5.12">
                 <g>
                     <metadata></metadata>
                     <path d="M2.94 2.5l-0 -0 0.75 -0.65 0 1.4 -0.74 -0.74zm-0.64 0.11l0.01 -0.01 0.2 0.18 0 0 0.01 0 0.01 0 0.01 0 0.01 0 0 0 0.02 0 0.01 -0 0 -0 0.01 -0 0 -0 0.01 -0 0.01 -0 0 -0 0.2 -0.18 0.01 0.01 0.74 0.74 -2.02 0 0.74 -0.74zm0.26 -0l-0.98 -0.85 1.95 0 -0.98 0.85zm-1.12 -0.77l0.75 0.65 -0 0 -0.74 0.74 0 -1.4zm2.4 -0.41l-2.56 0c-0.09,0 -0.16,0.07 -0.16,0.16l0 1.92c0,0.09 0.07,0.16 0.16,0.16l2.56 0c0.09,0 0.16,-0.07 0.16,-0.16l0 -1.92c0,-0.09 -0.07,-0.16 -0.16,-0.16zm0.42 2.82c-0.45,0.45 -1.06,0.7 -1.7,0.7 -0.64,0 -1.24,-0.25 -1.7,-0.7 -0.45,-0.45 -0.7,-1.06 -0.7,-1.7 0,-0.64 0.25,-1.24 0.7,-1.7 0.45,-0.45 1.06,-0.7 1.7,-0.7 0.64,0 1.24,0.25 1.7,0.7 0.45,0.45 0.7,1.06 0.7,1.7 0,0.64 -0.25,1.24 -0.7,1.7zm-1.7 -4.26c-1.42,0 -2.56,1.15 -2.56,2.56 0,1.41 1.15,2.56 2.56,2.56 1.41,0 2.56,-1.15 2.56,-2.56 0,-1.41 -1.15,-2.56 -2.56,-2.56z"></path>
                 </g>
               </svg>
-                    <p><?= LangHelper::t("Email", "Email", "Email"); ?></p>
+                        <p>info@samauto.uz</p>
+                    </div>
                 </div>
             </div>
         </div>
     </div>
-</div>
-<div class="footer">
-    <div class="flex_row_beet_cen medium_container">
-        <div class="copyright">
-            <a href="https://goldenminds.uz" target="_blank"><span>Разработка сайта</span><img
-                        src="/img/logo-golden-minds.png" alt=""></a>
-            <div>Copyright @ Все права защищены</div>
-        </div>
-        <div class="external_links">
-            <a href="https://www.gov.uz" target='_blank'
-               class="preload"><?= LangHelper::t("ПОРТАЛ", "ПОРТАЛ", "ПОРТАЛ"); ?> </a>
-            <a href="https://pm.gov.uz" target='_blank'
-               class="preload"><?= LangHelper::t("ВИРТУАЛЬНАЯ", "ВИРТУАЛЬНАЯ", "ВИРТУАЛЬНАЯ"); ?></a>
-        </div>
-        <div class="uzb flex_row">
-            <a href="/symbols?v=2" class="preload"><span class="icon"><img src="/img/gerb.png"
-                                                                           alt=""></span><span><?= LangHelper::t("Герб", "Герб", "Герб"); ?></span></a>
-            <a href="/symbols?v=2" class="preload"><span class="icon"><img src="/img/flag.png"
-                                                                           alt=""></span><span><?= LangHelper::t("Bayroq", "Bayroq", "Bayroq"); ?></span></a>
-            <a href="/symbols?v=2" class="preload"><span class="icon"><img src="/img/gimn.png"
-                                                                           alt=""></span><span><?= LangHelper::t("Madhiya", "Madhiya", "Madhiya"); ?></span></a>
+    <div class="footer" style="background-color: #F5F5F5 !important;">
+        <div class="flex_row_beet_cen medium_container"  style="background-color: #F5F5F5 !important; width: 100%;">
+            <div class="copyright">
+                <a href="https://www.adigital.uz" target="_blank"><span><?= LangHelper::t("Разработка сайта ADigital ", " Saytni ishlab chiqish ADigital ", "Site development ADigital"); ?></span><img
+                            src="/img/logo-golden-minds.png" alt=""></a>
+                <div><?= LangHelper::t("Copyright @ Все права защищены", "Copyright @ Barcha huquqlar himoyalangan", "Copyright @ All rights reserved"); ?></div>
+            </div>
+            <div class="external_links">
+                <a href="https://www.gov.uz" target='_blank' class="preload"><?=LangHelper::t("ПОРТАЛ ГОСУДАРСТВЕННОЙ ВЛАСТИ РЕСПУБЛИКИ УЗБЕКИСТАН", "УЗБЕКИСТОН РЕСПУБЛИКАСИ ХУКУМАТ ПОРТАЛИ", "THE GOVERMENT PORTAL OF THE REPUBLIC OF UZBEKISTAN"); ?></a>
+                <a href="https://pm.gov.uz" target='_blank' class="preload"><?=LangHelper::t("ВИРТУАЛЬНАЯ ПРИЕМНАЯ ПРЕЗИДЕНТА РЕСПУБЛИКИ УЗБЕКИСТАН", "O'ZBEKISTON RESPUBLIKASI PRESIDENTI VIRTUAL QABULXONASI", "VIRTUAL RECEPTION OF THE PRESIDENT OF THE REPUBLIC OF UZBEKISTAN"); ?></a>
+                <a href="https://www.asakabank.uz" target='_blank' class="preload"><?=LangHelper::t("ГОСУДАРСТВЕННО-АКЦИОНЕРНЫЙ КОММЕРЧЕСКИЙ БАНК “АСАКА”", "ГОСУДАРСТВЕННО-АКЦИОНЕРНЫЙ КОММЕРЧЕСКИЙ БАНК “АСАКА”", "ГОСУДАРСТВЕННО-АКЦИОНЕРНЫЙ КОММЕРЧЕСКИЙ БАНК “АСАКА”"); ?></a>
+                <a href="#" target='_blank' class="preload"><?=LangHelper::t("ЛК ООО «O`ZAVTOSANOAT-LEASING»", "ЛК ООО «O`ZAVTOSANOAT-LEASING»", "ЛК ООО «O`ZAVTOSANOAT-LEASING»"); ?></a>
+                <a href="https://www.isuzu.co.jp/world/" target='_blank' class="preload"><?=LangHelper::t("ISUZU MOTORS", "ISUZU MOTORS", "ISUZU MOTORS"); ?></a>
+                <a href="https://uzavtosanoat.uz/" target='_blank' class="preload"><?=LangHelper::t("АО “УЗАВТОСАНОАТ”", "АО “УЗАВТОСАНОАТ”", "АО “УЗАВТОСАНОАТ”"); ?></a>
+                <a href="https://www.itochu.co.jp/en/index.html" target='_blank' class="preload"><?=LangHelper::t("ITOCHU CORPORATION", "ITOCHU CORPORATION", "ITOCHU CORPORATION"); ?></a>
+            </div>
+            <div class="uzb flex_row">
+                <a href="/symbols?v=2" class="preload"><span class="icon"><img src="/img/gerb.png" alt=""></span><span><?=LangHelper::t("Герб", "Gerb", "Coat of arms"); ?></span></a>
+                <a href="/symbols?v=1" class="preload"><span class="icon"><img src="/img/flag.png" alt=""></span><span><?=LangHelper::t("Флаг", "Bayroq", "Flag"); ?></span></a>
+                <a href="/symbols?v=3" class="preload"><span class="icon"><img src="/img/gimn.png" alt=""></span><span><?=LangHelper::t("Гимн", "Madhiya", "Anthem"); ?></span></a>
+            </div>
         </div>
     </div>
-</div>
+<?php endif ?>
 
 <?php $this->endBody() ?>
 </body>

@@ -30,9 +30,9 @@ class DocumentController extends Controller
      * Lists all Document models.
      * @return mixed
      */
-    public function actionIndex()
+    public function actionIndex($id)
     {
-        $documents = Document::find()->where(['id' => 1])->one();
+        $documents = Document::find()->where(['id' => $id])->one();
 
         return $this->render('index', [
             'documents' => $documents

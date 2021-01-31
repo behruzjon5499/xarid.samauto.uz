@@ -7,13 +7,13 @@ use yii\grid\GridView;
 /* @var $searchModel common\models\ContactsSearch */
 /* @var $dataProvider yii\data\ActiveDataProvider */
 
-$this->title = Yii::t('app', 'Contacts');
+$this->title = Yii::t('app', 'Добавить контактов');
 $this->params['breadcrumbs'][] = $this->title;
 ?>
 <div class="contacts-index">
 
     <p>
-        <?= Html::a(Yii::t('app', 'Create'), ['create'], ['class' => 'btn btn-success']) ?>
+        <?= Html::a(Yii::t('app', 'Добавить контактов'), ['create'], ['class' => 'btn btn-success']) ?>
     </p>
 
     <?php // echo $this->render('_search', ['model' => $searchModel]); ?>

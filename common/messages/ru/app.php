@@ -1,42 +1,34 @@
 <?php
 
 return [
-
     'Companies' => 'Компании',
-'Update' => 'Обновить',
-'Title Ru' => 'Заголовок Ru',
-'Description Ru' => 'Информация',
-'Company' => 'Компания',
-'Feedbacks' => 'Отзывы',
-'Feedback' => 'Отзыв',
-'Documents' => 'Документы',
-'Support Ru'  => 'Поддержка Ru',
-'Заглавие Ru' => 'Заголовок RU',
-'Question Ru' => 'Вопрос Ru',
-'Answer Ru' => 'Ответ Ru',
-'Question Answers' => 'FAQ',
-'Address' => 'Адрес',
-'Phone1' => 'Телефон 1',
-'Phone2' => 'Телефон 2',
-"Home Phone" => 'Домашний телефон',
-'Obyom' => 'Объём',
-'Start Price' => 'Начальная цена',
-'Company ID' => 'ID компании',
-'Next Price' => 'Следующая цена',
-'Start date' => 'Дата начала',
-'End date' => 'Срок до' ,
-'Address Ru' => 'Адрес Ru',
-
-
-
-
-
-
-
-
-
-
-
+    'Update' => 'Обновить',
+    'Title Ru' => 'Заголовок Ru',
+    'Title Uz' => 'Заголовок Uz',
+    'Title En' => 'Заголовок Eng',
+    'Description Ru' => 'Описание Ru',
+    'Description Uz' => 'Описание Uz',
+    'Description En' => 'Описание Eng',
+    'Company' => 'Компания',
+    'Feedbacks' => 'Отзывы',
+    'Feedback' => 'Отзыв',
+    'Documents' => 'Документы',
+    'Support Ru' => 'Поддержка Ru',
+    'Заглавие Ru' => 'Заголовок RU',
+    'Question Ru' => 'Вопрос Ru',
+    'Answer Ru' => 'Ответ Ru',
+    'Question Answers' => 'FAQ',
+    'Address' => 'Адрес',
+    'Phone1' => 'Телефон 1',
+    'Phone2' => 'Телефон 2',
+    "Home Phone" => 'Домашний телефон',
+    'Obyom' => 'Объём',
+    'Start Price' => 'Начальная цена',
+    'Company ID' => 'ID компании',
+    'Next Price' => 'Следующая цена',
+    'Start date' => 'Дата начала',
+    'End date' => 'Срок до',
+    'Address Ru' => 'Адрес Ru',
 
 
     'Country' => 'Страна',
@@ -57,8 +49,8 @@ return [
 //    'Address' => 'Адрес',
     'Description' => 'Описание',
 //    'Description Ru' => 'Описание Ru',
-    'Description Uz' => 'Описание Uz',
-    'Description En' => 'Описание En',
+//    'Description Uz' => 'Описание Uz',
+//    'Description En' => 'Описание En',
     'Content' => 'Контент',
     'Status' => 'Статус',
     'Price' => 'Цена',
@@ -70,8 +62,7 @@ return [
     'Products' => 'Продукты',
     'Product ID' => 'ID Продукты',
 //    'Title Ru' => 'Заглавие Ru',
-    'Title Uz' => 'Заглавие Uz',
-    'Title En' => 'Заглавие En',
+
     'Suppliers' => 'Дистрибьютор',
     'Distributor ID' => 'Дистрибьютор ID',
     'Distributors And Links' => 'Дистрибьюторы и Ссылки',

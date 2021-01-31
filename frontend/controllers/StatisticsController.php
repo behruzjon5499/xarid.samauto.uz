@@ -4,6 +4,7 @@ namespace frontend\controllers;
 
 use common\models\Auctions;
 use common\models\Companies;
+use common\models\Orders;
 use Yii;
 use yii\filters\VerbFilter;
 use yii\helpers\VarDumper;
@@ -42,13 +43,17 @@ class StatisticsController extends Controller
            where auctions.status=10 group by auctions.company_id;");
         $auctions = $command->queryAll();
 
+//        $statistic = Orders::find()->where(['between' , ])
         $companies = Companies::find()->all();
         $count = Auctions::find()->where(['status' => 10])->count();
         $counts = Auctions::find()->count();
-//        VarDumper::dump($auctions, 12, true);
-//        die();
+        $count_order = Orders::find()->where(['status' => 10])->count();
+        $counts_order = Orders::find()->count();
+
         return $this->render('index', [
             'auctions' => $auctions,
+            'count_order' => $count_order,
+            'counts_order' => $counts_order,
             'count' => $count,
             'counts' => $counts,
             'companies' => $companies

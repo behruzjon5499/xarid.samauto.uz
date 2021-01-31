@@ -9,13 +9,13 @@ use yii\grid\GridView;
 /* @var $searchModel common\models\FeedbackSearch */
 /* @var $dataProvider yii\data\ActiveDataProvider */
 
-$this->title = Yii::t('app', 'Feedbacks');
+$this->title = Yii::t('app', 'Вопросы от клиентов');
 $this->params['breadcrumbs'][] = $this->title;
 ?>
 <div class="feedback-index">
 
     <p>
-        <?= Html::a(Yii::t('app', 'Create'), ['create'], ['class' => 'btn btn-success']) ?>
+        <?= Html::a(Yii::t('app', 'Добавить'), ['create'], ['class' => 'btn btn-success']) ?>
     </p>
 
     <?php // echo $this->render('_search', ['model' => $searchModel]); ?>

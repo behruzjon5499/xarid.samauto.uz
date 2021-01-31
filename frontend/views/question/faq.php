@@ -23,7 +23,7 @@ $material = 'material_' . $lang;
  ?>
 <div class="faqInside section-gap">
     <div class="small_container">
-        <div class="mTitle aos-init aos-animate" data-aos="fade-right"><?= LangHelper::t("ЧАСТО ЗАДАВАЕМЫЕ ВОПРОСЫ", "ЧАСТО ЗАДАВАЕМЫЕ ВОПРОСЫ", "ЧАСТО ЗАДАВАЕМЫЕ ВОПРОСЫ"); ?></div>
+        <div class="mTitle aos-init aos-animate" data-aos="fade-right"><?= LangHelper::t("ЧАСТО ЗАДАВАЕМЫЕ ВОПРОСЫ", "Ko'p beriladigan savollar", "Frequently asked questions"); ?></div>
         <div class="mTitle2 aos-init aos-animate" data-aos="fade-right"><?= LangHelper::t("ПРОЦЕСС ПОКУПКИ", "ПРОЦЕСС ПОКУПКИ", "ПРОЦЕСС ПОКУПКИ"); ?></div>
         <div class="questions aos-init aos-animate" data-aos="fade-right">
 
@@ -63,8 +63,8 @@ $material = 'material_' . $lang;
 
 <div class="site_bread">
     <div class="centerBox">
-        <a href="index.html"> <?= LangHelper::t("ГЛАВНАЯ", "ГЛАВНАЯ", "ГЛАВНАЯ"); ?></a>
-        <span><?= LangHelper::t("О КОМПАНИИ", "О КОМПАНИИ", "О КОМПАНИИ"); ?></span>
+        <a href="<?= yii\helpers\Url::to(['site/index']) ?>"> <?= LangHelper::t("Главная", "Bosh sahifa", "Homepage"); ?></a>
+        <span><?= LangHelper::t("О Компания", "Kompaniya haqida", "About Company"); ?></span>
     </div>
 </div>
 

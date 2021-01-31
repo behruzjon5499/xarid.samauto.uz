@@ -20,20 +20,7 @@ class UserAuctionsController extends Controller
 
     const STATUS_WAIT = 0;
     const STATUS_ACTIVE = 10;
-    /**
-     * {@inheritdoc}
-     */
-    public function behaviors()
-    {
-        return [
-            'verbs' => [
-                'class' => VerbFilter::className(),
-                'actions' => [
-                    'delete' => ['POST'],
-                ],
-            ],
-        ];
-    }
+
 
     /**
      * Lists all UserAuctions models.

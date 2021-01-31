@@ -18,7 +18,7 @@ class OrdersSearch extends Orders
     {
         return [
             [['id', 'user_id', 'company_id', 'status'], 'integer'],
-            [['title_ru', 'title_uz', 'title_en', 'razdel', 'file', 'address', 'start_price', 'end_date', 'description_ru', 'description_uz', 'description_en', 'predmet_order_ru', 'predmet_order_uz', 'predmet_order_en', 'delivery_order_ru', 'delivery_order_uz', 'delivery_order_en', 'payment_order_ru', 'payment_order_uz', 'payment_order_en', 'contacts_order_ru', 'contacts_order_uz', 'contacts_order_en', 'inn', 'mfo', 'account_number', 'bank'], 'safe'],
+            [['title_ru', 'title_uz', 'title_en', 'razdel', 'file', 'address', 'start_price', 'end_date', 'description_ru', 'description_uz', 'description_en', 'predmet_order_ru', 'predmet_order_uz', 'predmet_order_en', 'delivery_order_ru', 'delivery_order_uz', 'delivery_order_en', 'payment_order_ru', 'payment_order_uz', 'payment_order_en', 'contacts_order_ru', 'contacts_order_uz', 'contacts_order_en'], 'safe'],
         ];
     }
 
@@ -86,11 +86,7 @@ class OrdersSearch extends Orders
             ->andFilterWhere(['like', 'payment_order_en', $this->payment_order_en])
             ->andFilterWhere(['like', 'contacts_order_ru', $this->contacts_order_ru])
             ->andFilterWhere(['like', 'contacts_order_uz', $this->contacts_order_uz])
-            ->andFilterWhere(['like', 'contacts_order_en', $this->contacts_order_en])
-            ->andFilterWhere(['like', 'inn', $this->inn])
-            ->andFilterWhere(['like', 'mfo', $this->mfo])
-            ->andFilterWhere(['like', 'account_number', $this->account_number])
-            ->andFilterWhere(['like', 'bank', $this->bank]);
+            ->andFilterWhere(['like', 'contacts_order_en', $this->contacts_order_en]);
 
         return $dataProvider;
     }

@@ -15,7 +15,7 @@ $this->params['breadcrumbs'][] = $this->title;
 
 
     <p>
-        <?= Html::a(Yii::t('app', 'Create'), ['create'], ['class' => 'btn btn-success']) ?>
+        <?= Html::a(Yii::t('app', 'Добавить пользователя '), ['create'], ['class' => 'btn btn-success']) ?>
     </p>
 
     <?php // echo $this->render('_search', ['model' => $searchModel]); ?>
@@ -54,21 +54,6 @@ $this->params['breadcrumbs'][] = $this->title;
                 'format' => 'raw',
             ],
             'title_company',
-            //'email_company:email',
-            //'phone_company',
-            //'address_company:ntext',
-            //'sertifacation',
-            //'litsenziya',
-            //'role',
-            //'zametka',
-            //'check',
-            //'auth_key',
-            //'password_hash',
-            //'password_reset_token',
-            //'status',
-            //'created_at',
-            //'updated_at',
-            //'verification_token',
 
             ['class' => 'yii\grid\ActionColumn'],
         ],

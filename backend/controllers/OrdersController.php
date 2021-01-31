@@ -5,6 +5,7 @@ namespace backend\controllers;
 use Yii;
 use common\models\Orders;
 use backend\models\OrdersSearch;
+use yii\helpers\VarDumper;
 use yii\web\Controller;
 use yii\web\NotFoundHttpException;
 use yii\filters\VerbFilter;
@@ -15,20 +16,8 @@ use yii\web\UploadedFile;
  */
 class OrdersController extends Controller
 {
-    /**
-     * {@inheritdoc}
-     */
-    public function behaviors()
-    {
-        return [
-            'verbs' => [
-                'class' => VerbFilter::className(),
-                'actions' => [
-                    'delete' => ['POST'],
-                ],
-            ],
-        ];
-    }
+    const STATUS_WAIT = 0;
+    const STATUS_ACTIVE = 10;
 
     /**
      * Lists all Orders models.
@@ -102,7 +91,7 @@ class OrdersController extends Controller
         $model = $this->findModel($id);
 
 
-        if (Yii::$app->request->isPost && $model->load(Yii::$app->request->post())) {
+        if ($model->load(Yii::$app->request->post())) {
             if (!empty($_FILES['Orders']['name']['file1'])) {
                 $model->file1 = $_POST['Orders']['file1'];
                 $model->file1 = UploadedFile::getInstance($model, 'file1');
@@ -152,4 +141,26 @@ class OrdersController extends Controller
 
         throw new NotFoundHttpException(Yii::t('app', 'The requested page does not exist.'));
     }
+
+    public function actionActive($id)
+    {
+        $feedback = Orders::find()->where(['id'=>$id])->one();
+        $feedback->status=self::STATUS_ACTIVE;
+        $feedback->save(false);
+        return $this->render('view', [
+            'id'=>$id,
+            'model' => $feedback,
+        ]);
+    }
+    public function actionWait($id)
+    {
+        $feedback = Orders::find()->where(['id'=>$id])->one();
+        $feedback->status=self::STATUS_WAIT;
+        $feedback->save(false);
+        return $this->render('view', [
+            'id'=>$id,
+            'model' => $feedback,
+        ]);
+    }
+
 }

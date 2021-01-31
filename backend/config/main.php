@@ -56,19 +56,16 @@ return [
         'urlManager' => function () {
             return Yii::$app->get('backendUrlManager');
         },
+        'assetManager' => [
+            'bundles' => [
+                'yii\web\JqueryAsset' => [
+                    'sourcePath' => null,
+                    'js' => ['js/jquery_1.11.3.js'] // тут путь до Вашего экземпляра jquery
+//                    'js' => ['js/jquery-3.1.1.min.js'], // тут путь до Вашего экземпляра jquery
+                ],
+            ],
+        ],
     ],
-//    'controllerMap' => [
-//        'elfinder' => [
-//            'class' => 'mihaildev\elfinder\PathController',
-//            'access' => ['@'],
-//            'root' => [
-//                'baseUrl' => '',
-//                'basePath' => '@frontend/web',
-//                'path' => 'elfinder-files',
-//                'name' => 'Files',
-//            ],
-//        ],
-//    ],
 
     'as access' => [
         'class' => AccessControl::class,
@@ -79,6 +76,7 @@ return [
                 'roles' => ['@']
             ],
         ],
+
     ],
     'params' => $params,
 

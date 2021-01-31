@@ -18,7 +18,7 @@ class UserAuctionsSearch extends UserAuctions
     {
         return [
             [['id', 'user_id', 'auction_id'], 'integer'],
-            [['price', 'file', 'status'], 'safe'],
+            [['price', 'status'], 'safe'],
         ];
     }
 
@@ -64,7 +64,6 @@ class UserAuctionsSearch extends UserAuctions
         ]);
 
         $query->andFilterWhere(['like', 'price', $this->price])
-            ->andFilterWhere(['like', 'file', $this->file])
             ->andFilterWhere(['like', 'status', $this->status]);
 
         return $dataProvider;
