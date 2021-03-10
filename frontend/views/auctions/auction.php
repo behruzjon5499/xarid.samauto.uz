@@ -26,9 +26,6 @@ $descr = 'descr_' . $lang;
 $link = 'link_' . $lang;
 $material = 'material_' . $lang;
 
-$_engine['size_obyom'][1] = LangHelper::t("штук", "штук", "штук");
-$_engine['size_obyom'][2] = LangHelper::t("тонна", "тонна", "тонна");
-$_engine['size_obyom'][3] = LangHelper::t("кг", "кг", "кг");
 ?>
 <style>
     tr td{
@@ -43,9 +40,11 @@ $_engine['size_obyom'][3] = LangHelper::t("кг", "кг", "кг");
         <div class="table_filter d-flex">
             <section class="my-auctions">
                 <a href="<?= yii\helpers\Url::to(['auctions/index']) ?>"  class="filter-input active"> <?= LangHelper::t("Текущие аукционы", "Текущие аукционы", "Текущие аукционы"); ?></a>
-                <a href="<?= yii\helpers\Url::to(['auctions/auction']) ?>"  class="filter-input active" style="margin-left: 15px;"><?= LangHelper::t("Прошедшие аукционы", "Mening auksionlarim", "My auctions"); ?></a>
-                   </section>
+                <a href="<?= yii\helpers\Url::to(['auctions/auction']) ?>"  class="filter-input active" style="margin-left: 15px;"><?= LangHelper::t("Полезно знать", "Mening auksionlarim", "My auctions"); ?></a>
+            </section>
         </div>
+
+
         <table id="auction_table" class="table table-striped table-bordered" style="width:100%">
             <thead>
             <tr>
@@ -54,27 +53,29 @@ $_engine['size_obyom'][3] = LangHelper::t("кг", "кг", "кг");
                 <th><?= LangHelper::t("Наименование аукциона", " Auksion nomi", " Auction name"); ?></th>
                 <th><?= LangHelper::t("Местонахождение", "Manzil", "Location"); ?></th>
                 <th><?= LangHelper::t("Объем", "Hajmi", "Volume"); ?></th>
-                <th><?= LangHelper::t("Старотовая цена с НДС (в сумах)", "Старотовая цена с НДС (в сумах)", "Старотовая цена с НДС (в сумах)"); ?></th>
+                <th><?= LangHelper::t("Стартовая с НДС", " Boshlang'ich narx", "Starting price"); ?></th>
+                <th><?= LangHelper::t("Компания", "Kompaniya", "Company"); ?> </th>
                 <th><?= LangHelper::t("Дата окончания", "Tugash muddati", "Expiration date"); ?></th>
             </tr>
             </thead>
             <?php foreach($auctions as $auction):?>
-            <tbody>
-            <tr onclick="location.href='<?= yii\helpers\Url::to(['auctions/view','id'=>$auction->id
-            ]) ?>'">
-                <td><?= $auction->id ?></td>
-                <td><?= Yii::$app->formatter->asDate($auction->start_date, 'yyyy-MM-dd'); ?></td>
-                <td><?= $auction->$title ?></td>
-                <td><?= $auction->address ?></td>
-                <td><?= $auction->obyom ?>  <?= @$_engine['size_obyom'][$auction->size_obyom] ?></td>
-                <td><?= $auction->start_price ?></td>
-                <?php if ($auction->end_date < $t){ ?>
-                    <td> <h4><?= LangHelper::t("Продано", "Sotildi", "Saled"); ?></h4></td>
-                <?php } else { ?>
-                <td><?= Yii::$app->formatter->asDate($auction->end_date, 'yyyy-MM-dd'); ?></td>
-                <?php } ?>
-            </tr>
-            </tbody>
+                <tbody>
+                <tr onclick="location.href='<?= yii\helpers\Url::to(['auctions/win','id'=>$auction->id
+                ]) ?>'">
+                    <td><?= $auction->id ?></td>
+                    <td><?= Yii::$app->formatter->asDate($auction->start_date, 'yyyy-MM-dd'); ?></td>
+                    <td><?= $auction->$title ?></td>
+                    <td><?= $auction->address ?></td>
+                    <td><?= $auction->obyom ?></td>
+                    <td><?= $auction->start_price ?></td>
+                    <td><?= $auction->company->$title ?></td>
+                    <?php if ($auction->end_date < $t){ ?>
+                        <td> <h4><?= LangHelper::t("Продано", "Sotildi", "Saled"); ?></h4></td>
+                    <?php } else { ?>
+                        <td><?= Yii::$app->formatter->asDate($auction->end_date, 'yyyy-MM-dd'); ?></td>
+                    <?php } ?>
+                </tr>
+                </tbody>
 
             <?php endforeach;?>
         </table>

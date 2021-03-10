@@ -47,6 +47,14 @@ $this->params['breadcrumbs'][] = $this->title;
                 },
                 'format' => 'raw',
             ],
+            [
+                'attribute' => 'photo',
+                'label' => 'Photo',
+                'value' => function ($model) {
+                    return Html::a('Download The Photo',  '../../uploads/auctions/' . $model->photo, ['class' => 'btn btn-primary', 'download'=>'']);
+                },
+                'format' => 'raw',
+            ],
             'obyom',
 //            'size_obyom',
             'company.title_ru',

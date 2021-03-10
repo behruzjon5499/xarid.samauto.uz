@@ -37,11 +37,9 @@ class OrderController extends Controller
     public function actionIndex()
     {
         $time = new \DateTime('now');
-        $today = $time->format('Y-m-d');
+        $today = $time->format('d-m-Y H:i:s');
         $t = strtotime($today);
-        $order = Orders::find()->where(['>', 'end_date'  ,$t])->all();
-//VarDumper::dump($order,12,true);
-//die();
+        $order = Orders::find()->where(['>=', 'end_date'  ,$t])->andWhere(['status' => 10])->all();
         return $this->render('index', [
             'order' => $order
         ]);
@@ -49,11 +47,8 @@ class OrderController extends Controller
 
     public function actionView($id)
     {
-
         $model = new OrderUser();
-
         if ($model->load(Yii::$app->request->post())) {
-
             $model->file1 = $_POST['OrderUser']['file1'];
             $model->file1 = UploadedFile::getInstance($model, 'file1');
             $model->file2 = $_POST['OrderUser']['file2'];
@@ -62,8 +57,6 @@ class OrderController extends Controller
             $model->price = $_POST['OrderUser']['price'];
             $model->user_id = Yii::$app->user->id;
             $model->save(false);
-//VarDumper::dump($model->user->email);
-//die();
             Yii::$app
                 ->mailer
                 ->compose(['html' => 'order/confirm-html', 'text' => 'order/confirm-text'])
@@ -71,8 +64,8 @@ class OrderController extends Controller
                 ->setTo($model->user->email)
                 ->setSubject('sizning zakupkangiz bo`yicha ')
                 ->send();
-
-            return $this->redirect(['view', 'id' => $model->id]);
+            Yii::$app->session->setFlash('success', 'Ваш запрос успешно отправлен');
+            return $this->redirect(['view', 'id' => $id]);
         }
 
 

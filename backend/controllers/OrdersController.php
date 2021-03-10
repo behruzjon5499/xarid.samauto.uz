@@ -58,8 +58,10 @@ class OrdersController extends Controller
 
 
         if (Yii::$app->request->isPost && $model->load(Yii::$app->request->post())) {
-            if (!empty($_FILES['Orders']['name']['file1'])) {
+            if (!empty($_FILES['Orders']['name']['file1']) || !empty($_FILES['Orders']['name']['image'])) {
                 $model->file1 = $_POST['Orders']['file1'];
+                $model->image = $_POST['Orders']['image'];
+                $model->image = UploadedFile::getInstance($model, 'image');
                 $model->file1 = UploadedFile::getInstance($model, 'file1');
                 $model->upload();
                 $model->user_id = Yii::$app->user->id;
@@ -92,8 +94,10 @@ class OrdersController extends Controller
 
 
         if ($model->load(Yii::$app->request->post())) {
-            if (!empty($_FILES['Orders']['name']['file1'])) {
+            if (!empty($_FILES['Orders']['name']['file1']) || !empty($_FILES['Orders']['name']['image'])) {
                 $model->file1 = $_POST['Orders']['file1'];
+                $model->image = $_POST['Orders']['image'];
+                $model->image = UploadedFile::getInstance($model, 'image');
                 $model->file1 = UploadedFile::getInstance($model, 'file1');
                 $model->upload();
                 $model->user_id = Yii::$app->user->id;
@@ -144,22 +148,24 @@ class OrdersController extends Controller
 
     public function actionActive($id)
     {
-        $feedback = Orders::find()->where(['id'=>$id])->one();
-        $feedback->status=self::STATUS_ACTIVE;
-        $feedback->save(false);
+        $orders =  Yii::$app->db->createCommand()
+            ->update('orders', ['status' => 10] ,['id'=>$id])
+            ->execute();
+        $orders = Orders::find()->where(['id'=>$id])->one();
         return $this->render('view', [
             'id'=>$id,
-            'model' => $feedback,
+            'model' => $orders,
         ]);
     }
     public function actionWait($id)
     {
-        $feedback = Orders::find()->where(['id'=>$id])->one();
-        $feedback->status=self::STATUS_WAIT;
-        $feedback->save(false);
+        $orders =  Yii::$app->db->createCommand()
+            ->update('orders', ['status' => 0] ,['id'=>$id])
+            ->execute();
+        $orders = Orders::find()->where(['id'=>$id])->one();
         return $this->render('view', [
             'id'=>$id,
-            'model' => $feedback,
+            'model' => $orders,
         ]);
     }
 

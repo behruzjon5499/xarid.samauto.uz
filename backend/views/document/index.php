@@ -28,17 +28,7 @@ $this->params['breadcrumbs'][] = $this->title;
 
             'id',
             'title_ru:ntext',
-//            'title_uz:ntext',
-//            'title_en:ntext',
             'signup_ru:ntext',
-            //'signup_uz:ntext',
-            //'signup_en:ntext',
-            'support_ru:ntext',
-            //'support_uz:ntext',
-            //'support_en:ntext',
-            //'podacha_ru:ntext',
-            //'podacha_uz:ntext',
-            //'podacha_en:ntext',
 
             ['class' => 'yii\grid\ActionColumn'],
         ],

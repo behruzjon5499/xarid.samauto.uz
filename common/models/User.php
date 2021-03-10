@@ -86,13 +86,13 @@ class User extends ActiveRecord implements IdentityInterface
             ['status', 'in', 'range' => [self::STATUS_ACTIVE, self::STATUS_INACTIVE, self::STATUS_DELETED]],
             [['check'], 'required'],
             [['check'], 'compare', 'compareValue' => 1, 'message'=>'Please check this'],
-            [['file'], 'file', 'skipOnEmpty' => false, 'extensions' => 'doc, docx, xls, xlsx, pdf','maxSize'=>1024 * 1024 * 5, 'message'=>'Not more than 10MB','when' => function($model) {
+            [['file'], 'file', 'skipOnEmpty' => false, 'extensions' => 'doc, docx, xls, xlsx, pdf,jpeg, png, jpg, gif','maxSize'=>1024 * 1024 * 5, 'message'=>'Not more than 10MB','when' => function($model) {
                 return $model->jis_yur == 1;
             }],
-            [['file1'], 'file', 'skipOnEmpty' => false, 'extensions' => 'doc, docx, xls, xlsx, pdf', 'maxSize'=>1024 * 1024 * 5, 'message'=>'Not more than 10MB','when' => function($model) {
+            [['file1'], 'file', 'skipOnEmpty' => false, 'extensions' => 'doc, docx, xls, xlsx, pdf,jpeg, png, jpg, gif', 'maxSize'=>1024 * 1024 * 5, 'message'=>'Not more than 10MB','when' => function($model) {
                 return $model->jis_yur == 1;
             }],
-            [['file2'], 'file', 'skipOnEmpty' => false, 'extensions' => 'doc, docx, xls, xlsx, pdf','maxSize'=>1024 * 1024 * 5, 'message'=>'Not more than 10MB','when' => function($model) {
+            [['file2'], 'file', 'skipOnEmpty' => false, 'extensions' => 'doc, docx, xls, xlsx, pdf,jpeg, png, jpg, gif','maxSize'=>1024 * 1024 * 5, 'message'=>'Not more than 10MB','when' => function($model) {
                 return $model->jis_yur == 2;
             }],
         ];
@@ -124,7 +124,7 @@ class User extends ActiveRecord implements IdentityInterface
      */
     public static function findByEmail($email)
     {
-        return static::findOne(['email' => $email, 'status' => self::STATUS_ACTIVE]);
+        return static::findOne(['email' => $email]);
     }
     public static function findByUsername($username)
     {

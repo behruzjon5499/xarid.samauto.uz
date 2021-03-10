@@ -18,7 +18,7 @@ class DocumentSearch extends Document
     {
         return [
             [['id'], 'integer'],
-            [['title_ru', 'title_uz', 'title_en', 'signup_ru', 'signup_uz', 'signup_en', 'support_ru', 'support_uz', 'support_en', 'podacha_ru', 'podacha_uz', 'podacha_en'], 'safe'],
+            [['title_ru', 'title_uz', 'title_en', 'signup_ru', 'signup_uz', 'signup_en'], 'safe'],
         ];
     }
 
@@ -66,13 +66,7 @@ class DocumentSearch extends Document
             ->andFilterWhere(['like', 'title_en', $this->title_en])
             ->andFilterWhere(['like', 'signup_ru', $this->signup_ru])
             ->andFilterWhere(['like', 'signup_uz', $this->signup_uz])
-            ->andFilterWhere(['like', 'signup_en', $this->signup_en])
-            ->andFilterWhere(['like', 'support_ru', $this->support_ru])
-            ->andFilterWhere(['like', 'support_uz', $this->support_uz])
-            ->andFilterWhere(['like', 'support_en', $this->support_en])
-            ->andFilterWhere(['like', 'podacha_ru', $this->podacha_ru])
-            ->andFilterWhere(['like', 'podacha_uz', $this->podacha_uz])
-            ->andFilterWhere(['like', 'podacha_en', $this->podacha_en]);
+            ->andFilterWhere(['like', 'signup_en', $this->signup_en]);
 
         return $dataProvider;
     }

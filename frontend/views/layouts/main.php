@@ -5,6 +5,7 @@
 /* @var $content string */
 /* @var $contacts SiteContacts */
 
+use common\helpers\LanguageHelper;
 use frontend\assets\AppAsset;
 use common\helpers\LangHelper;
 use common\models\SiteContacts;
@@ -16,8 +17,9 @@ $contacts = SiteContacts::find()->where(['id'=> 1])->one();
 
 $controller = Yii::$app->controller->id;
 $action = Yii::$app->controller->action->id;
-
-
+$documents = \common\models\Document::find()->all();
+//\yii\helpers\VarDumper::dump($documents);
+//die();
 $lang = Yii::$app->session->get('lang');
 if ($lang == '') $lang = 'ru';
 
@@ -83,7 +85,11 @@ $user  = \common\models\User::find()->where(['id'=>Yii::$app->user->id])->one();
         <div class="top-navbar h-60">
             <div class="d-flex" style="align-items: center;">
                 <a href="<?= yii\helpers\Url::to(['site/index']) ?>" class="logo preload">
-                    <h4 style="color: #C62829;padding-left: 10px;font-weight: 600">Xarid.SamAuto.uz</h4>
+                       <?php if (Yii::$app->user->isGuest) {?>
+                           <h4 style="color: #C62829;padding-left: 10px;font-weight: 600">Xarid.Samauto.uz</h4>
+                <?php } else {?>
+                           <h4 style="color: #C62829;padding-left: 10px;font-weight: 600">Торговая  площадка «Samauto-Auksion»</h4>
+                   <?php  }?>
                 </a>
                 <div class="d-flex">
                     <a href="tel:+998900000000" class="phone-item under-hover preload lang-mob-hide"><i
@@ -186,29 +192,18 @@ $user  = \common\models\User::find()->where(['id'=>Yii::$app->user->id])->one();
                         <?= LangHelper::t("Документация", "Hujjatlar", "Documentation"); ?>
                     </a>
                     <ul class="nav-dropdown-content">
+
+                        <?php foreach ($documents as $document):?>
                         <li>
-                            <a href="<?= yii\helpers\Url::to(['document/index','id'=>1]) ?>"> <?= LangHelper::t("Инструкция", "Yo'riqnoma", "Instruction"); ?>  </a>
+                            <a href="<?= yii\helpers\Url::to(['document/index','id'=>$document->id]) ?>"> <?= LanguageHelper::get($document, 'title') ?></a>
                         </li>
-                        <li>
-                            <a href="<?= yii\helpers\Url::to(['document/index','id'=>2]) ?>"><?= LangHelper::t("Положение", "Nizom", "Posture"); ?> </a>
-                        </li>
-                        <li><a href="<?= yii\helpers\Url::to(['document/index','id'=>3]) ?>"
-                               target="_blank"><?= LangHelper::t("Пром отход", "Maishiy chiqindilar", " Industrial waste"); ?> </a></li>
+                        <?php endforeach; ?>
+
                     </ul>
                 </div>
                 <a href="<?= yii\helpers\Url::to(['site/contact']) ?>"
                    class="under-hover"><?= LangHelper::t("Контакты", "Aloqa", "Contacts"); ?> </a>
-                <div class="nav-dropdown">
-                    <a class="v-mid">
-                        <?= LangHelper::t("Телеграм", "Telegram", "Telegram"); ?>
-                    </a>
-                    <ul class="nav-dropdown-content">
-                        <li><a href="#" target="_blank"><?= LangHelper::t("Конкурсы на закупки", "Xarid uchun tenderlar", "Contests for purchases"); ?></a></li>
-                        <li><a href="#"
-                               target="_blank"><?= LangHelper::t("Конкурсы на продажи", "Onlayn savdolar", "Contests for sale"); ?></a>
-                        </li>
-                    </ul>
-                </div>
+
             </div>
         </div>
         <div class="rightBox flex_row_end_cen">
@@ -253,22 +248,16 @@ $user  = \common\models\User::find()->where(['id'=>Yii::$app->user->id])->one();
         <!-- <li style="transition-delay: 0.1s;"><a href="company.html" class="preload">КОМПАНИИ</a></li> -->
         <li style="transition-delay: 0.2s;"><a href="<?= yii\helpers\Url::to(['document/index']) ?>"
                                                class="preload"><?= LangHelper::t("FAQ", "FAQ", "FAQ"); ?></a></li>
-        <li style="transition-delay: 0.2s;"><a
-                    href="<?= yii\helpers\Url::to(['document/index']) ?>"> <?= LangHelper::t("Инструкция", "Yo'riqnoma", "Инструкция"); ?> </a></li>
-        <li style="transition-delay: 0.2s;"><a
-                    href="<?= yii\helpers\Url::to(['document/index']) ?>"><?= LangHelper::t("Положение", "Nizom", "Posture"); ?> </a></li>
-        <li style="transition-delay: 0.2s;"><a href="#"
-                                               target="_blank"><?= LangHelper::t("Пром отход", "Maishiy chiqindilar", " Industrial waste"); ?></a>
-        </li>
+
+        <?php foreach ($documents as $document):?>
+            <li>
+                <a href="<?= yii\helpers\Url::to(['document/index','id'=>$document->id]) ?>"> <?php $document->$title?></a>
+            </li>
+        <?php endforeach; ?>
         <li style="transition-delay: 0.3s;"><a href="<?= yii\helpers\Url::to(['site/contact']) ?>"
                                                class="preload"><?= LangHelper::t("Контакты", "Aloqa", "Contacts"); ?> </a>
         </li>
-        <li style="transition-delay: 0.3s;"><a href="#" target="_blank"><i class="fa fa-telegram"
-                                                                           style="margin-right: 20px;"></i> <?= LangHelper::t("Конкурсы на закупки", "Xarid uchun tenderlar", "Contests for purchases"); ?>
-            </a></li>
-        <li style="transition-delay: 0.3s;"><a href="#" target="_blank"><i class="fa fa-telegram"
-                                                                           style="margin-right: 20px;"></i><?= LangHelper::t("Конкурсы на продажи", "Onlayn savdolar", "Contests for sale"); ?>
-            </a></li>
+
     </ul>
 </div>
 

@@ -2,15 +2,15 @@
 
 namespace backend\controllers;
 
-use Yii;
-use common\models\UserAuctions;
+use common\models\Auctions;
 use common\models\AuctionsSearch;
+use common\models\SiteAndLinks;
+use common\models\UserAuctions;
 use common\models\UserAuctionsSearch;
+use Yii;
 use yii\helpers\VarDumper;
 use yii\web\Controller;
 use yii\web\NotFoundHttpException;
-use yii\filters\VerbFilter;
-use yii\web\UploadedFile;
 
 /**
  * UserAuctionsController implements the CRUD actions for UserAuctions model.
@@ -28,6 +28,9 @@ class UserAuctionsController extends Controller
      */
     public function actionIndex()
     {
+        $time = new \DateTime('now');
+        $today = $time->format('d-m-Y H:i:s');
+        $t = strtotime($today);
         $searchModel = new AuctionsSearch();
         $dataProvider = $searchModel->search(Yii::$app->request->queryParams);
 
@@ -41,7 +44,8 @@ class UserAuctionsController extends Controller
     {
         $searchModel = new UserAuctionsSearch();
         $dataProvider = $searchModel->search(Yii::$app->request->queryParams);
-        $dataProvider->query->where(['auction_id' =>$id]);
+        $dataProvider->query->where(['auction_id' => $id]);
+//        $dataProvider->query->groupby(['auction_id']);
         return $this->render('index', [
             'searchModel' => $searchModel,
             'dataProvider' => $dataProvider,
@@ -71,26 +75,15 @@ class UserAuctionsController extends Controller
         $model = new UserAuctions();
 
         if (Yii::$app->request->isPost && $model->load(Yii::$app->request->post())) {
-            if (!empty($_FILES['UserAuctions']['name']['file1'])) {
-                $model->file1 = $_POST['UserAuctions']['file1'];
-                $model->file1 = UploadedFile::getInstance($model, 'file1');
-                $model->upload();
-                $model->user_id = Yii::$app->user->id;
-                VarDumper::dump($model->file,12,true);
-                die();
-                $model->save(false);
 
-            } else {
+            $model->user_id = Yii::$app->user->id;
+            $model->save(false);
 
-                $model->user_id = Yii::$app->user->id;
-                $model->save(false);
-            }
-            return $this->redirect(['view', 'id' => $model->id]);
+            return $this->render('create', [
+                'model' => $model,
+
+            ]);
         }
-        return $this->render('create', [
-            'model' => $model,
-
-        ]);
     }
 
     /**
@@ -142,25 +135,60 @@ class UserAuctionsController extends Controller
 
         throw new NotFoundHttpException(Yii::t('app', 'The requested page does not exist.'));
     }
+
     public function actionActive($id)
     {
-        $feedback = UserAuctions::find()->where(['id'=>$id])->one();
-        $feedback->status=self::STATUS_ACTIVE;
+        $feedback = UserAuctions::find()->where(['id' => $id])->one();
+        $feedback->status = self::STATUS_ACTIVE;
         $feedback->save();
         return $this->render('view', [
-            'id'=>$id,
+            'id' => $id,
             'model' => $feedback,
         ]);
     }
+
     public function actionWait($id)
     {
-        $feedback = UserAuctions::find()->where(['id'=>$id])->one();
-        $feedback->status=self::STATUS_WAIT;
+        $feedback = UserAuctions::find()->where(['id' => $id])->one();
+        $feedback->status = self::STATUS_WAIT;
         $feedback->save();
         return $this->render('view', [
-            'id'=>$id,
+            'id' => $id,
             'model' => $feedback,
         ]);
     }
+
+    public function actionSend()
+    {
+        $time = new \DateTime('now');
+        $today = $time->format('d-m-Y H:i:s');
+        $t = strtotime($today);
+        $auctions = Auctions::find()->where(['<', 'end_date', $t])->andWhere(['status' => 10])->orderBy(['id'=>SORT_DESC])->limit(1)->one();
+        $userauctions = UserAuctions::find()->where(['auction_id'=>$auctions->id])->one();
+
+        Yii::$app
+            ->mailer
+            ->compose(['html' => 'win/confirm-html', 'text' => 'win/confirm-text'])
+            ->setFrom('no-reply@samauto.uz')
+            ->setTo($userauctions->user->email)
+            ->setSubject('sizning Auksioninggiz  bo`yicha ')
+            ->send();
+        Yii::$app->session->setFlash('success', 'Ваш запрос успешно отправлен');
+
+        $auctionss = Yii::$app->db->createCommand()
+            ->update('auctions', ['status' => 0], ['id' => $auctions->id])
+            ->execute();
+
+        $auctions = Auctions::find()->where(['id' => $auctions->id])->one();
+//        VarDumper::dump($auctions->id,12,true);
+//        die();
+        $searchModel = new AuctionsSearch();
+        $dataProvider = $searchModel->search(Yii::$app->request->queryParams);
+        return $this->render('auctionsindex', [
+            'searchModel' => $searchModel,
+            'dataProvider' => $dataProvider,
+        ]);
+    }
+
 
 }

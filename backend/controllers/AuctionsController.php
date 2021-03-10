@@ -4,6 +4,8 @@ namespace backend\controllers;
 
 use common\models\Auctions;
 use common\models\AuctionsSearch;
+use common\models\UserAuctions;
+use common\models\UserAuctionsSearch;
 use Yii;
 use yii\helpers\VarDumper;
 use yii\web\Controller;
@@ -26,7 +28,6 @@ class AuctionsController extends Controller
     {
         $searchModel = new AuctionsSearch();
         $dataProvider = $searchModel->search(Yii::$app->request->queryParams);
-
         return $this->render('index', [
             'searchModel' => $searchModel,
             'dataProvider' => $dataProvider,
@@ -56,8 +57,10 @@ class AuctionsController extends Controller
         $model = new Auctions();
 
         if (Yii::$app->request->isPost && $model->load(Yii::$app->request->post())) {
-            if (!empty($_FILES['Auctions']['name']['file1'])) {
+            if (!empty($_FILES['Auctions']['name']['file1']) || !empty($_FILES['Auctions']['name']['image'])) {
                 $model->file1 = $_POST['Auctions']['file1'];
+                $model->image = $_POST['Auctions']['image'];
+                $model->image = UploadedFile::getInstance($model, 'image');
                 $model->file1 = UploadedFile::getInstance($model, 'file1');
                 $model->upload();
                 $model->user_id = Yii::$app->user->id;
@@ -89,8 +92,10 @@ class AuctionsController extends Controller
         $model = $this->findModel($id);
 
         if (Yii::$app->request->isPost && $model->load(Yii::$app->request->post())) {
-            if (!empty($_FILES['Auctions']['name']['file1'])) {
+            if (!empty($_FILES['Auctions']['name']['file1']) || !empty($_FILES['Auctions']['name']['image'])) {
                 $model->file1 = $_POST['Auctions']['file1'];
+                $model->image = $_POST['Auctions']['image'];
+                $model->image = UploadedFile::getInstance($model, 'image');
                 $model->file1 = UploadedFile::getInstance($model, 'file1');
                 $model->upload();
                 $model->user_id = Yii::$app->user->id;
@@ -141,13 +146,10 @@ class AuctionsController extends Controller
 
     public function actionActive($id)
     {
+        $auctions = Yii::$app->db->createCommand()
+            ->update('auctions', ['status' => 10], ['id' => $id])
+            ->execute();
         $auctions = Auctions::find()->where(['id' => $id])->one();
-        $auctions->status = self::STATUS_ACTIVE;
-        $auctions->start_date = $auctions->start_date;
-        $auctions->end_date = $auctions->end_date;
-//        VarDumper::dump($auctions,12,true);
-//        die();
-        $auctions->save(false);
         return $this->render('view', [
             'id' => $id,
             'model' => $auctions,
@@ -156,14 +158,33 @@ class AuctionsController extends Controller
 
     public function actionWait($id)
     {
+        $auctions = Yii::$app->db->createCommand()
+            ->update('auctions', ['status' => 0], ['id' => $id])
+            ->execute();
         $auctions = Auctions::find()->where(['id' => $id])->one();
-        $auctions->status = self::STATUS_WAIT;
-        $auctions->start_date = $auctions->start_date;
-        $auctions->end_date = $auctions->end_date;
-        $auctions->save(false);
         return $this->render('view', [
             'id' => $id,
             'model' => $auctions,
+        ]);
+    }
+
+    public function actionOld()
+    {
+        $time = new \DateTime('now');
+        $today = $time->format('d-m-Y H:i:s');
+        $t = strtotime($today);
+        $searchModel = new UserAuctionsSearch();
+        $dataProvider = $searchModel->search(Yii::$app->request->queryParams);
+
+         $dataProvider->query->where(['<', 'auctions.end_date', $t])->andWhere(['auctions.status' => 0]);
+         $model = UserAuctions::find()->leftjoin('auctions', 'user_auctions.auction_id = auctions.id')->groupBy(['user_auctions.auction_id'])->where(['<', 'auctions.end_date', $t])->andWhere(['auctions.status' => 0])->max('price');
+//        SELECT * FROM `user_auctions` WHERE price in (SELECT MAX(price) from `user_auctions` GROUP by auction_id)
+//        SELECT ua.* FROM `user_auctions` as ua, (SELECT MAX(price) from `user_auctions` GROUP by auction_id) as tab1 WHERE ua.price = tab1.price and ua.user_id = tab1.user_id
+//        VarDumper::dump($dataProvider, 12, true);
+//        die();
+        return $this->render('old', [
+            'searchModel' => $searchModel,
+            'dataProvider' => $dataProvider,
         ]);
     }
 }

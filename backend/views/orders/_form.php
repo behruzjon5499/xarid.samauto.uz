@@ -2,6 +2,7 @@
 
 use common\models\Companies;
 use kartik\datetime\DateTimePicker;
+use kartik\file\FileInput;
 use mihaildev\ckeditor\CKEditor;
 use mihaildev\elfinder\ElFinder;
 use yii\helpers\Html;
@@ -334,17 +335,32 @@ use yii\widgets\ActiveForm;
             </div>
             <!-- nav-tabs-custom -->
         </div>
-
         <div class="row">
+            <div class="col-md-6">
+                <?php echo $form->field($model, 'image')->widget(FileInput::classname(), [
+                    'options' => ['accept' => 'image/*'],
+                    'pluginOptions' => [
+                        'dropZoneTitle' => 'Загрузите аватар.',
+                        'msgPlaceholder' => 'Загрузите аватар.',
+                        'initialPreviewAsData'=>true,
+                        'initialPreview' => [
+                            $model->photo ? '<img src="/uploads/file/' . $model->photo . '" width="200">': '<img src="/uploads/tab-panel/no-image.png" width="200">',
+                        ],
+                        'showRemove' => false,
+                        'showUpload' => false,
+
+                    ]
+                ]); ?>
+            </div>
 
             <div class="col-md-6">
                 <!-- Custom Tabs -->
                 <div class="nav-tabs-custom">
 
                     <div class="col-md-6 form-group">
-<!--                        <div>Загрузить файл с характеристиками</div>-->
+                        <!--                        <div>Загрузить файл с характеристиками</div>-->
 
-<!--                        <button class="btn btn-success img_file">Загрузить файл</button>-->
+                        <!--                        <button class="btn btn-success img_file">Загрузить файл</button>-->
                         <div id="image-preview" >
                             <?= $form->field($model, 'file1')->fileInput(['class'=> 'file','id'=> 'img_file'])->label( false) ?>
                         </div>
@@ -364,6 +380,9 @@ use yii\widgets\ActiveForm;
                 </div>
 
             </div>
+        </div>
+        <div class="row">
+
             <div class="col-md-6">
                 <?= $form->field($model, 'address')->textInput(['rows' => 6]) ?>
 

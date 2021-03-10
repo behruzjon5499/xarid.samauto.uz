@@ -40,12 +40,17 @@ class UserAuctionsSearch extends UserAuctions
      */
     public function search($params)
     {
-        $query = UserAuctions::find();
+        $query = UserAuctions::find()->leftjoin('auctions', 'user_auctions.auction_id = auctions.id');
 
         // add conditions that should always apply here
 
         $dataProvider = new ActiveDataProvider([
             'query' => $query,
+            'sort' => [
+                'defaultOrder' => [
+                    'id' => SORT_ASC,
+                ]
+            ],
         ]);
 
         $this->load($params);

@@ -14,12 +14,6 @@ use Yii;
  * @property string|null $signup_ru
  * @property string|null $signup_uz
  * @property string|null $signup_en
- * @property string|null $support_ru
- * @property string|null $support_uz
- * @property string|null $support_en
- * @property string|null $podacha_ru
- * @property string|null $podacha_uz
- * @property string|null $podacha_en
  * @property string|null $file
  */
 class Document extends \yii\db\ActiveRecord
@@ -39,7 +33,7 @@ class Document extends \yii\db\ActiveRecord
     public function rules()
     {
         return [
-            [['title_ru', 'title_uz', 'title_en', 'signup_ru', 'signup_uz', 'signup_en', 'support_ru', 'support_uz', 'support_en', 'podacha_ru', 'podacha_uz', 'podacha_en'], 'string'],
+            [['title_ru', 'title_uz', 'title_en', 'signup_ru', 'signup_uz', 'signup_en'], 'string'],
             [['file'], 'string', 'max' => 255],
             [['file1'], 'file', 'skipOnEmpty' => true, 'extensions' => 'doc, docx, xls, xlsx, pdf']
 
@@ -59,11 +53,6 @@ class Document extends \yii\db\ActiveRecord
             'signup_ru' => Yii::t('app', 'Signup Ru'),
             'signup_uz' => Yii::t('app', 'Signup Uz'),
             'signup_en' => Yii::t('app', 'Signup En'),
-            'support_ru' => Yii::t('app', 'Support Ru'),
-            'support_uz' => Yii::t('app', 'Support Uz'),
-            'support_en' => Yii::t('app', 'Support En'),
-            'podacha_ru' => Yii::t('app', 'Podacha Ru'),
-            'podacha_uz' => Yii::t('app', 'Podacha Uz'),
             'podacha_en' => Yii::t('app', 'Podacha En'),
         ];
     }

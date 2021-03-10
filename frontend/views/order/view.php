@@ -45,6 +45,7 @@ $material = 'material_' . $lang;
         width: 70% !important;
     }
 </style>
+
 <div class="sp-wrapper">
     <div class="container">
         <div class="row">
@@ -54,6 +55,13 @@ $material = 'material_' . $lang;
                         <h1><?= $order->$title ?></h1>
                         <p><?= $order->$description ?></p>
                     </header>
+                    <?php
+                    if (Yii::$app->session->hasFlash('success')): ?>
+                        <div class="alert alert-success">
+                            <?= Yii::$app->session->getFlash('success') ?>
+                        </div>
+                    <?php endif; ?>
+
                     <div class="item">
                         <section class="title">
                             ● I. <?=LangHelper::t(" ПРЕДМЕТ КОНКУРСА ", " KONKURS MA'LUMOTLARI", "CONTEST SUBJECT");?>:
@@ -88,6 +96,7 @@ $material = 'material_' . $lang;
                         <p><b><?= LangHelper::t("МФО", "MFO", "MFO Inter-Branch Turnover"); ?>:</b><?= $order->company->mfo ?></p>
                         <p><b><?= LangHelper::t("Расчётный счёт ", "Hisob raqami", "Payment account"); ?>:</b> <?= $order->company->account_number ?></p>
                     </div>
+                    <?php if (!empty($order->file)){ ?>
                     <div class="item">
                         <section class="title">
                             ● V. <?=LangHelper::t("ПРИКРЕПЛЕННЫЙ ФАЙЛ", "BIRIKTIRILGAN FAYL", "ATTACHED FILE"); ?>:
@@ -97,6 +106,14 @@ $material = 'material_' . $lang;
                                style="margin: auto ;margin-bottom: 45px"><?=LangHelper::t("Скачать прикреплённый файл", "Biriktirilgan faylni yuklab olish -", "Download attached file"); ?></a>
                         </div>
                     </div>
+                    <?php }  if(!empty($order->photo)) { ?>
+                        <div class="item">
+                            <div class="d-flex">
+                                <a href="/uploads/orders/<?= $order->photo ?>" target="_blank" class="donwload btn_1"
+                                   style="margin: auto ;margin-bottom: 45px"><?=LangHelper::t("Скачать прикреплённый фото", "Biriktirilgan rasmni yuklab olish -", "Download attached image"); ?></a>
+                            </div>
+                        </div>
+                    <?php } ?>
                     <div class="item">
                         <section class="title">
                             <?= LangHelper::t("Время окончания", "Tugash vaqti", "End time"); ?>:
@@ -236,6 +253,7 @@ $material = 'material_' . $lang;
                             </div>
                         </div>
                     </div>
+
                 </aside>
             </div>
         </div>

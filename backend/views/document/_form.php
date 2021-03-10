@@ -13,110 +13,47 @@ use yii\widgets\ActiveForm;
 <div class="document-form">
 
     <?php $form = ActiveForm::begin(); ?>
-    <div class="nav-tabs-custom">
-        <ul class="nav nav-tabs">
-            <li class="active"><a href="#tabLang_11" data-toggle="tab" aria-expanded="true">RU</a></li>
-            <li class=""><a href="#tabLang_21" data-toggle="tab" aria-expanded="true">UZ</a></li>
-            <li class=""><a href="#tabLang_31" data-toggle="tab" aria-expanded="true">EN</a></li>
-        </ul>
-        <div class="tab-content">
-            <div class="tab-pane active" id="tabLang_11">
 
-                <?= $form->field($model, 'title_ru')->textarea(['rows' => 14]) ?>
+    <div class="row">
+        <div class="col-md-12">
+            <ul class="nav nav-tabs" role="tablist">
+                <li role="presentation" class="active"><a href="#ru" aria-controls="ru" role="tab" data-toggle="tab">Русский</a>
+                </li>
+                <li role="presentation" class=""><a href="#uz" aria-controls="uz" role="tab" data-toggle="tab">Узбекский</a>
+                </li>
+                <li role="presentation" class=""><a href="#en" aria-controls="en" role="tab" data-toggle="tab">Английский</a>
+                </li>
+            </ul>
 
-
-            </div>
-            <div class="tab-pane " id="tabLang_21">
-
-                <?= $form->field($model, 'title_uz')->textarea(['rows' => 14]) ?>
-
-
-            </div>
-
-            <div class="tab-pane " id="tabLang_31">
-                <?= $form->field($model, 'title_en')->textarea(['rows' => 14]) ?>
-
-            </div>
-        </div>
-    </div>
-    <div class="nav-tabs-custom">
-        <ul class="nav nav-tabs">
-            <li class="active"><a href="#tabLang_12" data-toggle="tab" aria-expanded="true">RU</a></li>
-            <li class=""><a href="#tabLang_22" data-toggle="tab" aria-expanded="true">UZ</a></li>
-            <li class=""><a href="#tabLang_32" data-toggle="tab" aria-expanded="true">EN</a></li>
-        </ul>
-        <div class="tab-content">
-            <div class="tab-pane active" id="tabLang_12">
-
-                <?= $form->field($model, 'signup_ru')->textarea(['rows' => 14]) ?>
-
-
-            </div>
-            <div class="tab-pane " id="tabLang_22">
-
-                <?= $form->field($model, 'signup_uz')->textarea(['rows' => 14]) ?>
-
-
-            </div>
-
-            <div class="tab-pane " id="tabLang_32">
-                <?= $form->field($model, 'signup_en')->textarea(['rows' => 14]) ?>
-
+            <div class="tab-content">
+                <br>
+                <div role="tabpanel" class="tab-pane active" id="ru">
+                    <?= $form->field($model, 'title_ru')->textInput(['maxlength' => true])->label('Заголовок Ru') ?>
+                    <?= $form->field($model, 'signup_ru')->widget(CKEditor::class, [
+                        'editorOptions' => ElFinder::ckeditorOptions('elfinder', [
+                            'language' => 'ru',
+                        ])
+                    ])->label('Описание Ru') ?>
+                </div>
+                <div role="tabpanel" class="tab-pane" id="uz">
+                    <?= $form->field($model, 'title_uz')->textInput(['maxlength' => true])->label('Заголовок Uz') ?>
+                    <?= $form->field($model, 'signup_uz')->widget(CKEditor::class, [
+                        'editorOptions' => ElFinder::ckeditorOptions('elfinder', [
+                            'language' => 'uz'])
+                    ])->label('Описание Uz') ?>
+                </div>
+                <div role="tabpanel" class="tab-pane" id="en">
+                    <?= $form->field($model, 'title_en')->textInput(['maxlength' => true])->label('Заголовок Eng ') ?>
+                    <?= $form->field($model, 'signup_en')->widget(CKEditor::class, [
+                        'editorOptions' => ElFinder::ckeditorOptions('elfinder', [
+                            'language' => 'en'])
+                    ])->label('Описание Eng') ?>
+                </div>
             </div>
         </div>
     </div>
-    <div class="nav-tabs-custom">
-        <ul class="nav nav-tabs">
-            <li class="active"><a href="#tabLang_13" data-toggle="tab" aria-expanded="true">RU</a></li>
-            <li class=""><a href="#tabLang_23" data-toggle="tab" aria-expanded="true">UZ</a></li>
-            <li class=""><a href="#tabLang_33" data-toggle="tab" aria-expanded="true">EN</a></li>
-        </ul>
-        <div class="tab-content">
-            <div class="tab-pane active" id="tabLang_13">
-
-                <?= $form->field($model, 'support_ru')->textarea(['rows' => 14]) ?>
 
 
-            </div>
-            <div class="tab-pane " id="tabLang_23">
-
-                <?= $form->field($model, 'support_uz')->textarea(['rows' => 14]) ?>
-
-
-            </div>
-
-            <div class="tab-pane " id="tabLang_33">
-                <?= $form->field($model, 'support_en')->textarea(['rows' => 14]) ?>
-
-            </div>
-        </div>
-    </div>
-    <div class="nav-tabs-custom">
-        <ul class="nav nav-tabs">
-            <li class="active"><a href="#tabLang_14" data-toggle="tab" aria-expanded="true">RU</a></li>
-            <li class=""><a href="#tabLang_24" data-toggle="tab" aria-expanded="true">UZ</a></li>
-            <li class=""><a href="#tabLang_34" data-toggle="tab" aria-expanded="true">EN</a></li>
-        </ul>
-        <div class="tab-content">
-            <div class="tab-pane active" id="tabLang_14">
-
-                <?= $form->field($model, 'podacha_ru')->textarea(['rows' => 14]) ?>
-
-
-            </div>
-            <div class="tab-pane " id="tabLang_24">
-
-                <?= $form->field($model, 'podacha_uz')->textarea(['rows' => 14]) ?>
-
-
-            </div>
-
-            <div class="tab-pane " id="tabLang_34">
-                <?= $form->field($model, 'podacha_en')->textarea(['rows' => 14]) ?>
-
-            </div>
-        </div>
-    </div>
 
 <div class="row">
     <div class="col-md-6">

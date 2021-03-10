@@ -10,7 +10,6 @@ use Yii;
  * @property int $id
  * @property int $user_id
  * @property string $price
- * @property string $file
  * @property string $status
  * @property string $percent
  * @property int $auction_id

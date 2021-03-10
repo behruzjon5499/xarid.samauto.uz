@@ -4,14 +4,20 @@ use yii\helpers\Html;
 use yii\widgets\DetailView;
 
 /* @var $this yii\web\View */
-/* @var $model common\models\Document */
+/* @var $model common\models\UserAuctions */
 
 $this->title = $model->id;
-$this->params['breadcrumbs'][] = ['label' => Yii::t('app', 'Documents'), 'url' => ['index']];
+$this->params['breadcrumbs'][] = ['label' => Yii::t('app', 'User Auctions'), 'url' => ['index']];
 $this->params['breadcrumbs'][] = $this->title;
 \yii\web\YiiAsset::register($this);
 ?>
-<div class="document-view">
+
+<script type="text/javascript">
+    document.addEventListener('DOMContentLoaded', function(){
+        setTimeout(function(){ location.reload() }, 10000);
+    }, false);
+</script>
+<div class="user-auctions-view">
 
 
     <p>
@@ -23,28 +29,23 @@ $this->params['breadcrumbs'][] = $this->title;
                 'method' => 'post',
             ],
         ]) ?>
+
     </p>
-
-
 
     <?= DetailView::widget([
         'model' => $model,
         'attributes' => [
             'id',
+            'user.username',
+            'price',
+            'file',
             [
-                'attribute' => 'file',
-                'label' => 'File',
-                'value' => function ($model) {
-                    return Html::a('Download The File',  '../../uploads/document/' . $model->file, ['class' => 'btn btn-primary', 'download'=>'']);
-                },
+                'attribute' => 'status',
+                'value' => \common\helpers\FeedbackHelper::statusLabel($model->status),
                 'format' => 'raw',
             ],
-            'title_ru:ntext',
-            'title_uz:ntext',
-            'title_en:ntext',
-            'signup_ru:ntext',
-            'signup_uz:ntext',
-            'signup_en:ntext',
+            'auction.title_ru',
+            'percent'
         ],
     ]) ?>
 

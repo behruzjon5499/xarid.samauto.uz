@@ -52,6 +52,7 @@
                         'items' => [
                             ['label' => 'Аукционы', 'icon' => 'file-code-o', 'url' => ['/auctions'],],
                             ['label' => 'Участники аукционов', 'icon' => 'file-code-o', 'url' => ['/user-auctions'],],
+                            ['label' => 'Продан аукционы', 'icon' => 'file-code-o', 'url' => ['/auctions/old'],],
                         ]
                     ],
                     ['label' => 'Тендеры',

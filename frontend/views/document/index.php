@@ -29,7 +29,8 @@ $material = 'material_' . $lang;
     <div class="small_container">
         <div class="row">
             <div class="col-md-4"> <div class="mTitle" style="display: inline;">
-                    <?= LangHelper::t("Инструкция", "Yo'riqnoma ", "Instruction"); ?>
+                    <?= $documents->$title ?>
+
                 </div></div>
             <div class="col-md-4"></div>
             <div class="col-md-4">  <div class="item" style="text-align: right; display: inline;">
@@ -40,26 +41,8 @@ $material = 'material_' . $lang;
         </div>
 
 
-        <div class="content">
-            <p>
-            <?= $documents->$title ?>
-            </p>
-        </div>
-        <ul class="mini-info-list">
-            <li class="info-list_first">   <?= LangHelper::t("Для начала зарегистрируйтесь в системе, для этого надо:", "Для начала зарегистрируйтесь в системе, для этого надо:", "Для начала зарегистрируйтесь в системе, для этого надо:"); ?>  </li>
+        <?= $documents->$signup ?>
 
-            <?= $documents->$signup ?>
-
-        </ul>
-        <ul class="mini-info-list">
-            <li class="info-list_first">    <?= LangHelper::t("Подтверждения пользователя", "Подтверждения пользователя", "Подтверждения пользователя"); ?> </li>
-            <?= $documents->$support ?>
-
-        </ul>
-        <ul class="mini-info-list">
-            <li class="info-list_first"> <?= LangHelper::t("Подача предложений", "Подача предложений", "Подача предложений"); ?>  </li>
-            <?= $documents->$podacha ?>
-        </ul>
     </div>
 </div>
 <div class="site_bread">

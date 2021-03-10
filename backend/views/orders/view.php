@@ -49,6 +49,14 @@ $this->params['breadcrumbs'][] = $this->title;
                 },
                 'format' => 'raw',
             ],
+            [
+                'attribute' => 'photo',
+                'label' => 'Photo',
+                'value' => function ($model) {
+                    return Html::a('Download The Photo',  '../../uploads/orders/' . $model->photo, ['class' => 'btn btn-primary', 'download'=>'']);
+                },
+                'format' => 'raw',
+            ],
             'company.title_ru',
             'address:ntext',
             'start_date:date',

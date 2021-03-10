@@ -2,9 +2,11 @@
 
 use common\models\Companies;
 use kartik\datetime\DateTimePicker;
+use kartik\file\FileInput;
 use yii\helpers\Html;
 use yii\widgets\ActiveForm;
 
+use mihaildev\elfinder\ElFinder;
 \backend\assets\AppAsset::register($this);
 /* @var $this yii\web\View */
 /* @var $model common\models\Auctions */
@@ -176,40 +178,55 @@ use yii\widgets\ActiveForm;
             </div>
             <!-- nav-tabs-custom -->
         </div>
+        <div class="row">
+            <div class="col-md-6">
+                <?php echo $form->field($model, 'image')->widget(FileInput::classname(), [
+                    'options' => ['accept' => 'image/*'],
+                    'pluginOptions' => [
+                        'dropZoneTitle' => 'Загрузите аватар.',
+                        'msgPlaceholder' => 'Загрузите аватар.',
+                        'initialPreviewAsData'=>true,
+                        'initialPreview' => [
+                            $model->photo ? '<img src="/uploads/file/' . $model->photo . '" width="200">': '<img src="/uploads/tab-panel/no-image.png" width="200">',
+                        ],
+                        'showRemove' => false,
+                        'showUpload' => false,
 
-        <div class="">
+                    ]
+                ]); ?>
+            </div>
+            <div class="col-md-6">
 
-            <div class="col-md-12">
-                <div class="col-md-6">
-                    <!-- Custom Tabs -->
-                    <div class="nav-tabs-custom">
+                            <!-- Custom Tabs -->
+                            <div class="nav-tabs-custom">
 
-                        <div class="col-md-6 form-group">
-<!--                            <div>Загрузить файл с характеристиками</div>-->
+                                <div class="col-md-6 form-group">
+                                    <!--                            <div>Загрузить файл с характеристиками</div>-->
 
-<!--                            <button class="btn btn-success img_file">Загрузить файл</button>-->
-                            <div id="image-preview">
-                                <?= $form->field($model, 'file1')->fileInput(['class'=> 'file','id'=> 'img_file']) ?>
+                                    <!--                            <button class="btn btn-success img_file">Загрузить файл</button>-->
+                                    <div id="image-preview">
+                                        <?= $form->field($model, 'file1')->fileInput(['class'=> 'file','id'=> 'img_file']) ?>
+                                    </div>
+
+                                    <?php if( $model->file != '' ){ ?>
+
+                                        <img width="150px" src="/uploads/file.png">
+                                        <button class="btn btn-danger remove-file" data-id="<?=$model->id ?>">Удалить файл</button>
+
+                                    <?php } ?>
+                                </div>
+                                <div class="clearfix"></div>
+                                <?if(!$model->isNewRecord):?>
+                                    <?= Html::a($model->file, ['/uploads/resume/' . $model->file,], ['class' => 'btn btn-primary', 'style' => 'margin-bottom: 10px;']) ?>
+                                <?endif;?>
+
                             </div>
 
-                            <?php if( $model->file != '' ){ ?>
 
-                                <img width="150px" src="/uploads/file.png">
-                                <button class="btn btn-danger remove-file" data-id="<?=$model->id ?>">Удалить файл</button>
 
-                            <?php } ?>
-                        </div>
-                        <div class="clearfix"></div>
-                        <?if(!$model->isNewRecord):?>
-                            <?= Html::a($model->file, ['/uploads/resume/' . $model->file,], ['class' => 'btn btn-primary', 'style' => 'margin-bottom: 10px;']) ?>
-                        <?endif;?>
-
-                    </div>
-
-                </div>
             </div>
-
         </div>
+
         <div class="row">
             <div class="col-md-6">
 

@@ -20,6 +20,7 @@ use yii\db\ActiveRecord;
  * @property string|null $address
  * @property string $start_date
  * @property string $end_date
+ * @property string $ohoto
  * @property string|null $description_ru
  * @property string|null $description_uz
  * @property string|null $description_en
@@ -45,6 +46,7 @@ class Orders extends \yii\db\ActiveRecord
     public $file1;
     const STATUS_WAIT = 0;
     const STATUS_ACTIVE = 10;
+    public $image;
     /**
      * {@inheritdoc}
      */
@@ -66,8 +68,8 @@ class Orders extends \yii\db\ActiveRecord
             [['company_id'], 'exist', 'skipOnError' => true, 'targetClass' => Companies::className(), 'targetAttribute' => ['company_id' => 'id']],
             [['user_id'], 'exist', 'skipOnError' => true, 'targetClass' => User::className(), 'targetAttribute' => ['user_id' => 'id']],
             [['file'], 'string', 'max' => 255],
-            [['file1'], 'file', 'skipOnEmpty' => true, 'extensions' => 'doc, docx, xls, xlsx, pdf,jpeg, png, jpg, gif']
-
+            [['file1'], 'file', 'skipOnEmpty' => true, 'extensions' => 'doc, docx, xls, xlsx, pdf,jpeg, png, jpg, gif'],
+            [['image'], 'file', 'skipOnEmpty' => true, 'extensions' => 'png, jpg, jpeg, gif, bmp']
         ];
     }
     public function behaviors()
@@ -77,6 +79,7 @@ class Orders extends \yii\db\ActiveRecord
                 'class' => AttributeBehavior::class,
                 'attributes' => [
                     ActiveRecord::EVENT_BEFORE_INSERT => ['start_date'],
+                    ActiveRecord::EVENT_BEFORE_UPDATE => ['start_date'],
                 ],
                 'value' => function() {
                     return strtotime($this->start_date);
@@ -87,6 +90,7 @@ class Orders extends \yii\db\ActiveRecord
                 'class' => AttributeBehavior::class,
                 'attributes' => [
                     ActiveRecord::EVENT_BEFORE_INSERT => ['end_date'],
+                    ActiveRecord::EVENT_BEFORE_UPDATE => ['end_date'],
                 ],
                 'value' => function() {
                     return strtotime($this->end_date);
@@ -154,14 +158,45 @@ class Orders extends \yii\db\ActiveRecord
     public function upload()
     {
         if ($this->validate()) {
-            $name = $this->file1->baseName . '_' . Yii::$app->security->generateRandomString(5) . '.' . $this->file1->extension;
-
-            if ($this->file !== null && !empty($this->file)) {
-                unlink(Yii::getAlias('@frontend').'/web/uploads/orders/' . $this->file);
+            if(!empty($this->file1) && !empty($this->image)){
+                $name = $this->file1->baseName . '_' . Yii::$app->security->generateRandomString(5) . '.' . $this->file1->extension;
+                $name1 = Yii::$app->security->generateRandomString(10) . '.' . $this->image->extension;
+                if ($this->file !== null && !empty($this->file)) {
+                    unlink(Yii::getAlias('@frontend').'/web/uploads/orders/' . $this->file);
+                }
+                if ($this->photo !== null && !empty($this->photo)) {
+                    unlink(Yii::getAlias('@frontend').'/web/uploads/orders/' . $this->photo);
+                }
+                $this->file = $name;
+                $this->file1->saveAs(Yii::getAlias('@frontend').'/web/uploads/orders/' . $name);
+                $this->photo = $name1;
+                $this->image->saveAs(Yii::getAlias('@frontend') . '/web/uploads/orders/' . $name1);
+                return true;
             }
-            $this->file = $name;
-            $this->file1->saveAs(Yii::getAlias('@frontend').'/web/uploads/orders/' . $name);
-            return true;
+            if(!empty($this->file1) || !empty($this->image)){
+                if(!empty($this->file1)){
+                    $name = $this->file1->baseName . '_' . Yii::$app->security->generateRandomString(5) . '.' . $this->file1->extension;
+                    if ($this->file !== null && !empty($this->file)) {
+                        unlink(Yii::getAlias('@frontend').'/web/uploads/orders/' . $this->file);
+                    }
+                    $this->file = $name;
+                    $this->file1->saveAs(Yii::getAlias('@frontend').'/web/uploads/orders/' . $name);
+                    return true;
+
+                }
+                if(!empty($this->image)){
+                    $name1 = Yii::$app->security->generateRandomString(10) . '.' . $this->image->extension;
+                    if ($this->photo !== null && !empty($this->photo)) {
+                        unlink(Yii::getAlias('@frontend').'/web/uploads/orders/' . $this->photo);
+                    }
+                    $this->photo = $name1;
+                    $this->image->saveAs(Yii::getAlias('@frontend') . '/web/uploads/orders/' . $name1);
+                    return true;
+
+                }
+
+            }
+
         } else {
             return false;
         }
