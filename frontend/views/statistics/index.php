@@ -8,6 +8,8 @@
 /* @var $counts_order \common\models\Orders */
 /* @var $auctionswait \common\models\Auctions */
 /* @var $companies \common\models\Companies */
+/* @var $statistic \common\models\Companies */
+/* @var $orders \common\models\Companies */
 
 use common\helpers\LangHelper;
 
@@ -32,25 +34,25 @@ $material = 'material_' . $lang;
             <div class="col-md-3">
                 <div class="st-card red">
                     <p><?= LangHelper::t("Активные тендеры", "Активные тендеры", "Активные тендеры"); ?></p>
-                    <h2><?= $count ?></h2>
+                    <h2><?=$count_order  ?></h2>
                 </div>
             </div>
             <div class="col-md-3">
                 <div class="st-card yellow">
-                    <p> <?= LangHelper::t("Все тендеры", "Все тендеры", "Все тендеры"); ?></p>
-                    <h2><?= $counts ?></h2>
+                    <p> <?= LangHelper::t("Прошедшие тендеры", "Mening auksionlarim", "My auctions"); ?></p>
+                    <h2><?=$counts_order  ?></h2>
                 </div>
             </div>
                  <div class="col-md-3">
                   <div class="st-card blue">
                     <p>  <?= LangHelper::t("Активные продажи ", " Faol savdolar", "Active sales"); ?></p>
-                    <h2><?= $count_order ?></h2>
+                    <h2><?= $count ?></h2>
                   </div>
                 </div>
                 <div class="col-md-3">
                   <div class="st-card green">
                     <p><?= LangHelper::t("Все продажи", " Barcha savdolar", "All sales "); ?></p>
-                    <h2><?= $counts_order ?></h2>
+                    <h2><?=  $counts?></h2>
                   </div>
                 </div>
         </div>
@@ -62,8 +64,14 @@ $material = 'material_' . $lang;
             <div class="row">
                 <div class="col-md-12">
                     <div class="apex-card">
-                        <h3> <?= LangHelper::t("Общая статистика", "Общая статистика", "Общая статистика"); ?></h3>
+                        <h3> <?= LangHelper::t("Общая статистика Конкурсы на продажи", "Общая статистика Конкурсы на продажи", "Общая статистика Конкурсы на продажи"); ?></h3>
                         <div id="general_chart"></div>
+                    </div>
+                </div>
+                <div class="col-md-12">
+                    <div class="apex-card">
+                        <h3> <?= LangHelper::t("Общая статистика Конкурсы на закупки", "Общая статистика Конкурсы на закупки", "Общая статистика Конкурсы на закупки"); ?></h3>
+                        <div id="tender_chart"></div>
                     </div>
                 </div>
                 <div class="col-md-6">
@@ -79,14 +87,14 @@ $material = 'material_' . $lang;
                             </tr>
                             </thead>
                             <tbody>
-                            <?php foreach ($auctions as $auction=>$t): ?>
+
                                 <tr>
-                                    <td><?= $t['company_id'] ?></td>
-                                    <td><a href="#"> <?= $t['title_ru'] ?> </a></td>
-                                    <td><?= $t['count(auctions.company_id)'] ?></td>
                                     <td></td>
+                                    <td><?=" СП ООО Самаркандский Автомобильный Завод " ?></td>
+                                    <td> <?= $wait_auction  ?></td>
+                                    <td><?=  $active_auction ?></td>
+
                                 </tr>
-                            <?php endforeach; ?>
                             </tbody>
                         </table>
                     </div>
@@ -115,7 +123,7 @@ $material = 'material_' . $lang;
 
     var options = {
         series: [{
-            data: [21, 22, 10, 28, 16, 21, 13, 30]
+            data: [<?php foreach ($statistic as $s){?> '<?= $s->full_count ?>' , <?php }?>]
         }],
         chart: {
             height: 350,
@@ -140,14 +148,7 @@ $material = 'material_' . $lang;
         },
         xaxis: {
             categories: [
-                ['John', 'Doe'],
-                ['Joe', 'Smith'],
-                ['Jake', 'Williams'],
-                'Amber',
-                ['Peter', 'Brown'],
-                ['Mary', 'Evans'],
-                ['David', 'Wilson'],
-                ['Lily', 'Roberts'],
+                <?php foreach ($statistic as $s){?> '<?= $s->month ?>' , <?php }?>
             ],
             labels: {
                 style: {
@@ -156,14 +157,50 @@ $material = 'material_' . $lang;
             }
         }
     };
-
+    var optionstender = {
+        series: [{
+            data: [<?php foreach ($orders as $o){?> '<?= $o->full_count ?>' , <?php }?>]
+        }],
+        chart: {
+            height: 350,
+            type: 'bar',
+            events: {
+                click: function (chart, w, e) {
+                    // console.log(chart, w, e)
+                }
+            }
+        },
+        plotOptions: {
+            bar: {
+                columnWidth: '45%',
+                distributed: true
+            }
+        },
+        dataLabels: {
+            enabled: false
+        },
+        legend: {
+            show: false
+        },
+        xaxis: {
+            categories: [
+                <?php foreach ($orders as $o){?> '<?= $o->month ?>' , <?php }?>
+            ],
+            labels: {
+                style: {
+                    fontSize: '12px'
+                }
+            }
+        }
+    };
     var chart = new ApexCharts(document.querySelector("#general_chart"), options);
     chart.render();
-
+    var chart = new ApexCharts(document.querySelector("#tender_chart"), optionstender);
+    chart.render();
 
     var options = {
-        series: [44, 55, 41, 17, 15],
-        labels: ['Apple', 'Mango', 'Orange', 'Watermelon', 'Watermelon'],
+        series: [<?=$count?>,<?=$counts?>],
+        labels: ['Текущие аукционы','Прошедшие аукционы'],
         chart: {
             type: 'donut',
             plotOptions: {
@@ -233,12 +270,12 @@ $material = 'material_' . $lang;
 
     var options = {
         series: [{
-            name: "конкурсы - 2021",
-            data: [28, 29, 33, 36, 32, 32, 33,33,32,32,33,33]
+            name: "продажи - 2021",
+            data: [0,<?php foreach ($yearstatistic as $a) {?> <?=  $a->full_count?> ,<?php }?>]
         },
             {
-                name: "продажи - 2021",
-                data: [12, 11, 14, 18, 17, 13, 13,12,15,13,14,13]
+                name: "конкурсы - 2021",
+                data: [0,<?php foreach ($yearorderstatistic as $o) {?> <?=  $o->full_count?> ,<?php }?>]
             }],
         chart: {
             height: 350,
@@ -264,7 +301,7 @@ $material = 'material_' . $lang;
             },
         },
         xaxis: {
-            categories: ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Okt', 'Nov', 'Dec'],
+            categories: [2020,<?php foreach ($yearstatistic as $s){?> '<?= $s->year ?>' , <?php }?>],
     }
     };
 

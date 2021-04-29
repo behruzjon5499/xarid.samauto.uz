@@ -15,12 +15,15 @@ return [
     'controllerNamespace' => 'backend\controllers',
     'bootstrap' => ['log'],
     'language' => 'ru-RU',
+
     'modules' => [],
     'components' => [
+
         'request' => [
             'baseUrl' => '/admin',
             'csrfParam' => '_csrf-backend',
         ],
+
         'view' => [
             'theme' => [
                 'pathMap' => [

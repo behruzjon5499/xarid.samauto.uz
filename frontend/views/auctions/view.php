@@ -49,6 +49,7 @@ $material = 'material_' . $lang;
 $_engine['size_obyom'][1] = LangHelper::t("штук", "штук", "штук");
 $_engine['size_obyom'][2] = LangHelper::t("тонна", "тонна", "тонна");
 $_engine['size_obyom'][3] = LangHelper::t("кг", "кг", "кг");
+$_engine['size_obyom'][4] = LangHelper::t("кв.м", "кв.м", "кв.м");
 ?>
 
 

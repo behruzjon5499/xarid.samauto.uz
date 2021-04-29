@@ -17,7 +17,7 @@ use Yii;
  * @property int $countss
  *
  * @property Auctions $auction
- * @property User $user
+ * @property User $fulluser
  */
 class UserAuctions extends \yii\db\ActiveRecord
 {
@@ -76,7 +76,7 @@ class UserAuctions extends \yii\db\ActiveRecord
      *
      * @return \yii\db\ActiveQuery
      */
-    public function getUser()
+    public function getFulluser()
     {
         return $this->hasOne(User::className(), ['id' => 'user_id']);
     }

@@ -2,11 +2,13 @@
 
 namespace backend\controllers;
 
+use backend\services\AuctionService;
 use common\models\Auctions;
 use common\models\AuctionsSearch;
 use common\models\UserAuctions;
 use common\models\UserAuctionsSearch;
 use Yii;
+use yii\data\ActiveDataProvider;
 use yii\helpers\VarDumper;
 use yii\web\Controller;
 use yii\web\NotFoundHttpException;
@@ -19,6 +21,15 @@ class AuctionsController extends Controller
 {
     const STATUS_WAIT = 0;
     const STATUS_ACTIVE = 10;
+
+
+    private $service;
+
+    public function __construct($id, $module, AuctionService $service, $config = [])
+    {
+        parent::__construct($id, $module, $config);
+        $this->service = $service;
+    }
 
     /**
      * Lists all Auctions models.
@@ -147,9 +158,12 @@ class AuctionsController extends Controller
     public function actionActive($id)
     {
         $auctions = Yii::$app->db->createCommand()
-            ->update('auctions', ['status' => 10], ['id' => $id])
+            ->update('auction', ['status' => 10], ['id' => $id])
             ->execute();
+
         $auctions = Auctions::find()->where(['id' => $id])->one();
+//        VarDumper::dump($auctions,12,true);
+//        die();
         return $this->render('view', [
             'id' => $id,
             'model' => $auctions,
@@ -170,21 +184,16 @@ class AuctionsController extends Controller
 
     public function actionOld()
     {
-        $time = new \DateTime('now');
-        $today = $time->format('d-m-Y H:i:s');
-        $t = strtotime($today);
+
         $searchModel = new UserAuctionsSearch();
         $dataProvider = $searchModel->search(Yii::$app->request->queryParams);
+        $auctions = $this->service->getAuction();
+//       VarDumper::dump($auctions,12,true);
+//       die();
 
-         $dataProvider->query->where(['<', 'auctions.end_date', $t])->andWhere(['auctions.status' => 0]);
-         $model = UserAuctions::find()->leftjoin('auctions', 'user_auctions.auction_id = auctions.id')->groupBy(['user_auctions.auction_id'])->where(['<', 'auctions.end_date', $t])->andWhere(['auctions.status' => 0])->max('price');
-//        SELECT * FROM `user_auctions` WHERE price in (SELECT MAX(price) from `user_auctions` GROUP by auction_id)
-//        SELECT ua.* FROM `user_auctions` as ua, (SELECT MAX(price) from `user_auctions` GROUP by auction_id) as tab1 WHERE ua.price = tab1.price and ua.user_id = tab1.user_id
-//        VarDumper::dump($dataProvider, 12, true);
-//        die();
         return $this->render('old', [
-            'searchModel' => $searchModel,
-            'dataProvider' => $dataProvider,
+            'auctions' => $auctions,
+
         ]);
     }
 }

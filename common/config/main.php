@@ -11,19 +11,24 @@ return [
 //            'class' => 'app\modules\FillContent',
 //        ],
     ],
+    'bootstrap' => [
+        'queue', // The component registers its own console commands
+    ],
     'components' => [
-        'db' => require(__DIR__.'/db.php'),
+
+        'db' => require(__DIR__ . '/db.php'),
         'cache' => [
             'class' => 'yii\caching\FileCache',
             'cachePath' => Yii::getAlias('@common') . '/cache', // общий кеш для backend / frontend в папке frontend/web/cache
         ],
-        /*'urlManager' => [
-		    'class' => 'yii\web\UrlManager',
-            'showScriptName' => false,
-            'enablePrettyUrl' => true,
-            'rules' => [
-         ],
-        ],*/
+        'queue' => [
+            'class' => \yii\queue\db\Queue::class,
+            'db' => 'db', // DB connection component or its config
+            'tableName' => '{{%queue}}', // Table name
+            'channel' => 'default', // Queue channel key
+            'mutex' => \yii\mutex\MysqlMutex::class, // Mutex used to sync queries
+        ],
+
         'i18n' => [
             'translations' => [
                 'app*' => [
@@ -46,5 +51,5 @@ return [
             ],
         ],
     ],
-    'language'=>'ru-RU',
+    'language' => 'ru-RU',
 ];

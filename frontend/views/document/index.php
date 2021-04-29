@@ -34,7 +34,7 @@ $material = 'material_' . $lang;
                 </div></div>
             <div class="col-md-4"></div>
             <div class="col-md-4">  <div class="item" style="text-align: right; display: inline;">
-                    <a href="../uploads/document/<?=$documents->file?>" style="margin: 0; font-size: 20px;" class="download"><i
+                    <a href="../../uploads/document/<?=$documents->file?>" style="margin: 0; font-size: 20px;" class="download"><i
                                 class="fa fa-flag mx-1"></i><?= LangHelper::t("Прикрепленный файл", "Biriktirilgan fayl", "Attached file"); ?>
                     </a>
                 </div></div>

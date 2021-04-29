@@ -29,6 +29,7 @@ $material = 'material_' . $lang;
 $_engine['size_obyom'][1] = LangHelper::t("штук", "штук", "штук");
 $_engine['size_obyom'][2] = LangHelper::t("тонна", "тонна", "тонна");
 $_engine['size_obyom'][3] = LangHelper::t("кг", "кг", "кг");
+$_engine['size_obyom'][4] = LangHelper::t("кв.м", "кв.м", "кв.м");
 ?>
 <style>
     tr td{
@@ -54,7 +55,8 @@ $_engine['size_obyom'][3] = LangHelper::t("кг", "кг", "кг");
                 <th><?= LangHelper::t("Наименование аукциона", " Auksion nomi", " Auction name"); ?></th>
                 <th><?= LangHelper::t("Местонахождение", "Manzil", "Location"); ?></th>
                 <th><?= LangHelper::t("Объем", "Hajmi", "Volume"); ?></th>
-                <th><?= LangHelper::t("Старотовая цена с НДС (в сумах)", "Старотовая цена с НДС (в сумах)", "Старотовая цена с НДС (в сумах)"); ?></th>
+                <th><?= LangHelper::t("Стартовая цена с НДС (в сумах)", "Старотвая цена с НДС (в сумах)", "Старотвая цена с НДС (в сумах)"); ?></th>
+                <th><?= LangHelper::t("Текущая цена", " Hozirgi narx", " Current price"); ?></th>
                 <th><?= LangHelper::t("Дата окончания", "Tugash muddati", "Expiration date"); ?></th>
             </tr>
             </thead>
@@ -68,6 +70,13 @@ $_engine['size_obyom'][3] = LangHelper::t("кг", "кг", "кг");
                 <td><?= $auction->address ?></td>
                 <td><?= $auction->obyom ?>  <?= @$_engine['size_obyom'][$auction->size_obyom] ?></td>
                 <td><?= $auction->start_price ?></td>
+                <?php $userauctions  = \common\models\UserAuctions::find()->where(['auction_id'=>$auction->id])->orderBy(['id'=>SORT_DESC])->limit(1)->one(); ?>
+                <?php if(!empty($userauctions->price)) { ?>
+                 <td><?= $userauctions->price;
+                    ?></td><?php } ?>
+                    <?php if(empty($userauctions->price))  { ?>
+                <td><?= $auction->start_price;
+                    ?></td><?php }?>
                 <?php if ($auction->end_date < $t){ ?>
                     <td> <h4><?= LangHelper::t("Продано", "Sotildi", "Saled"); ?></h4></td>
                 <?php } else { ?>

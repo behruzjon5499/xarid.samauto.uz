@@ -1,5 +1,6 @@
 <?php
 
+use common\helpers\LangHelper;
 use yii\grid\GridView;
 use yii\helpers\Html;
 
@@ -9,24 +10,28 @@ use yii\helpers\Html;
 
 $this->params['breadcrumbs'][] = $this->title;
 ?>
-<div class="auctions-index">
+            <table class="table">
+                <thead>
+                <tr>
+                    <th><?= LangHelper::t("Лот №", " Lot № ", " Lot №"); ?></th>
+                    <th><?= LangHelper::t("Название", "Название", "Название"); ?></th>
+                    <th><?= LangHelper::t("Участник", "Ishtirokchi", "Participant"); ?></th>
+                    <th><?= LangHelper::t(" цена:", "  narx :", "  price:"); ?></th>
+                    <th><?= LangHelper::t("Дата окончания", "Tugash muddati", "Expiration date"); ?><</th>
+                </tr>
+                </thead>
+                <tbody>
+                <?php foreach ($auctions as $auction):?>
+                <tr>
 
-    <div class="box">
-        <div class="body-box">
-            <?= GridView::widget([
-                'dataProvider' => $dataProvider,
-                'filterModel' => $searchModel,
-                'columns' => [
-                    'id',
-                    'userauctions.user.username',
-                    'user_auctions.price',
-                    'title_ru:ntext',
-                    'price',
-                    'end_date:date',
-                    ['class' => 'yii\grid\ActionColumn'],
-                ],
-            ]); ?>
-        </div>
-    </div>
+                    <td><?=$auction->id?></td>
+                    <td><?=$auction->title_ru?></td>
+                    <td><?=$auction->username?></td>
+                    <td><?=$auction->price?></td>
+                    <td><?=$auction->date?></td>
+                </tr>
+                <?php endforeach;?>
 
-</div>
+                </tbody>
+            </table>
+

@@ -75,6 +75,7 @@ use mihaildev\elfinder\ElFinder;
                 "1" => "штук",
                 "2" => "тонна",
                 "3" => "кг",
+                "4" => "кв.м",
             ],
                 $param = ['options' => [$model->isNewRecord ? 1 : $model->size_obyom => ['Selected' => true]]]
             );

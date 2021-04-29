@@ -4,6 +4,7 @@ namespace backend\controllers;
 
 use common\models\Auctions;
 use common\models\AuctionsSearch;
+use common\models\Send;
 use common\models\SiteAndLinks;
 use common\models\UserAuctions;
 use common\models\UserAuctionsSearch;
@@ -163,25 +164,26 @@ class UserAuctionsController extends Controller
         $time = new \DateTime('now');
         $today = $time->format('d-m-Y H:i:s');
         $t = strtotime($today);
-        $auctions = Auctions::find()->where(['<', 'end_date', $t])->andWhere(['status' => 10])->orderBy(['id'=>SORT_DESC])->limit(1)->one();
-        $userauctions = UserAuctions::find()->where(['auction_id'=>$auctions->id])->one();
+        $auctions = Auctions::find()->where(['<', 'end_date', $t])->andWhere(['status' => 10])->all();
 
-        Yii::$app
-            ->mailer
-            ->compose(['html' => 'win/confirm-html', 'text' => 'win/confirm-text'])
-            ->setFrom('no-reply@samauto.uz')
-            ->setTo($userauctions->user->email)
-            ->setSubject('sizning Auksioninggiz  bo`yicha ')
-            ->send();
-        Yii::$app->session->setFlash('success', 'Ваш запрос успешно отправлен');
+        foreach($auctions as $auction):
+            $userauctions = UserAuctions::find()->where(['auction_id'=>$auction->id])->one();
+//            VarDumper::dump($userauctions->user->email);
+//            die();
+            Yii::$app
+                ->mailer
+                ->compose(['html' => 'win/confirm-html', 'text' => 'win/confirm-text'])
+                ->setFrom('no-reply@samauto.uz')
+                ->setTo($userauctions->user->email)
+                ->setSubject('sizning Auksioninggiz  bo`yicha ')
+                ->send();
+            Yii::$app->session->setFlash('success', 'Ваш запрос успешно отправлен');
 
-        $auctionss = Yii::$app->db->createCommand()
-            ->update('auctions', ['status' => 0], ['id' => $auctions->id])
-            ->execute();
+            $auctionss = Yii::$app->db->createCommand()
+                ->update('auctions', ['status' => 0], ['id' => $auction->id])
+                ->execute();
+        endforeach;
 
-        $auctions = Auctions::find()->where(['id' => $auctions->id])->one();
-//        VarDumper::dump($auctions->id,12,true);
-//        die();
         $searchModel = new AuctionsSearch();
         $dataProvider = $searchModel->search(Yii::$app->request->queryParams);
         return $this->render('auctionsindex', [
@@ -190,5 +192,14 @@ class UserAuctionsController extends Controller
         ]);
     }
 
+    public function actionNew()
+    {
+        if( Yii::$app->queue->delay(1)->push(new Send())){
+            echo "ok";
+    }
+        else{
+            echo "error";
+        }
 
+    }
 }

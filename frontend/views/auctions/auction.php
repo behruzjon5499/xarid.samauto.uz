@@ -2,6 +2,8 @@
 
 use common\helpers\LangHelper;
 use common\models\Auctions;
+use common\models\UserAuctions;
+use kartik\datetime\DateTimePicker;
 
 /* @var $auctions Auctions
  */
@@ -35,27 +37,64 @@ $material = 'material_' . $lang;
 
 
 <div class="sp-wrapper">
-    <div class="container">
+    <form class="container">
         <div class="mTitle aos-init aos-animate" data-aos="fade-right"> <?= LangHelper::t("Конкурсы на продажи", "Onlayn savdolar", "Contests for sale"); ?></div>
         <div class="table_filter d-flex">
             <section class="my-auctions">
                 <a href="<?= yii\helpers\Url::to(['auctions/index']) ?>"  class="filter-input active"> <?= LangHelper::t("Текущие аукционы", "Текущие аукционы", "Текущие аукционы"); ?></a>
-                <a href="<?= yii\helpers\Url::to(['auctions/auction']) ?>"  class="filter-input active" style="margin-left: 15px;"><?= LangHelper::t("Полезно знать", "Mening auksionlarim", "My auctions"); ?></a>
-            </section>
-        </div>
+                  </section>
 
+        </div>
+        <form action="auction" method="get">
+        <div class="row" style="margin-bottom: 30px;">
+            <div class="col-lg-4">
+                <?php
+                echo DateTimePicker::widget([
+                    'name' => 'start_time',
+                    'value' => '24-04-2021 00:00:00',
+                    'options' => ['placeholder' => 'Select end time ...'],
+                    'pluginOptions' => [
+                        'format' => 'dd-mm-yyyy h:i:s',
+                        'todayHighlight' => true
+                    ]
+                ]);?>
+
+            </div>
+            <div class="col-lg-4">
+                <?php
+                echo DateTimePicker::widget([
+                    'name' => 'end_time',
+                    'value' => '24-04-2021 00:00:00',
+                    'options' => ['placeholder' => 'Select end time ...'],
+                    'pluginOptions' => [
+                       'format' => 'dd-mm-yyyy hh:ii:ss',
+                        'todayHighlight' => true
+                    ]
+                ]);?>
+            </div>
+            <div class="col-lg-4">
+
+                <button class="btn btn-info" type="submit"
+                ><?= Yii::t(
+                    'yii',
+                    'search'
+                    ) ?></button>
+            </div>
+        </div>
+        </form>
 
         <table id="auction_table" class="table table-striped table-bordered" style="width:100%">
             <thead>
             <tr>
-                <th>  <?= LangHelper::t("id", "id", "id"); ?></th>
+                <th>  <?= LangHelper::t("номер лота", "номер лота", "номер лота"); ?></th>
                 <th><?= LangHelper::t("Дата начала", "Boshlanish sanasi ", "Start date"); ?></th>
                 <th><?= LangHelper::t("Наименование аукциона", " Auksion nomi", " Auction name"); ?></th>
                 <th><?= LangHelper::t("Местонахождение", "Manzil", "Location"); ?></th>
                 <th><?= LangHelper::t("Объем", "Hajmi", "Volume"); ?></th>
-                <th><?= LangHelper::t("Стартовая с НДС", " Boshlang'ich narx", "Starting price"); ?></th>
-                <th><?= LangHelper::t("Компания", "Kompaniya", "Company"); ?> </th>
-                <th><?= LangHelper::t("Дата окончания", "Tugash muddati", "Expiration date"); ?></th>
+                <th><?= LangHelper::t("Стартовая цена с НДС за единицу", " Boshlang'ich narx", "Starting price"); ?></th>
+                <th><?= LangHelper::t("цена реализации", "цена реализации", "цена реализации"); ?></th>
+                <th><?= LangHelper::t("Победитель", "Победитель", "Победитель"); ?> </th>
+                <th><?= LangHelper::t("Статус", "Xolati", "Status"); ?></th>
             </tr>
             </thead>
             <?php foreach($auctions as $auction):?>
@@ -68,12 +107,12 @@ $material = 'material_' . $lang;
                     <td><?= $auction->address ?></td>
                     <td><?= $auction->obyom ?></td>
                     <td><?= $auction->start_price ?></td>
-                    <td><?= $auction->company->$title ?></td>
-                    <?php if ($auction->end_date < $t){ ?>
-                        <td> <h4><?= LangHelper::t("Продано", "Sotildi", "Saled"); ?></h4></td>
-                    <?php } else { ?>
-                        <td><?= Yii::$app->formatter->asDate($auction->end_date, 'yyyy-MM-dd'); ?></td>
-                    <?php } ?>
+                    <td><?= $auction->price;  ?></td>
+                    <td><?=  $auction->company ?> </td>
+                         <td> <?=  $auction->status ?> </td>
+
+                    <td></td>
+
                 </tr>
                 </tbody>
 

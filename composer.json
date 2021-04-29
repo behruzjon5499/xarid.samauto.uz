@@ -41,7 +41,8 @@
     "himiklab/yii2-recaptcha-widget": "2.*",
     "ext-pdo": "*",
     "ext-json": "*",
-    "phpoffice/phpexcel": "dev-develop"
+    "phpoffice/phpexcel": "dev-develop",
+    "yiisoft/yii2-queue": "^2.3"
   },
   "require-dev": {
     "yiisoft/yii2-debug": "~2.1.0",

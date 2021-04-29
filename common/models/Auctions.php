@@ -37,16 +37,17 @@ class Auctions extends \yii\db\ActiveRecord
 {
     const EVENT_BEFORE_ACTIVE = 'beforeActive';
     public $file1;
-//    public $date;
+    public $date;
     const STATUS_WAIT = 0;
     const STATUS_ACTIVE = 10;
     public $image;
+    const OYLAR =  ['January','February','March','April','May','June','July','August','September','October','November','December'];
     /**
      * {@inheritdoc}
      */
     public static function tableName()
     {
-        return 'auctions';
+        return 'auction';
     }
 
     /**

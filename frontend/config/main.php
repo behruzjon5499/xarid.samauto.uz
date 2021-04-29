@@ -10,11 +10,7 @@ return [
     'id' => 'app-frontend',
     'homeUrl' => '/',
     'basePath' => dirname(__DIR__),
-    'bootstrap' => [
-        'log',
-//        'common\bootstrap\SetUp',
-//        'frontend\bootstrap\SetUp',
-    ],
+    'bootstrap' => ['log'],
     'language' => 'ru',
     'controllerNamespace' => 'frontend\controllers',
     'components' => [
