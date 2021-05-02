@@ -36,8 +36,8 @@ $material = 'material_' . $lang;
         <div class="mTitle aos-init aos-animate" data-aos="fade-right"><?= LangHelper::t("Конкурсы на закупки", "Xarid uchun tenderlar", "Contests for purchases"); ?></div>
         <div class="table_filter d-flex">
             <section class="my-auctions">
-                <a href="<?= yii\helpers\Url::to(['auctions/index']) ?>"> <?= LangHelper::t("Мои тендеры", "Mening tenderlarim ", "My tenders"); ?></a>
-                <a href="<?= yii\helpers\Url::to(['document/index']) ?>" style="margin-left: 15px;" data-toggle="modal" data-target="#info_modal"><?= LangHelper::t("Полезно знать ", "Bilib olgan yaxshi ", "Good to know"); ?></a>
+                <a href="<?= yii\helpers\Url::to(['order/index']) ?>" class="filter-input active"> <?= LangHelper::t("Мои тендеры", "Mening tenderlarim ", "My tenders"); ?></a>
+                <a href="<?= yii\helpers\Url::to(['order/index']) ?>"  class="filter-input active" style="margin-left: 15px;" ><?= LangHelper::t("Полезно знать ", "Bilib olgan yaxshi ", "Good to know"); ?></a>
             </section>
         </div>
 

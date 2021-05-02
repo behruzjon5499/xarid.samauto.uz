@@ -10,6 +10,8 @@
 /* @var $companies \common\models\Companies */
 /* @var $statistic \common\models\Companies */
 /* @var $orders \common\models\Companies */
+/* @var $summ_auctions \common\models\Auctions */
+/* @var $summ_orders \common\models\Orders */
 
 use common\helpers\LangHelper;
 
@@ -31,30 +33,32 @@ $material = 'material_' . $lang;
 
     <div class="container">
         <div class="row">
-            <div class="col-md-3">
+            <div class="col-md-2"></div>
+            <div class="col-md-4">
                 <div class="st-card red">
-                    <p><?= LangHelper::t("Активные тендеры", "Активные тендеры", "Активные тендеры"); ?></p>
-                    <h2><?=$count_order  ?></h2>
+                    <p><?= LangHelper::t("Активные продажи ", "Активные продажи", "Активные продажи"); ?></p>
+                    <h2><?= number_format($summ_orders/1000000,2,',','')  ?></h2>
                 </div>
             </div>
-            <div class="col-md-3">
-                <div class="st-card yellow">
-                    <p> <?= LangHelper::t("Прошедшие тендеры", "Mening auksionlarim", "My auctions"); ?></p>
-                    <h2><?=$counts_order  ?></h2>
-                </div>
-            </div>
-                 <div class="col-md-3">
+<!--            <div class="col-md-3">-->
+<!--                <div class="st-card yellow">-->
+<!--                    <p> --><?//= LangHelper::t("Прошедшие тендеры", "Mening auksionlarim", "My auctions"); ?><!--</p>-->
+<!--                    <h2>--><?//=$counts_order  ?><!--</h2>-->
+<!--                </div>-->
+<!--            </div>-->
+                 <div class="col-md-4">
                   <div class="st-card blue">
-                    <p>  <?= LangHelper::t("Активные продажи ", " Faol savdolar", "Active sales"); ?></p>
-                    <h2><?= $count ?></h2>
+                    <p>  <?= LangHelper::t("Все продажи  ", " Все продажи ", "Все продажи "); ?></p>
+                    <h2><?= number_format($summ_auctions/1000000,2,',','') ?></h2>
                   </div>
                 </div>
-                <div class="col-md-3">
-                  <div class="st-card green">
-                    <p><?= LangHelper::t("Все продажи", " Barcha savdolar", "All sales "); ?></p>
-                    <h2><?=  $counts?></h2>
-                  </div>
-                </div>
+            <div class="col-md-2"></div>
+<!--                <div class="col-md-3">-->
+<!--                  <div class="st-card green">-->
+<!--                    <p>--><?//= LangHelper::t("Все продажи", " Barcha savdolar", "All sales "); ?><!--</p>-->
+<!--                    <h2>--><?//=  $counts?><!--</h2>-->
+<!--                  </div>-->
+<!--                </div>-->
         </div>
     </div>
 
@@ -64,48 +68,43 @@ $material = 'material_' . $lang;
             <div class="row">
                 <div class="col-md-12">
                     <div class="apex-card">
-                        <h3> <?= LangHelper::t("Общая статистика Конкурсы на продажи", "Общая статистика Конкурсы на продажи", "Общая статистика Конкурсы на продажи"); ?></h3>
+                        <h3> <?= LangHelper::t("статистика по продаже", "статистика по продаже", "статистика по продаже"); ?></h3>
                         <div id="general_chart"></div>
                     </div>
                 </div>
-                <div class="col-md-12">
-                    <div class="apex-card">
-                        <h3> <?= LangHelper::t("Общая статистика Конкурсы на закупки", "Общая статистика Конкурсы на закупки", "Общая статистика Конкурсы на закупки"); ?></h3>
-                        <div id="tender_chart"></div>
-                    </div>
-                </div>
-                <div class="col-md-6">
-                    <div class="statistics-card">
-                        <header> <?= LangHelper::t("Предприятия тендер", "Предприятия тендер", "Предприятия тендер"); ?></header>
-                        <table>
-                            <thead>
-                            <tr>
-                                <th>#</th>
-                                <th> <?= LangHelper::t("Nomi", "Nomi", "Nomi"); ?></th>
-                                <th> <?= LangHelper::t("Актив", "Актив", "Актив"); ?></th>
-                                <th> <?= LangHelper::t("Тугаллаш", "Тугаллаш", "Тугаллаш"); ?></th>
-                            </tr>
-                            </thead>
-                            <tbody>
+<!--                <div class="col-md-12">-->
+<!--                    <div class="apex-card">-->
+<!--                        <h3> --><?//= LangHelper::t("Общая статистика Конкурсы на закупки", "Общая статистика Конкурсы на закупки", "Общая статистика Конкурсы на закупки"); ?><!--</h3>-->
+<!--                        <div id="tender_chart"></div>-->
+<!--                    </div>-->
+<!--                </div>-->
+<!--                <div class="col-md-6">-->
+<!--                    <div class="statistics-card">-->
+<!--                        <header> --><?//= LangHelper::t("Предприятия тендер", "Предприятия тендер", "Предприятия тендер"); ?><!--</header>-->
+<!--                        <table>-->
+<!--                            <thead>-->
+<!--                            <tr>-->
+<!--                                <th>#</th>-->
+<!--                                <th> --><?//= LangHelper::t("Nomi", "Nomi", "Nomi"); ?><!--</th>-->
+<!--                                <th> --><?//= LangHelper::t("Актив", "Актив", "Актив"); ?><!--</th>-->
+<!--                                <th> --><?//= LangHelper::t("Тугаллаш", "Тугаллаш", "Тугаллаш"); ?><!--</th>-->
+<!--                            </tr>-->
+<!--                            </thead>-->
+<!--                            <tbody>-->
+<!---->
+<!--                                <tr>-->
+<!--                                    <td></td>-->
+<!--                                    <td>--><?//=" СП ООО Самаркандский Автомобильный Завод " ?><!--</td>-->
+<!--                                    <td> --><?//= $wait_auction  ?><!--</td>-->
+<!--                                    <td>--><?//=  $active_auction ?><!--</td>-->
+<!---->
+<!--                                </tr>-->
+<!--                            </tbody>-->
+<!--                        </table>-->
+<!--                    </div>-->
+<!--                </div>-->
 
-                                <tr>
-                                    <td></td>
-                                    <td><?=" СП ООО Самаркандский Автомобильный Завод " ?></td>
-                                    <td> <?= $wait_auction  ?></td>
-                                    <td><?=  $active_auction ?></td>
 
-                                </tr>
-                            </tbody>
-                        </table>
-                    </div>
-                </div>
-
-                <div class="col-md-6">
-                    <div class="apex-card">
-                        <h3> <?= LangHelper::t("Общая статистика", "Общая статистика", "Общая статистика"); ?></h3>
-                        <div id="pie-chart"></div>
-                    </div>
-                </div>
                 <div class="col-md-12">
                     <div class="apex-card">
                         <h3> <?= LangHelper::t("Общая годовая статистика", "Общая годовая статистика", "Общая годовая статистика"); ?></h3>

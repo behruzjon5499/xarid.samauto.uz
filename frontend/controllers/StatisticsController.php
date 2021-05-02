@@ -6,7 +6,10 @@ use common\models\Auctions;
 use common\models\Companies;
 use common\models\CountView;
 use common\models\Orders;
+use common\models\OrderUser;
 use common\models\StatisticView;
+use common\models\SummView;
+use common\models\UserAuctions;
 use Yii;
 use yii\filters\VerbFilter;
 use yii\helpers\ArrayHelper;
@@ -57,9 +60,11 @@ class StatisticsController extends Controller
         $active_auction = Auctions::find()->where(['<', 'end_date', $t])->count();
         $wait_auction = Auctions::find()->where(['>', 'end_date', $t])->count();
         $counts = Auctions::find()->count();
+        $summ_auctions = self::getSumm();
+        $summ_orders = self::getSummOrder();
         $count_order = Orders::find()->where(['>', 'end_date', $t])->count();
         $counts_order = Orders::find()->count();
-//        VarDumper::dump(self::getStatistic(), 12, true);
+//        VarDumper::dump(self::getSummOrder(), 12, true);
 //        die();
         $statistic = self::getStatistic();
         $orders = self::getOrderStatistic();
@@ -74,6 +79,8 @@ class StatisticsController extends Controller
             'companies' => $companies,
             'statistic' => $statistic,
             'orders' => $orders,
+            'summ_auctions' => $summ_auctions,
+            'summ_orders' => $summ_orders,
             'active_auction' => $active_auction,
             'wait_auction' => $wait_auction,
             'yearstatistic' => $yearstatistic,
@@ -297,5 +304,41 @@ class StatisticsController extends Controller
 
 
         return $statistic;
+    }
+    public function getSumm()
+    {
+        $auctions = Auctions::find()->all();
+        $tender = Orders::find()->all();
+        $query = Auctions::find()
+            ->select('MONTH(start_date) as date, auctions.*');
+        $user_auctions = UserAuctions::find()->all();
+        $user_auctions = ArrayHelper::index($user_auctions,'auction_id');
+        $statisticItem = [];
+        $s= 0;
+        foreach ($user_auctions as $user_auction) {
+
+            $s = $s + $user_auction->price;
+        }
+
+        return $s;
+    }
+    public function getSummOrder()
+    {
+        $time = new \DateTime('now');
+        $today = $time->format('d-m-Y H:i:s');
+        $t = strtotime($today);
+
+        $auctions = Auctions::find()->where(['>=','start_date',$t])->all();
+        $user_auctions = UserAuctions::find()->joinWith('auction')->andWhere(['>','auction.start_date',$t])->all();
+
+        $user_auctions = ArrayHelper::index($user_auctions,'auction_id');
+
+        $s= 0;
+        foreach ($user_auctions as $user_auction) {
+
+            $s = $s + $user_auction->price;
+        }
+
+        return $s;
     }
 }
