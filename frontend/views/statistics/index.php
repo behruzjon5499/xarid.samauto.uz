@@ -36,8 +36,8 @@ $material = 'material_' . $lang;
             <div class="col-md-2"></div>
             <div class="col-md-4">
                 <div class="st-card red">
-                    <p><?= LangHelper::t("Активные продажи ", "Активные продажи", "Активные продажи"); ?></p>
-                    <h2><?= number_format($summ_orders/1000000,2,',','')  ?></h2>
+                    <p><?= LangHelper::t("Объем активных продаж", "Объем активных продаж", "Объем активных продаж"); ?></p>
+                    <h2><?= number_format($summ_orders/1000000,2,',','')  ?> млн сум </h2>
                 </div>
             </div>
 <!--            <div class="col-md-3">-->
@@ -48,8 +48,8 @@ $material = 'material_' . $lang;
 <!--            </div>-->
                  <div class="col-md-4">
                   <div class="st-card blue">
-                    <p>  <?= LangHelper::t("Все продажи  ", " Все продажи ", "Все продажи "); ?></p>
-                    <h2><?= number_format($summ_auctions/1000000,2,',','') ?></h2>
+                    <p>  <?= LangHelper::t("Объем реализованных товаров", "Объем реализованных товаров", "Объем реализованных товаров"); ?></p>
+                    <h2><?= number_format($summ_auctions/1000000,2,',','') ?> млн сум </h2>
                   </div>
                 </div>
             <div class="col-md-2"></div>
@@ -122,8 +122,10 @@ $material = 'material_' . $lang;
 
     var options = {
         series: [{
-            data: [<?php foreach ($statistic as $s){?> '<?= $s->full_count ?>' , <?php }?>]
-        }],
+            data: [<?php foreach ($statistic as $s){?> "<?= $s->full_count ?>",<?php }?>]
+        }
+
+        ],
         chart: {
             height: 350,
             type: 'bar',
@@ -147,7 +149,7 @@ $material = 'material_' . $lang;
         },
         xaxis: {
             categories: [
-                <?php foreach ($statistic as $s){?> '<?= $s->month ?>' , <?php }?>
+           'Январь','Февраль','Март','Aпрель','Май','Июнь','Июль','Aвгуст','Сентябрь','Октябрь','Ноябрь','Декабрь'
             ],
             labels: {
                 style: {

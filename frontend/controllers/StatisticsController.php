@@ -64,12 +64,15 @@ class StatisticsController extends Controller
         $summ_orders = self::getSummOrder();
         $count_order = Orders::find()->where(['>', 'end_date', $t])->count();
         $counts_order = Orders::find()->count();
-//        VarDumper::dump(self::getSummOrder(), 12, true);
+//        VarDumper::dump(self::getStatistic(), 12, true);
 //        die();
         $statistic = self::getStatistic();
         $orders = self::getOrderStatistic();
         $yearstatistic = self::getYearStatistic();
         $yearorderstatistic = self::getYearOrderStatistic();
+
+
+
         return $this->render('index', [
             'auctions' => $auctions,
             'count_order' => $count_order,
@@ -92,17 +95,22 @@ class StatisticsController extends Controller
     public function getStatistic()
     {
         $auctions = Auctions::find()->all();
-        $tender = Orders::find()->all();
+        $user_auctions = UserAuctions::find()->all();
+
         $query = Auctions::find()
             ->select('MONTH(start_date) as date, auctions.*');
 
         $statistic = ArrayHelper::index($auctions, 'start_date');
+//        $user_auctions = ArrayHelper::index($user_auctions, 'auction_id');
         $statisticItem = [];
         $finalItem = [];
 
 
         foreach ($auctions as $auction) {
+            $user_auctions = UserAuctions::find()->where(['auction_id'=>$auction->id])->orderBy(['id'=>SORT_DESC])->one();
             $model = new StatisticView();
+            $model->price = $user_auctions->price;
+            $model->auction_id = $auction->id;
             $model->count_auction = $auction->title_ru;
             $model->mounth = date('F', $auction->start_date);
             $model->year = date('Y', $auction->start_date);
@@ -114,9 +122,13 @@ class StatisticsController extends Controller
 
 
         foreach ($statistic as $items) {
+            $s=0;
             foreach ($items as $item) {
+
+                $s += $item->price;
                 $model = new StatisticView();
                 $model->full_count = count($items);
+                $model->price =$s;
                 $model->year = $item->year;
                 $model->month = $item->mounth;
 
@@ -134,6 +146,7 @@ class StatisticsController extends Controller
                     if($item->month == $oylar) {
                         $model->full_count =$item->full_count;
                         $model->year = $item->year;
+                        $model->price = $item->price;
                         $model->month = $oylar;
                         $model->id = $key;
                         break;
@@ -141,6 +154,7 @@ class StatisticsController extends Controller
                     else  {
                     $model->full_count = 0;
                     $model->year = 2021;
+                    $model->price = 0;
                     $model->month =$oylar;
                     $model->id =$key;
                     }
