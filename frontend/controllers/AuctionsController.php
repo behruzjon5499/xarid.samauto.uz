@@ -96,7 +96,7 @@ class AuctionsController extends Controller
                     $model->price = $userauctions ? $userauctions->price : $auction->start_price;
                     $model->full_name = $userauctions ? $userauctions->fulluser->username : '';
                     $model->status = $userauctions ? 'продано' : 'не продано';
-                    $model->company = $userauctions ? $userauctions->fulluser->title_company ? $userauctions->fulluser->title_company  :$userauctions->fulluser->username : "";
+                    $model->company = $userauctions ? $userauctions->fulluser->jis_yur==1 ? $userauctions->fulluser->title_company  :$userauctions->fulluser->username : "";
 
                 $items[] =$model;
             }

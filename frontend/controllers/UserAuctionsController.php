@@ -39,12 +39,15 @@ class UserAuctionsController extends Controller
         $next_prices = UserAuctions::find()->where(['auction_id' =>$id])->orderBy(['id' => SORT_DESC])->limit(1)->one();
         if (empty($next_prices)){
           $k =  1;
+            $summ = 0;
         }else{
-           $k =  $next_prices->percent;
+            $summ = $next_prices->price;
+$k= $next_prices->percent;
+
         }
         $next_price = $auction->start_price + $auction->start_price * 0.05 * $k;
         if ($model->load(Yii::$app->request->post())) {
-            if ($next_prices->price > $model->price ) {
+            if (($model->price - $summ >0)) {
                 if (!empty($next_prices->user_id)) {
                     if ($next_prices->user_id == Yii::$app->user->id) {
                         Yii::$app->session->setFlash('success', Yii::t('app', 'Sizdan boshqa qatnashuvchilar hali narx oshirishmadi'));
