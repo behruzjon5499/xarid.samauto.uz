@@ -523,5 +523,16 @@ $(window).on('load', function () {
             'pointer-events': 'auto'
         });
     }
+
+
+
+    $('.exampleModal').on('click', function (e) {
+        $('#exampleModal').modal('toggle');
+    });
+
+    $('.exampleModal2').on('click', function (e) {
+        $('#exampleModal2').modal('toggle');
+    });
+
 });
 
