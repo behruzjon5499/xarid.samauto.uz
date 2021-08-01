@@ -47,6 +47,7 @@ use yii\widgets\ActiveForm;
         ?>
 
         <?= $form->field($model, 'check')->textInput(['maxlength' => true]) ?>
+        <?= $form->field($model, 'id')->hiddenInput(['maxlength' => true,'value'=>$model->id]) ?>
 
     </div>
 </div>

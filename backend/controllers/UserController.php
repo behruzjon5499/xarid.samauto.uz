@@ -6,6 +6,7 @@ use common\models\User;
 use common\models\UserSearch;
 use Yii;
 use yii\filters\VerbFilter;
+use yii\helpers\VarDumper;
 use yii\web\Controller;
 use yii\web\NotFoundHttpException;
 
@@ -92,7 +93,17 @@ class UserController extends Controller
     {
         $model = $this->findModel($id);
 
-        if ($model->load(Yii::$app->request->post()) && $model->save()) {
+        if ($model->load(Yii::$app->request->post())) {
+            $user = User::find()->where(['id' => $model->id])->one();
+            $user->username = $model->username;
+            $user->phone = $model->phone;
+            $user->inn = $model->inn;
+            $user->title_company = $model->title_company;
+            $user->email_company = $model->email_company;
+            $user->phone_company = $model->phone_company;
+            $user->address_company = $model->address_company;
+            $user->email = $model->email;
+            $user->save(false);
             return $this->redirect(['view', 'id' => $model->id]);
         }
 
