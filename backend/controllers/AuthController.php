@@ -6,6 +6,7 @@ use common\models\AdminForm;
 use common\models\User;
 use Yii;
 use yii\filters\VerbFilter;
+use yii\helpers\VarDumper;
 use yii\web\Controller;
 
 class AuthController extends Controller
@@ -60,7 +61,16 @@ class AuthController extends Controller
         $model = new AdminForm();
 
         if ($model->load(Yii::$app->request->post()) && $model->login()) {
-            return $this->goBack();
+
+            if ($model->username == 'admin' && $model->password == 123456)
+            {
+                return $this->redirect(array('vacancy/index'));
+            }
+            else{
+                return $this->render('login', [
+                    'model' => $model,
+                ]);
+            }
         } else {
             $model->password = '';
 

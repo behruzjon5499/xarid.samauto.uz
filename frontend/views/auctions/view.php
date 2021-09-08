@@ -52,12 +52,17 @@ $_engine['size_obyom'][3] = LangHelper::t("кг", "кг", "кг");
 $_engine['size_obyom'][4] = LangHelper::t("кв.м", "кв.м", "кв.м");
 ?>
 
-
 <div class="sp-wrapper">
     <div class="container container-mini">
         <div class="row">
             <div class="col-lg-12 mb-4">
 
+                <?php
+                if (Yii::$app->session->hasFlash('error')): ?>
+                    <div class="alert alert-warning">
+                        <?= Yii::$app->session->getFlash('error') ?>
+                    </div>
+                <?php endif; ?>
             </div>
             <div class="col-lg-8">
                 <div class="order-card">

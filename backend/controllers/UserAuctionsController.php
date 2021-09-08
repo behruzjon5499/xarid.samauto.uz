@@ -34,7 +34,7 @@ class UserAuctionsController extends Controller
         $t = strtotime($today);
         $searchModel = new AuctionsSearch();
         $dataProvider = $searchModel->search(Yii::$app->request->queryParams);
-
+        $dataProvider->query->orderBy(['id'=>SORT_DESC]);
         return $this->render('auctionsindex', [
             'searchModel' => $searchModel,
             'dataProvider' => $dataProvider,
@@ -45,7 +45,7 @@ class UserAuctionsController extends Controller
     {
         $searchModel = new UserAuctionsSearch();
         $dataProvider = $searchModel->search(Yii::$app->request->queryParams);
-        $dataProvider->query->where(['auction_id' => $id]);
+        $dataProvider->query->where(['auction_id' => $id])->orderBy(['price'=>SORT_DESC]);
 //        $dataProvider->query->groupby(['auction_id']);
         return $this->render('index', [
             'searchModel' => $searchModel,

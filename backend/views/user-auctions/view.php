@@ -44,7 +44,8 @@ $this->params['breadcrumbs'][] = $this->title;
                 'format' => 'raw',
             ],
             'auction.title_ru',
-            'percent'
+            'percent',
+            'created_at:datetime'
         ],
     ]) ?>
 

@@ -15,6 +15,7 @@ use Yii;
  * @property int $auction_id
  * @property int $counts
  * @property int $countss
+ * @property int $created_at
  *
  * @property Auctions $auction
  * @property User $fulluser
@@ -39,7 +40,7 @@ class UserAuctions extends \yii\db\ActiveRecord
     {
         return [
             [['user_id', 'price', 'auction_id'], 'required'],
-            [['user_id', 'auction_id'], 'integer'],
+            [['user_id', 'auction_id','created_at'], 'integer'],
             [['price', 'status'], 'string', 'max' => 255],
             [['auction_id'], 'exist', 'skipOnError' => true, 'targetClass' => Auctions::className(), 'targetAttribute' => ['auction_id' => 'id']],
             [['user_id'], 'exist', 'skipOnError' => true, 'targetClass' => User::className(), 'targetAttribute' => ['user_id' => 'id']],
@@ -58,6 +59,7 @@ class UserAuctions extends \yii\db\ActiveRecord
             'status' => Yii::t('app', 'Порядковый номер'),
             'percent' => Yii::t('app', 'Порядковый номер'),
             'auction_id' => Yii::t('app', 'Auction ID'),
+            'created_at' => Yii::t('app', 'Time'),
         ];
     }
 

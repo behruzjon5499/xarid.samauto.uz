@@ -39,6 +39,7 @@ class AuctionsController extends Controller
     {
         $searchModel = new AuctionsSearch();
         $dataProvider = $searchModel->search(Yii::$app->request->queryParams);
+        $dataProvider->query->orderBy(['id'=>SORT_DESC]);
         return $this->render('index', [
             'searchModel' => $searchModel,
             'dataProvider' => $dataProvider,
