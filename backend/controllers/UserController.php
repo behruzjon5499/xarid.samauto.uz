@@ -174,4 +174,13 @@ class UserController extends Controller
             'model' => $feedback,
         ]);
     }
+    public function actionStatus($id,$status)
+    {
+        $user = User::find()->where(['id' => $id])->one();
+        $user->status = $status;
+        $user->save(false);
+        return $this->render('view', [
+            'model' => $user,
+        ]);
+    }
 }

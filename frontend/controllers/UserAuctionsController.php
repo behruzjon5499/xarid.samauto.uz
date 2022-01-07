@@ -3,6 +3,7 @@
 namespace frontend\controllers;
 
 use common\models\Auctions;
+use common\models\User;
 use common\models\UserAuctions;
 use Yii;
 use yii\filters\VerbFilter;
@@ -40,13 +41,19 @@ class UserAuctionsController extends Controller
         if (empty($next_prices)){
           $k =  1;
             $summ = 0;
-        }else{
+        }
+        else{
             $summ = $next_prices->price;
            $k= $next_prices->percent;
-
         }
-
-        if ($auction->end_date > time()) {
+        $user = User::find()->andWhere(['id'=>Yii::$app->user->getId()])->one();
+        if($user->status==0){
+        Yii::$app->session->setFlash('error', Yii::t('app', 'Foydalanuvchi bloklangan keyinroq urinib ko`ring'));
+        return $this->redirect(['auctions/view',
+        'id' => $id
+         ]);
+         }
+        if ($auction->end_date > time() || ($next_prices->created_at + 300) > time()) {
             $next_price = $auction->start_price + $auction->start_price * 0.05 * $k;
             if ($model->load(Yii::$app->request->post())) {
                 if (($model->price - $summ > 0)) {
@@ -101,8 +108,6 @@ class UserAuctionsController extends Controller
                 }
 
             }
-
-
         }
         else{
             Yii::$app->session->setFlash('error', Yii::t('app', 'Vaqt tugagan'));

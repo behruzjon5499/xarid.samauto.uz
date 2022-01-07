@@ -34,15 +34,6 @@
 //                    ['label' => 'Categories', 'icon' => 'file-code-o', 'url' => ['/categories'],],
                     ['label' => 'Компании', 'icon' => 'file-code-o', 'url' => ['/companies'],],
 
-                    ['label' => 'Vacancy',
-                        'icon' => 'fa fa-user',
-                        'url' => '#',
-                        'items' => [
-                            ['label' => 'Vacancy', 'icon' => 'file-code-o', 'url' => ['/vacancy'],],
-                            ['label' => 'Vacancy Study', 'icon' => 'file-code-o', 'url' => ['/vacancy-study'],],
-                            ['label' => 'Vacancy Work', 'icon' => 'file-code-o', 'url' => ['/vacancy-work'],],
-                        ]
-                    ],
                     ['label' => 'Вопросы',
                         'icon' => 'fa fa-user',
                         'url' => '#',

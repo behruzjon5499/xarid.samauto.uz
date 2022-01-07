@@ -39,6 +39,12 @@ $this->params['breadcrumbs'][] = $this->title;
             <?= Html::a(Yii::t('app', 'ADMIN'), ['admin', 'id' => $model->id,'role' =>1], ['class' => 'btn btn-primary']) ?>
             <?= Html::a(Yii::t('app', 'MANAGER'), ['manager', 'id' => $model->id,'role' =>2], ['class' => 'btn btn-primary']) ?>
         <?php endif; ?>
+        <?php if($model->status == 10): ?>
+        <?= Html::a(Yii::t('app', 'Status wait'), ['status', 'id' => $model->id, 'status'=>0], ['class' => 'btn btn-success']) ?>
+        <?php endif; ?>
+        <?php if($model->status == 0): ?>
+            <?= Html::a(Yii::t('app', 'Status active'), ['status', 'id' => $model->id, 'status'=>10], ['class' => 'btn btn-success']) ?>
+        <?php endif; ?>
     </p>
 <div class="row">
     <div class="col-md-6">
