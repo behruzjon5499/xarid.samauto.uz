@@ -94,9 +94,9 @@ class AuctionsController extends Controller
                 $userauctions  = UserAuctions::find()->where(['auction_id'=>$auction->id])->with('fulluser')->orderBy(['id'=>SORT_DESC])->limit(1)->one();
 
                     $model->price = $userauctions ? $userauctions->price : $auction->start_price;
-                    $model->full_name = $userauctions ? $userauctions->fulluser->username : '';
+                    $model->full_name = $userauctions ? $userauctions->fulluser ? $userauctions->fulluser->username :  '' :'';
                     $model->status = $userauctions ? 'продано' : 'не продано';
-                    $model->company = $userauctions ? $userauctions->fulluser->jis_yur==1 ? $userauctions->fulluser->title_company  :$userauctions->fulluser->username : "";
+                    $model->company = $userauctions ? $userauctions->fulluser? $userauctions->fulluser->jis_yur==1 ? $userauctions->fulluser->title_company  :$userauctions->fulluser->username : "" :'';
 
                 $items[] =$model;
             }
