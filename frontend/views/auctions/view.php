@@ -4,7 +4,6 @@ use common\helpers\LangHelper;
 use common\models\Auctions;
 use common\models\UserAuctions;
 use yii\helpers\VarDumper;
-
 /* @var $auction Auctions
  * @var $auctions Auctions
  * @var $countss Auctions
