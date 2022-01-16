@@ -28,7 +28,23 @@ class LoginForm extends Model
             ['rememberMe', 'boolean'],
             // password is validated by validatePassword()
             ['password', 'validatePassword'],
+            ['email', 'userValidator'],
         ];
+    }
+
+    public function userValidator($attribute, $params)
+    {
+        if (!$this->hasErrors()) {
+            $user = User::find()->andWhere(['email'=>$this->email])->one();
+            if ($user->active_user ==1) {
+                $this->addError($attribute, 'User active in other kompyuter');
+            }
+            else{
+                $user->active_user = 1;
+                $user->save(false);
+            }
+
+        }
     }
 
     /**

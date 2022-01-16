@@ -38,6 +38,7 @@ class UserAuctionsController extends Controller
         $auction = Auctions::find()->where(['id' => $id])->orderBy(['id'=>SORT_DESC])->limit(1)->one();
         $price = $auction->start_price;
         $next_prices = UserAuctions::find()->where(['auction_id' =>$id])->orderBy(['id' => SORT_DESC])->limit(1)->one();
+        $end_time_date = $next_prices ?   $next_prices->created_at :$auction->end_date; 
         if (empty($next_prices)){
           $k =  1;
             $summ = 0;
@@ -46,6 +47,7 @@ class UserAuctionsController extends Controller
             $summ = $next_prices->price;
            $k= $next_prices->percent;
         }
+      
         $user = User::find()->andWhere(['id'=>Yii::$app->user->getId()])->one();
         if($user->status==0){
         Yii::$app->session->setFlash('error', Yii::t('app', 'Foydalanuvchi bloklangan keyinroq urinib ko`ring'));
@@ -53,7 +55,7 @@ class UserAuctionsController extends Controller
         'id' => $id
          ]);
          }
-        if ($auction->end_date > time() || ($next_prices->created_at + 300) > time()) {
+        if (($end_time_date  + 300) > time()) {
             $next_price = $auction->start_price + $auction->start_price * 0.05 * $k;
             if ($model->load(Yii::$app->request->post())) {
                 if (($model->price - $summ > 0)) {
@@ -69,6 +71,13 @@ class UserAuctionsController extends Controller
                                 $k++;
                                 $model->percent = $k;
                                 $model->save(false);
+                                if ($auction){
+                                    if($auction->end_date < time() && ($end_time_date+300) > time() ){
+                                        $auction->end_date =  $auction->end_date+300;
+                                        $auction->save(false);
+                                    }
+                                }
+
                             } else {
                                 Yii::$app->session->setFlash('error', Yii::t('app', 'Sizning narxingiz kam'));
                                 return $this->redirect(['../user-auctions/create',
@@ -87,6 +96,12 @@ class UserAuctionsController extends Controller
                             $k++;
                             $model->percent = $k;
                             $model->save(false);
+                            if ($auction){
+                                if($auction->end_date < time() && ($end_time_date+300) > time() ){
+                                    $auction->end_date =  $auction->end_date+300;
+                                    $auction->save(false);
+                                }
+                            }
                         } else {
                             Yii::$app->session->setFlash('error', Yii::t('app', 'Sizning narxingiz kam'));
                             return $this->redirect(['../user-auctions/create',

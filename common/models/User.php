@@ -34,6 +34,7 @@ use yii\web\IdentityInterface;
  *  *  * @property integer $check
  * @property integer $created_at
  * @property integer $updated_at
+ * @property integer $active_user
  * @property string $password write-only password
  */
 class User extends ActiveRecord implements IdentityInterface
@@ -85,6 +86,7 @@ class User extends ActiveRecord implements IdentityInterface
             ['status', 'default', 'value' => self::STATUS_INACTIVE],
             ['status', 'in', 'range' => [self::STATUS_ACTIVE, self::STATUS_INACTIVE, self::STATUS_DELETED]],
             [['check'], 'required'],
+            [['active_user'], 'safe'],
             [['check'], 'compare', 'compareValue' => 1, 'message'=>'Please check this'],
             [['file'], 'file', 'skipOnEmpty' => false, 'extensions' => 'doc, docx, xls, xlsx, pdf,jpeg, png, jpg, gif','maxSize'=>1024 * 1024 * 5, 'message'=>'Not more than 10MB','when' => function($model) {
                 return $model->jis_yur == 1;
