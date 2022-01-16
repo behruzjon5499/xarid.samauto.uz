@@ -79,12 +79,6 @@ class UserAuctionsController extends Controller
                                         $auction->save(false);
                                     }
                                 }
-
-
-                                if($auction->end_date < time() && ($end_time_date+300) > time() ){
-                                $auction->end_date =  $auction->end_date+300;
-                                $auction->save(false); 
-                                     }
                             } else {
                                 Yii::$app->session->setFlash('error', Yii::t('app', 'Sizning narxingiz kam'));
                                 return $this->redirect(['../user-auctions/create',
@@ -109,11 +103,6 @@ class UserAuctionsController extends Controller
                                     $auction->save(false);
                                 }
                             }
-
-                              if($auction->end_date < time() && ($end_time_date+300) > time() ){
-                                $auction->end_date =  $auction->end_date+300;
-                                $auction->save(false); 
-                                     }
                         } else {
                             Yii::$app->session->setFlash('error', Yii::t('app', 'Sizning narxingiz kam'));
                             return $this->redirect(['../user-auctions/create',
