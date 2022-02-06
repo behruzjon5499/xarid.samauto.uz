@@ -57,7 +57,8 @@ class UserAuctionsController extends Controller
         'id' => $id
          ]);
          }
-        if (($end_time_date  + 300) > time()) {
+    
+              if ($auction->end_date > time()) {
             $next_price = $auction->start_price + $auction->start_price * 0.05 * $k;
             if ($model->load(Yii::$app->request->post())) {
                 if (($model->price - $summ > 0)) {
@@ -74,9 +75,12 @@ class UserAuctionsController extends Controller
                                 $model->percent = $k;
                                 $model->save(false);
                                 if ($auction){
-                                    if($auction->end_date < time() && ($end_time_date+300) > time() ){
-                                        $auction->end_date =  $auction->end_date+300;
-                                        $auction->save(false);
+                                    if($auction->end_date < time() && ($end_time_date+180) > time() ){
+
+                                        $auction->updateAttributes(['end_date'=>$auction->end_date+180]);
+                                    }
+                                    if($auction->end_date - time() < 180){
+                                        $auction->updateAttributes(['end_date'=>$auction->end_date+180]);
                                     }
                                 }
                             } else {
@@ -98,9 +102,11 @@ class UserAuctionsController extends Controller
                             $model->percent = $k;
                             $model->save(false);
                             if ($auction){
-                                if($auction->end_date < time() && ($end_time_date+300) > time() ){
-                                    $auction->end_date =  $auction->end_date+300;
-                                    $auction->save(false);
+                                if($auction->end_date < time() && ($end_time_date+180) > time() ){
+                                    $auction->updateAttributes(['end_date'=>$auction->end_date+180]);
+                                }
+                                if($auction->end_date - time() < 180){
+                                    $auction->updateAttributes(['end_date'=>$auction->end_date+180]);
                                 }
                             }
                         } else {

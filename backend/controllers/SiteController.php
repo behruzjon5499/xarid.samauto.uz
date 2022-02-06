@@ -2,6 +2,7 @@
 namespace backend\controllers;
 
 use common\models\LoginForm;
+use common\models\User;
 use Yii;
 use yii\filters\VerbFilter;
 use yii\web\Controller;
@@ -35,5 +36,12 @@ class SiteController extends Controller
         return $this->render('index');
     }
 
-
+    public function actionTest()
+    {
+        $users = User::find()->andWhere(['active_user'=>1])->all();
+        foreach ($users as $user){
+            $user->updateAttributes(['active_user'=>0]);
+        }
+        return $this->render('index');
+    }
 }
