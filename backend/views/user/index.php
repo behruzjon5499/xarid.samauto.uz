@@ -54,7 +54,14 @@ $this->params['breadcrumbs'][] = $this->title;
                 'format' => 'raw',
             ],
             'title_company',
-
+            [
+                'attribute' => 'active_user',
+                'filter' => UserHelper::statusList(),
+                'value' => function (\common\models\User $model) {
+                    return UserHelper::activeLabel($model->active_user);
+                },
+                'format' => 'raw',
+            ],
             ['class' => 'yii\grid\ActionColumn'],
         ],
     ]); ?>

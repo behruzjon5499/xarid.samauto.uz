@@ -18,7 +18,13 @@ class UserHelper
 
         ];
     }
-
+    public static function activeList()
+    {
+        return [
+            User::ADMIN => 'Active',
+            User::GUEST => 'InActive',
+        ];
+    }
     public static function statusName($role)
     {
         return ArrayHelper::getValue(self::statusList(), $role);
@@ -41,6 +47,24 @@ class UserHelper
         }
 
         return Html::tag('span', ArrayHelper::getValue(self::statusList(), $role), [
+            'class' => $class,
+        ]);
+    }
+
+    public static function activeLabel($active)
+    {
+        switch ($active) {
+            case User::GUEST:
+                $class = 'label label-danger';
+                break;
+            case User::ADMIN:
+                $class = 'label label-success';
+                break;
+            default:
+                $class = 'label label-default';
+        }
+
+        return Html::tag('span', ArrayHelper::getValue(self::activeList(), $active), [
             'class' => $class,
         ]);
     }
