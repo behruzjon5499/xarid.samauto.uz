@@ -32,6 +32,7 @@ use yii\db\ActiveRecord;
  *
  * @property Companies $company
  * @property User $user
+ * @property UserAuctions $userauctions
  */
 class Auctions extends \yii\db\ActiveRecord
 {
@@ -178,7 +179,7 @@ class Auctions extends \yii\db\ActiveRecord
     }
    public function getUserauctions()
 {
-    return $this->hasOne(UserAuctions::className(), ['auction_id' => 'id']);
+    return $this->hasMany(UserAuctions::className(), ['auction_id' => 'id']);
 }
 
     /**

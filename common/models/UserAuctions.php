@@ -19,6 +19,7 @@ use Yii;
  *
  * @property Auctions $auction
  * @property User $fulluser
+ * @property User $company
  */
 class UserAuctions extends \yii\db\ActiveRecord
 {
@@ -30,6 +31,16 @@ class UserAuctions extends \yii\db\ActiveRecord
     public static function tableName()
     {
         return 'user_auctions';
+    }
+    /**
+     * {@inheritdoc}
+     * @return UserAuctionsQuery the active query used by this AR class.
+     */
+    public static function find()
+    {
+        $query = new \common\models\UserAuctionsQuery(get_called_class());
+        $query->orderBy(['id'=>SORT_DESC]);
+        return $query;
     }
 
 
@@ -89,5 +100,9 @@ class UserAuctions extends \yii\db\ActiveRecord
     public function isActive()
     {
         return $this->status === self::STATUS_ACTIVE;
+    }
+    public function getCompany()
+    {
+        return  $this->fulluser? $this->fulluser->jis_yur==1 ? $this->fulluser->title_company : $this->fulluser->username :"";
     }
 }

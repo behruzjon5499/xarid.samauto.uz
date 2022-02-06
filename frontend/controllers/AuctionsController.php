@@ -7,6 +7,7 @@ use common\models\UserAuctionFull;
 use common\models\UserAuctions;
 use phpDocumentor\Reflection\DocBlock\Tags\Var_;
 use Yii;
+use yii\data\Pagination;
 use yii\filters\VerbFilter;
 use yii\helpers\VarDumper;
 use yii\web\Controller;
@@ -71,38 +72,48 @@ class AuctionsController extends Controller
         $today = $time->format('d-m-Y H:i:s');
         $t = strtotime($today);
         if($time1 && $time2){
-            $auctions = Auctions::find()->where(['<', 'end_date', $t])->andWhere(['between', 'start_date', $time1, $time2])->all();
+            $auctions = Auctions::find()->where(['<', 'end_date', $t])->andWhere(['between', 'start_date', $time1, $time2]);
         }
         else{
-            $auctions = Auctions::find()->where(['<', 'end_date', $t])->all();
+            $auctions = Auctions::find()->where(['<', 'end_date', $t]);
         }
 
-        $items = [];
+//        $items = [];
+//
+//        if ($auctions) {
+//
+//            foreach ($auctions as $auction) {
+//                $model = new UserAuctionFull();
+//                $model->id = $auction->id;
+//                $model->start_date = $auction->start_date;
+//                $model->title_ru = $auction->title_ru;
+//                $model->title_uz = $auction->title_uz;
+//                $model->title_en = $auction->title_en;
+//                $model->obyom = $auction->obyom;
+//                $model->address = $auction->address;
+//                $model->start_price = $auction->start_price;
+//                $userauctions  = UserAuctions::find()->where(['auction_id'=>$auction->id])->with('fulluser')->orderBy(['id'=>SORT_DESC])->limit(1)->one();
+//
+//                    $model->price = $userauctions ? $userauctions->price : $auction->start_price;
+//                    $model->full_name = $userauctions ? $userauctions->fulluser ? $userauctions->fulluser->username :  '' :'';
+//                    $model->status = $userauctions ? 'продано' : 'не продано';
+//                    $model->company = $userauctions ? $userauctions->fulluser? $userauctions->fulluser->jis_yur==1 ? $userauctions->fulluser->title_company  :$userauctions->fulluser->username : "" :'';
+//
+//                $items[] =$model;
+//            }
+//        }
 
-        if ($auctions) {
+        $count = $auctions->count();
+        $pages = new Pagination(['totalCount' => $count, 'pageSize' => 20]);
+        $items = $auctions->offset($pages->offset)
+            ->limit($pages->limit)
+            ->all();
 
-            foreach ($auctions as $auction) {
-                $model = new UserAuctionFull();
-                $model->id = $auction->id;
-                $model->start_date = $auction->start_date;
-                $model->title_ru = $auction->title_ru;
-                $model->title_uz = $auction->title_uz;
-                $model->title_en = $auction->title_en;
-                $model->obyom = $auction->obyom;
-                $model->address = $auction->address;
-                $model->start_price = $auction->start_price;
-                $userauctions  = UserAuctions::find()->where(['auction_id'=>$auction->id])->with('fulluser')->orderBy(['id'=>SORT_DESC])->limit(1)->one();
-
-                    $model->price = $userauctions ? $userauctions->price : $auction->start_price;
-                    $model->full_name = $userauctions ? $userauctions->fulluser ? $userauctions->fulluser->username :  '' :'';
-                    $model->status = $userauctions ? 'продано' : 'не продано';
-                    $model->company = $userauctions ? $userauctions->fulluser? $userauctions->fulluser->jis_yur==1 ? $userauctions->fulluser->title_company  :$userauctions->fulluser->username : "" :'';
-
-                $items[] =$model;
-            }
-        }
+//VarDumper::dump($items,12 ,true);
+//die();
         return $this->render('auction', [
-            'auctions' => $items
+            'auctions' => $items,
+            'pages' => $pages,
         ]);
     }
 

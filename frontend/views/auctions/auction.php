@@ -2,8 +2,9 @@
 
 use common\helpers\LangHelper;
 use common\models\Auctions;
-use common\models\UserAuctions;
 use kartik\datetime\DateTimePicker;
+use yii\widgets\LinkPager;
+use yii\widgets\Pjax;
 
 /* @var $auctions Auctions
  */
@@ -51,10 +52,10 @@ $material = 'material_' . $lang;
                 <?php
                 echo DateTimePicker::widget([
                     'name' => 'start_time',
-                    'value' => '24-04-2021 00:00:00',
+                    'value' => date("d-m-Y",time()),
                     'options' => ['placeholder' => 'Select end time ...'],
                     'pluginOptions' => [
-                        'format' => 'dd-mm-yyyy h:i:s',
+                        'format' => 'dd-mm-yyyy',
                         'todayHighlight' => true
                     ]
                 ]);?>
@@ -64,10 +65,10 @@ $material = 'material_' . $lang;
                 <?php
                 echo DateTimePicker::widget([
                     'name' => 'end_time',
-                    'value' => '24-04-2021 00:00:00',
+                    'value' => date("d-m-Y",time()),
                     'options' => ['placeholder' => 'Select end time ...'],
                     'pluginOptions' => [
-                       'format' => 'dd-mm-yyyy hh:ii:ss',
+                       'format' => 'dd-mm-yyyy',
                         'todayHighlight' => true
                     ]
                 ]);?>
@@ -83,7 +84,7 @@ $material = 'material_' . $lang;
         </div>
         </form>
 
-        <table id="auction_table" class="table table-striped table-bordered" style="width:100%">
+        <table id="auction_table" class="table table-striped table-bordered" style="width:100%; margin-bottom: 0; ">
             <thead>
             <tr>
                 <th>  <?= LangHelper::t("номер лота", "номер лота", "номер лота"); ?></th>
@@ -103,15 +104,13 @@ $material = 'material_' . $lang;
                 ]) ?>'">
                     <td><?= $auction->id ?></td>
                     <td><?= Yii::$app->formatter->asDate($auction->start_date, 'yyyy-MM-dd'); ?></td>
-                    <td><?= $auction->$title ?></td>
+                    <td><?= $auction->title_ru ?></td>
                     <td><?= $auction->address ?></td>
                     <td><?= $auction->obyom ?></td>
                     <td><?= $auction->start_price ?></td>
-                    <td><?= $auction->price;  ?></td>
-                    <td><?=  $auction->company ?> </td>
-                         <td> <?=  $auction->status ?> </td>
-
-                    <td></td>
+                    <td><?= $auction->userauctions ? $auction->userauctions[0]->price ?? $auction->start_price :""  ?></td>
+                    <td><?=  $auction->userauctions ? $auction->userauctions[0]->getCompany() :'' ?> </td>
+                    <td> <?=  $auction->userauctions ? "продано" :"не продано" ?> </td>
 
                 </tr>
                 </tbody>
@@ -119,10 +118,23 @@ $material = 'material_' . $lang;
             <?php endforeach;?>
         </table>
 
+<div class="row" style="display: inline; text-align: center; margin-bottom: 50px;">
+    <div class="col-md-3"></div>
+    <div class="col-md-6">
+        <?php
+        echo LinkPager::widget([
+            'pagination' => $pages,
+        ]);
+        ?>
+    </div>
+    <div class="col-md-3"></div>
+
+</div>
+
     </div>
 </div>
 
-<div class="site_bread">
+<div class="site_bread" style="margin-top: 50px;">
     <div class="centerBox">
         <a href="<?= yii\helpers\Url::to(['site/index']) ?>"><?= LangHelper::t("Главная", "Bosh sahifa", "Homepage"); ?></a>
         <span> <?= LangHelper::t("Конкурсы на продажи", "Onlayn savdolar", "Contests for sale"); ?></span>
